@@ -1,0 +1,9 @@
+ 1983 09 23.0   ! Epoch (year month day.fraction) Minor planet 1 Ceres
+    2.7657991   ! Semimajor axis a in AU 
+    0.0785650   ! Eccentricity e
+   10.60646     ! Inclination i (deg)
+   80.05225     ! Longitude of the ascending node (deg)
+   73.07274     ! Argument of perihelion (deg)
+  174.19016     ! Mean anomaly (deg)
+ 1950.0         ! Equinox of the orbital elements
+
