@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{BD24845C-982D-4987-9A77-F124AC653B95}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Astros.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Astrox.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Astros">
+        <MSBuild Projects="Astros.dproj"/>
+    </Target>
+    <Target Name="Astros:Clean">
+        <MSBuild Projects="Astros.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Astros:Make">
+        <MSBuild Projects="Astros.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Astrox">
+        <MSBuild Projects="Astrox.dproj"/>
+    </Target>
+    <Target Name="Astrox:Clean">
+        <MSBuild Projects="Astrox.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Astrox:Make">
+        <MSBuild Projects="Astrox.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Astros;Astrox"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Astros:Clean;Astrox:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Astros:Make;Astrox:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
