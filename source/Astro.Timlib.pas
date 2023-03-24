@@ -2,6 +2,9 @@ unit Astro.Timlib;
 
 interface
 
+uses
+  System.Math;
+
 (*----------------------------------------------------------------------*)
 (* CALDAT: Finds the civil calendar date for a given value              *)
 (*         of the Modified Julian Date (MJD).                           *)
@@ -36,7 +39,7 @@ implementation
 
 function LongTrunc(X: Double): Double;
 begin
-  LongTrunc := INT(X);
+  LongTrunc := Int(X);
 end;
 
 (* ---------------------------------------------------------------------- *)
@@ -47,7 +50,7 @@ var
 begin
   JD := MJD + 2400000.5;
   (* JD0 := Trunc(JD+0.5); *)    (* Standard Pascal *)
-  JD0 := INT(JD + 0.5); (* Delphi *)
+  JD0 := Int(JD + 0.5); (* Delphi *)
   (* JD0 := LongTrunc(JD+0.5); *)    (* ST Pascal plus *)
   if (JD0 < 2299161.0) (* calendar: *)
   then
@@ -92,7 +95,7 @@ var
 
 begin
   (* MJD0:=Trunc(MJD); *)       (* Standard Pascal *)
-  MJD0 := INT(MJD); (* Delphi *)
+  MJD0 := Int(MJD); (* Delphi *)
   (* MJD0:=LongTrunc(MJD); *)  (* ST Pascal plus *)
   UT := (MJD - MJD0) * 24;
   T := (MJD0 - 51544.5) / 36525.0;

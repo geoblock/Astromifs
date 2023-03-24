@@ -430,7 +430,7 @@ var
   FAC, BPA, BMA, PHI: Double;
   T, H, L, B, R: array [0 .. NDIM] of Double;
 
-(*sub*)procedure Position(T: Double; var LL, BB, RR: Double);
+(*sub*)procedure Positions(T: Double; var LL, BB, RR: Double);
 begin
   //
 end;
@@ -460,7 +460,7 @@ begin
   for K := 1 to N + 1 do
     T[K] := H[2 * K - 1] * BMA + BPA; (* subdivison points *)
   for K := 1 to N + 1 do
-    Position(T[K], L[K], B[K], R[K]);
+    Positions(T[K], L[K], B[K], R[K]);
   for K := 2 to N + 1 do (* make L continuous *)
     if (L[K - 1] < L[K]) then
       L[K] := L[K] - 360.0; (* in [-360,+360] ! *)

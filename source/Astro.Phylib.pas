@@ -5,7 +5,7 @@ interface
 uses
   Astro.Matlib,
   Astro.Sphlib,
-  Astro.Plalib;
+  Astro.Planets;
 
 type
   RotationType = (DIRECT, RETROGRADE);

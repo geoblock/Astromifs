@@ -3,6 +3,7 @@ unit Astro.Keplib;
 interface
 
 uses
+  System.Math,
   Astro.Matlib,
   Astro.Sphlib;
 
