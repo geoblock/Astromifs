@@ -1,2 +1,2 @@
-# Astros
-Astro Myths &amp; Legends for Constellations 
+# Qosmo
+Qosmic Myths &amp; Legends in Constellations 
