@@ -1,9 +1,9 @@
-program Qosmox;
+program Astrox;
 
 uses
   System.StartUpCopy,
   FMX.Forms,
-  fQosmox in 'source\fmx\fQosmox.pas' {Form1};
+  fAstrox in 'source\fmx\fAstrox.pas' {Form1};
 
 {$R *.res}
 

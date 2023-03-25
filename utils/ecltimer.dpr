@@ -18,7 +18,11 @@ program ECLTIMER (Input, Output);
 {$APPTYPE CONSOLE}
 
   uses
-    Astro.Matlib, Astro.Sphlib, Astro.Sunlib, Astro.Moonlib, Astro.Timlib;
+    Astro.Matlib,
+    Astro.Sphlib,
+    Astro.Sunlib,
+    Astro.Moon,
+    Astro.Timlib;
 
 
   const MAX_TP_DEG =            8;   (* Degree of Tschebyscheff polynomials *)

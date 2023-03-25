@@ -4,13 +4,17 @@
 (*               using the abbreviated method of Bucerius                *)
 (*-----------------------------------------------------------------------*)
 
-program ORBDET(Input,Output,ORBINP,ORBOUT);
+program ORBDET(Input, Output, OrbInput, OrbOutput);
 
 {$APPTYPE CONSOLE}
 
-  uses 
-    Astro.Matlib, Astro.Pnulib, Astro.Sphlib, 
-    Astro.Sunlib, Astro.Timlib, Astro.Keplib;
+  uses
+    Astro.Matlib,
+    Astro.Pnulib,
+    Astro.Sphlib,
+    Astro.Sunlib,
+    Astro.Timlib,
+    Astro.Kepler;
 
   type CHAR80 = array[1..80] of CHAR;
 
@@ -19,7 +23,7 @@ program ORBDET(Input,Output,ORBINP,ORBOUT);
        JD0                 : REAL3;
        RSUN,E              : MAT3X;
        HEADER              : CHAR80;
-       ORBINP,ORBOUT       : TEXT;
+       OrbInput,OrbOutput       : TEXT;
 
 
 (*-----------------------------------------------------------------------*)
@@ -40,35 +44,35 @@ procedure START (var HEADER: CHAR80;
       EQX0,EQX,TEQX0          :  Double;
       LS,BS,RS,LP,BP,RA,DEC,T :  REAL3;
       A,ASI                    :  Double33;
-      ORBINP                  :  TEXT;
+      OrbInput                  :  TEXT;
 
   begin
 
     (* open input file                                                   *)
 
-    (* RESET(ORBINP); *)                              (* Standard Pascal *)
-    ASSIGN(ORBINP,'ORBINP.DAT'); RESET(ORBINP);       (* Turbo Pascal    *)
+    (* RESET(OrbInput); *)                              (* Standard Pascal *)
+    ASSIGN(OrbInput,'OrbInput.DAT'); RESET(OrbInput);       (* Turbo Pascal    *)
 
-    (* read data from file ORBINP                                        *)
+    (* read data from file OrbInput                                        *)
 
     for I:=1 to 80 do                                 (* header          *)
-      if NOT(EOLN(ORBINP)) then read(ORBINP,HEADER[I]) else HEADER[I]:=' ';
-    readln(ORBINP);
+      if NOT(EOLN(OrbInput)) then read(OrbInput,HEADER[I]) else HEADER[I]:=' ';
+    readln(OrbInput);
     for I := 1 to 3 do                                (* 3 observations  *)
       begin
-        READ  (ORBINP,YEAR,MONTH,DAY,UT);                        (* date *)
-        READ  (ORBINP,D,M,S); DDD(D,M,S,RA[I]);                  (* RA   *)
-        readln(ORBINP,D,M,S); DDD(D,M,S,DEC[I]);                 (* Dec  *)
+        READ  (OrbInput,YEAR,MONTH,DAY,UT);                        (* date *)
+        READ  (OrbInput,D,M,S); DDD(D,M,S,RA[I]);                  (* RA   *)
+        readln(OrbInput,D,M,S); DDD(D,M,S,DEC[I]);                 (* Dec  *)
         RA[I]:=RA[I]*15.0;
         JD0[I] := 2400000.5+MJD(DAY,MONTH,YEAR,UT);
         T[I]   := (JD0[I]-2451545.0)/36525.0;
       end;
     writeln;
-    readln(ORBINP,EQX0); TEQX0:=(EQX0-2000.0)/100.0;  (* equinox         *)
+    readln(OrbInput,EQX0); TEQX0:=(EQX0-2000.0)/100.0;  (* equinox         *)
 
     (* desired equinox of the orbital elements                           *)
 
-    read(ORBINP,EQX ); TEQX :=(EQX -2000.0)/100.0;
+    read(OrbInput,EQX ); TEQX :=(EQX -2000.0)/100.0;
 
     (* calculate initial data of the orbit determination                 *)
 
@@ -104,9 +108,9 @@ procedure START (var HEADER: CHAR80;
   end;
 
 (*-----------------------------------------------------------------------*)
-(* DUMPELEM: output of orbital elements (screen)                         *)
+(* DumpElem: output of orbital elements (screen)                         *)
 (*-----------------------------------------------------------------------*)
-procedure DUMPELEM(TP,Q,ECC,INC,LAN,AOP,TEQX: double);
+procedure DumpElem(TP,Q,ECC,INC,LAN,AOP,TEQX: double);
   var DAY,MONTH,YEAR: integer;
       MODJD,UT      : Double;
   begin
@@ -129,9 +133,9 @@ procedure DUMPELEM(TP,Q,ECC,INC,LAN,AOP,TEQX: double);
   end;
 
 (*-----------------------------------------------------------------------*)
-(* SAVEELEM: output of orbital elements (file)                           *)
+(* SaveElem: output of orbital elements (file)                           *)
 (*-----------------------------------------------------------------------*)
-procedure SAVEELEM(TP,Q,ECC,INC,LAN,AOP,TEQX: double;HEADER: CHAR80);
+procedure SaveElem(TP,Q,ECC,INC,LAN,AOP,TEQX: double;HEADER: CHAR80);
 
   var I,DAY,MONTH,YEAR: integer;
       MODJD,UT        : Double;
@@ -140,25 +144,25 @@ procedure SAVEELEM(TP,Q,ECC,INC,LAN,AOP,TEQX: double;HEADER: CHAR80);
 
     (* open file for writing *)
 
-    (* REWRITE(ORBOUT); *)                            (* Standard Pascal *)
-    ASSIGN(ORBOUT,'ORBOUT.DAT'); REWRITE(ORBOUT);     (* Turbo Pascal    *)
+    (* REWRITE(OrbOutput); *)                            (* Standard Pascal *)
+    ASSIGN(OrbOutput,'OrbOutput.DAT'); REWRITE(OrbOutput);     (* Turbo Pascal    *)
 
     MODJD := TP*36525.0 + 51544.5;
     CALDAT( MODJD, DAY,MONTH,YEAR,UT);
-    write  (ORBOUT,YEAR:5,MONTH:3,(DAY+UT/24.0):7:3,'!':6);
-    writeln(ORBOUT,' perihelion time T0 (y m d.d)  =  JD ',
+    write  (OrbOutput,YEAR:5,MONTH:3,(DAY+UT/24.0):7:3,'!':6);
+    writeln(OrbOutput,' perihelion time T0 (y m d.d)  =  JD ',
                    (MODJD+2400000.5):12:3);
-    writeln(ORBOUT, Q :12:6,'!': 9,' q  ( a =',Q/(1-ECC):10:6,' )');
-    writeln(ORBOUT,ECC:12:6,'!': 9,' e ');
-    writeln(ORBOUT,INC:10:4,'!':11,' i ');
-    writeln(ORBOUT,LAN:10:4,'!':11,' long.asc.node ');
-    writeln(ORBOUT,AOP:10:4,'!':11,
+    writeln(OrbOutput, Q :12:6,'!': 9,' q  ( a =',Q/(1-ECC):10:6,' )');
+    writeln(OrbOutput,ECC:12:6,'!': 9,' e ');
+    writeln(OrbOutput,INC:10:4,'!':11,' i ');
+    writeln(OrbOutput,LAN:10:4,'!':11,' long.asc.node ');
+    writeln(OrbOutput,AOP:10:4,'!':11,
                    ' arg.perih. ( long.per. = ',AOP+LAN:9:4,' )');
-    writeln(ORBOUT,TEQX*100.0+2000.0:8:2,'!':13,' equinox (J)');
-    write  (ORBOUT,'! ');
-    for I:=1 to 78 do write(ORBOUT,HEADER[I]);
+    writeln(OrbOutput,TEQX*100.0+2000.0:8:2,'!':13,' equinox (J)');
+    write  (OrbOutput,'! ');
+    for I:=1 to 78 do write(OrbOutput,HEADER[I]);
 
-    RESET(ORBOUT); (* close file *)
+    RESET(OrbOutput); (* close file *)
 
   end;
 
@@ -179,7 +183,7 @@ procedure RETARD ( JD0,RHO: REAL3; var JD,TAU: REAL3);
   end;
 
 (*-----------------------------------------------------------------------*)
-(* GAUSS: iteration of the abbreviated Gauss method                      *)
+(* Gauss: iteration of the abbreviated Gauss method                      *)
 (*                                                                       *)
 (*  RSUN: three vectors of geocentric Sun positions                      *)
 (*  E   : three unit vectors of geocentric observation directions        *)
@@ -192,7 +196,7 @@ procedure RETARD ( JD0,RHO: REAL3; var JD,TAU: REAL3);
 (*  AOP : argument of perihelion                                         *)
 (*-----------------------------------------------------------------------*)
 
-procedure GAUSS ( RSUN,E: MAT3X; JD0:REAL3;
+procedure Gauss ( RSUN,E: MAT3X; JD0:REAL3;
                   var TP,Q,ECC,INC,LAN,AOP: Double);
 
   const EPS_RHO =1.0E-8;
@@ -274,10 +278,10 @@ begin
 
   START(HEADER,RSUN,E,JD0,TEQX);
 
-  GAUSS(RSUN,E,JD0,TP,Q,ECC,INC,LAN,AOP);
+  Gauss(RSUN,E,JD0,TP,Q,ECC,INC,LAN,AOP);
 
-  DUMPELEM(TP,Q,ECC,INC,LAN,AOP,TEQX);
-  SAVEELEM(TP,Q,ECC,INC,LAN,AOP,TEQX,HEADER);
+  DumpElem(TP,Q,ECC,INC,LAN,AOP,TEQX);
+  SaveElem(TP,Q,ECC,INC,LAN,AOP,TEQX,HEADER);
 
   (* check solution  *)
 
@@ -293,5 +297,4 @@ begin
 end.
 
 (*-----------------------------------------------------------------------*)
-
 

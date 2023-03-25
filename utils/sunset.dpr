@@ -8,8 +8,10 @@ program SUNSET(Input,Output);
 {$APPTYPE CONSOLE}
 
   uses 
-    Astro.Matlib, Astro.Sunlib, 
-    Astro.Moonlib, Astro.Timlib;
+    Astro.Matlib,
+    Astro.Sunlib,
+    Astro.Moon,
+    Astro.Timlib;
 
   var   ABOVE,RISE,SETT                      : Boolean;
         DAY,MONTH,YEAR, I,IOBJ,NZ            : integer;

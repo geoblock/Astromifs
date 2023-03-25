@@ -9,8 +9,11 @@ program OCCULT(Input,Output,OCCINP);
 
   uses 
     Astro.Matlib, 
-    Astro.Pnulib, Astro.Sphlib, Astro.Sunlib, 
-    Astro.Moonlib, Astro.Timlib;
+    Astro.Pnulib,
+    Astro.Sphlib,
+    Astro.Sunlib,
+    Astro.Moon,
+    Astro.Timlib;
 
   const TOVLAP      = 3.42E-6;          (*  3h in julian centuries       *)
         T_SEARCH    = 2.737850787E-4;   (* 10d in julian centuries       *)

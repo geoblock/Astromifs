@@ -6,7 +6,7 @@ interface
 
 uses
   System.Math,
-  Astro.Keplib,
+  Astro.Kepler,
   Astro.Matlib,
   Astro.Sphlib,
   Astro.Sunlib;

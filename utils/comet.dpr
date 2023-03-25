@@ -9,7 +9,12 @@ program COMET(Input,Output,COMINP);
 {$APPTYPE CONSOLE}
 
   uses
-    Astro.Matlib, Astro.Pnulib, Astro.Sphlib, Astro.Sunlib, Astro.Keplib, Astro.Timlib;
+    Astro.Matlib,
+    Astro.Pnulib,
+    Astro.Sphlib,
+    Astro.Sunlib,
+    Astro.Kepler,
+    Astro.Timlib;
 
 
   var DAY,MONTH,YEAR,NLINE               : integer;
@@ -17,7 +22,7 @@ program COMET(Input,Output,COMINP);
       MODJD,T,T1,DT,T2,TEQX              : Double;
       X,Y,Z,VX,VY,VZ,XS,YS,ZS            : Double;
       L,B,R,LS,BS,RS,RA,DEC,DELTA,DELTA0 : Double;
-      PQR,A,ASI                           : Double33;
+      PQR,A,ASI                          : Double33;
       COMINP                             : TEXT;
 
 

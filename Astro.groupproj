@@ -3,10 +3,10 @@
         <ProjectGuid>{BD24845C-982D-4987-9A77-F124AC653B95}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="Qosmos.dproj">
+        <Projects Include="Astros.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Qosmox.dproj">
+        <Projects Include="Astrox.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="utils\coco.dproj">
@@ -39,7 +39,7 @@
         <Projects Include="utils\newmoon.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="utils\numint.dproj">
+        <Projects Include="utils\NumIntegration.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="utils\occult.dproj">
@@ -68,23 +68,23 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="Qosmos">
-        <MSBuild Projects="Qosmos.dproj"/>
+    <Target Name="Astros">
+        <MSBuild Projects="Astros.dproj"/>
     </Target>
-    <Target Name="Qosmos:Clean">
-        <MSBuild Projects="Qosmos.dproj" Targets="Clean"/>
+    <Target Name="Astros:Clean">
+        <MSBuild Projects="Astros.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Qosmos:Make">
-        <MSBuild Projects="Qosmos.dproj" Targets="Make"/>
+    <Target Name="Astros:Make">
+        <MSBuild Projects="Astros.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Qosmox">
-        <MSBuild Projects="Qosmox.dproj"/>
+    <Target Name="Astrox">
+        <MSBuild Projects="Astrox.dproj"/>
     </Target>
-    <Target Name="Qosmox:Clean">
-        <MSBuild Projects="Qosmox.dproj" Targets="Clean"/>
+    <Target Name="Astrox:Clean">
+        <MSBuild Projects="Astrox.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Qosmox:Make">
-        <MSBuild Projects="Qosmox.dproj" Targets="Make"/>
+    <Target Name="Astrox:Make">
+        <MSBuild Projects="Astrox.dproj" Targets="Make"/>
     </Target>
     <Target Name="coco">
         <MSBuild Projects="utils\coco.dproj"/>
@@ -176,14 +176,14 @@
     <Target Name="newmoon:Make">
         <MSBuild Projects="utils\newmoon.dproj" Targets="Make"/>
     </Target>
-    <Target Name="numint">
-        <MSBuild Projects="utils\numint.dproj"/>
+    <Target Name="NumIntegration">
+        <MSBuild Projects="utils\NumIntegration.dproj"/>
     </Target>
-    <Target Name="numint:Clean">
-        <MSBuild Projects="utils\numint.dproj" Targets="Clean"/>
+    <Target Name="NumIntegration:Clean">
+        <MSBuild Projects="utils\NumIntegration.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="numint:Make">
-        <MSBuild Projects="utils\numint.dproj" Targets="Make"/>
+    <Target Name="NumIntegration:Make">
+        <MSBuild Projects="utils\NumIntegration.dproj" Targets="Make"/>
     </Target>
     <Target Name="occult">
         <MSBuild Projects="utils\occult.dproj"/>
@@ -240,13 +240,13 @@
         <MSBuild Projects="utils\sunset.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Qosmos;Qosmox;coco;cocos;comet;comets;control;eclipse;ecltimer;foto;luna;newmoon;numint;occult;phys;planpos;planrise;prbdet;sunset"/>
+        <CallTarget Targets="Astros;Astrox;coco;cocos;comet;comets;control;eclipse;ecltimer;foto;luna;newmoon;NumIntegration;occult;phys;planpos;planrise;prbdet;sunset"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Qosmos:Clean;Qosmox:Clean;coco:Clean;cocos:Clean;comet:Clean;comets:Clean;control:Clean;eclipse:Clean;ecltimer:Clean;foto:Clean;luna:Clean;newmoon:Clean;numint:Clean;occult:Clean;phys:Clean;planpos:Clean;planrise:Clean;prbdet:Clean;sunset:Clean"/>
+        <CallTarget Targets="Astros:Clean;Astrox:Clean;coco:Clean;cocos:Clean;comet:Clean;comets:Clean;control:Clean;eclipse:Clean;ecltimer:Clean;foto:Clean;luna:Clean;newmoon:Clean;NumIntegration:Clean;occult:Clean;phys:Clean;planpos:Clean;planrise:Clean;prbdet:Clean;sunset:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Qosmos:Make;Qosmox:Make;coco:Make;cocos:Make;comet:Make;comets:Make;control:Make;eclipse:Make;ecltimer:Make;foto:Make;luna:Make;newmoon:Make;numint:Make;occult:Make;phys:Make;planpos:Make;planrise:Make;prbdet:Make;sunset:Make"/>
+        <CallTarget Targets="Astros:Make;Astrox:Make;coco:Make;cocos:Make;comet:Make;comets:Make;control:Make;eclipse:Make;ecltimer:Make;foto:Make;luna:Make;newmoon:Make;NumIntegration:Make;occult:Make;phys:Make;planpos:Make;planrise:Make;prbdet:Make;sunset:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

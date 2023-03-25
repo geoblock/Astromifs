@@ -7,7 +7,12 @@ program ECLIPSE(Input,Output);
 {$APPTYPE CONSOLE}
 
   uses 
-    Astro.Matlib, Astro.Pnulib, Astro.Sphlib, Astro.Sunlib, Astro.Moonlib, Astro.Timlib;
+    Astro.Matlib,
+    Astro.Pnulib,
+    Astro.Sphlib,
+    Astro.Sunlib,
+    Astro.Moon,
+    Astro.Timlib;
 
   const MAX_TP_DEG = 8;               (* max. degree of Chebyshev polyn. *)
         H          = 1.14E-6;         (* 1h in jul.cent. (1/(24*36525))  *)

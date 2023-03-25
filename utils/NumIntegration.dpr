@@ -1,11 +1,11 @@
 (*-----------------------------------------------------------------------*)
 (*                                                                       *)
-(*                                NUMINT                                 *)
+(*                               NumIntegration                          *)
 (*        Numerical integration of perturbed minor planet orbits         *)
 (*                                                                       *)
 (*-----------------------------------------------------------------------*)
 
-program NUMINT ( Input,Output, NUMINP );
+program NumIntegration(Input,Output, NUMINP);
 
 {$APPTYPE CONSOLE}
 
@@ -14,9 +14,9 @@ uses
   Astro.Timlib,
   Astro.Sphlib,
   Astro.Pnulib,
-  Astro.Keplib,
+  Astro.Kepler,
   Astro.Sunlib,
-  Astro.Delib,
+  Astro.DiffEq,
   Astro.Planets;
 
   const J2000  = 0.0;

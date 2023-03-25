@@ -1,7 +1,7 @@
 object frmQosmos: TfrmQosmos
   Left = 0
   Top = 0
-  Caption = 'Qosmo Myths & Legends'
+  Caption = 'Astro Myths & Legends'
   ClientHeight = 622
   ClientWidth = 906
   Color = clBtnFace

@@ -11,7 +11,7 @@ program LUNA(Input,Output);
    Astro.Matlib,
    Astro.Pnulib,
    Astro.Sphlib,
-   Astro.Moonlib,
+   Astro.Moon,
    Astro.Timlib;
 
   const T_OVERLAP  = 3.42E-6;        (* 3h  in Julian centuries *)
