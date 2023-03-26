@@ -1,2 +1,2 @@
-# Astro
-Astro Myths &amp; Legends of Constellations
+# AstroMif
+Astronomical Myths &amp; Legends for Constellations
