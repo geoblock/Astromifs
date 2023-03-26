@@ -1,2 +1,0 @@
-Some sources and utils on Turbo Pascal converted to Delphi from the book
-O.Montenbruck, T.Pfleger (1989). Astronomy on the Personal Computer. 

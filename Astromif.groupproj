@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{BD24845C-982D-4987-9A77-F124AC653B95}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="AstromifD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="AstromifC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="AstromifX.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="AstromifD">
+        <MSBuild Projects="AstromifD.dproj"/>
+    </Target>
+    <Target Name="AstromifD:Clean">
+        <MSBuild Projects="AstromifD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AstromifD:Make">
+        <MSBuild Projects="AstromifD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AstromifC">
+        <MSBuild Projects="AstromifC.cbproj"/>
+    </Target>
+    <Target Name="AstromifC:Clean">
+        <MSBuild Projects="AstromifC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AstromifC:Make">
+        <MSBuild Projects="AstromifC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="AstromifX">
+        <MSBuild Projects="AstromifX.cbproj"/>
+    </Target>
+    <Target Name="AstromifX:Clean">
+        <MSBuild Projects="AstromifX.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AstromifX:Make">
+        <MSBuild Projects="AstromifX.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="AstromifD;AstromifC;AstromifX"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="AstromifD:Clean;AstromifC:Clean;AstromifX:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="AstromifD:Make;AstromifC:Make;AstromifX:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

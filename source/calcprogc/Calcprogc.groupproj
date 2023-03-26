@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F2BB7E7A-81ED-46F6-8F2A-572BC28FA16F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Coco.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Cocos.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Coco">
+        <MSBuild Projects="Coco.cbproj"/>
+    </Target>
+    <Target Name="Coco:Clean">
+        <MSBuild Projects="Coco.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Coco:Make">
+        <MSBuild Projects="Coco.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Cocos">
+        <MSBuild Projects="Cocos.cbproj"/>
+    </Target>
+    <Target Name="Cocos:Clean">
+        <MSBuild Projects="Cocos.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Cocos:Make">
+        <MSBuild Projects="Cocos.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Coco;Cocos"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Coco:Clean;Cocos:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Coco:Make;Cocos:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

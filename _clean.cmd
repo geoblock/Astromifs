@@ -16,6 +16,7 @@ del *.hpp /s
 del *.bpi /s
 del *.lib /s
 del *.a /s
+del *.obj /s
 
 @echo off delete debug files
 del *.ddp /s
@@ -71,8 +72,8 @@ rem for /r %1 %%R in (.git) do if exist "%%R" (rd /s /q "%%R")
 echo---------------------------------------------------------
 
 echo delete debug and Platform directories with all subdirectories and files 
-rem    for /r %1 %%R in (Win32) do if exist "%%R" (rd /s /q "%%R")
-rem    for /r %1 %%R in (Win64) do if exist "%%R" (rd /s /q "%%R")
+for /r %1 %%R in (Win32) do if exist "%%R" (rd /s /q "%%R")
+for /r %1 %%R in (Win64) do if exist "%%R" (rd /s /q "%%R")
 for /r %1 %%R in (Debug_Build) do if exist "%%R" (rd /s /q "%%R")
 for /r %1 %%R in (Debug) do if exist "%%R" (rd /s /q "%%R")
 for /r %1 %%R in (Release_Build) do if exist "%%R" (rd /s /q "%%R")

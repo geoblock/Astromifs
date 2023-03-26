@@ -1,0 +1,39 @@
+object frmAstroX: TfrmAstroX
+  Left = 0
+  Top = 0
+  Caption = 'Astromyths & Legends X'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object PanelLeft: TPanel
+    Align = Left
+    Size.Width = 120.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object TreeView1: TTreeView
+      Align = Client
+      Size.Width = 120.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Viewport.Width = 116.000000000000000000
+      Viewport.Height = 476.000000000000000000
+    end
+  end
+  object PanelRight: TPanel
+    Align = Right
+    Position.X = 520.000000000000000000
+    Size.Width = 120.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+  end
+  object MainMenu1: TMainMenu
+    Left = 152
+    Top = 80
+  end
+end
