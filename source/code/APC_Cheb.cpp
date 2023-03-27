@@ -4,6 +4,15 @@
 //
 //    Implements three dimensional Chebyshev approximation
 //
+//    The original Fortran/Pascal/C++ codes is described in
+//
+//  - Shampine, Gordon: "Computer solution of Ordinary Differential Equations",
+//    Freeman and Comp., San Francisco (1975)
+//  - Montenbruck O., Pfleger T.: Astronomie Mit Dem Personal Computer.
+//    Springer-Verlag Berlin Heidelberg (1989).
+//  - Montenbruck O., Pfleger T.: Astronomy on the Personal Computer.
+//    Springer-Verlag Berlin Heidelberg (2000).
+//
 //------------------------------------------------------------------------------
 
 //#include <cmath>

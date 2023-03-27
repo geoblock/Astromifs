@@ -4,11 +4,25 @@
 //
 // Coordinate transformations
 //
+//    The original Fortran/Pascal/C++ codes is described in
+//
+//  - Shampine, Gordon: "Computer solution of Ordinary Differential Equations",
+//    Freeman and Comp., San Francisco (1975)
+//  - Montenbruck O., Pfleger T.: Astronomie Mit Dem Personal Computer.
+//    Springer-Verlag Berlin Heidelberg (1989).
+//  - Montenbruck O., Pfleger T.: Astronomy on the Personal Computer.
+//    Springer-Verlag Berlin Heidelberg (2000).
 //------------------------------------------------------------------------------
 
 #include <iomanip>
 #include <iostream>
 #include <tchar.h>
+
+#include <math.h>
+#include <vcl.h>
+#include <windows.h>    // Header file for windows
+#include <stdio.h>      // Header file for standard Input/Output
+
 
 #include "APC_Const.h"
 #include "APC_Math.h"
@@ -22,6 +36,8 @@
 #include <ctype.h>
 #include "GNU_iomanip.h"
 #endif
+
+#pragma argsused
 
 using namespace std;
 
@@ -117,7 +133,7 @@ void Position::Input()
         cin >> d >> m >> s; RA=15.0*Rad*Ddd(d,m,s);
         cin >> d >> m >> s; Dec=Rad*Ddd(d,m,s);
         cin >> R; cin.ignore(81,'\n');
-        m_R = Vec3D(Polar(RA,Dec,R));
+		m_R = Vec3D(Polar(RA,Dec,R));
       };
 	  break;
 	};
@@ -141,7 +157,7 @@ void Position::Input()
     if (c=='g') { m_Origin=Geocentric;   break; };
     if (c=='h') { m_Origin=Heliocentric; break; };
   }
-  
+
   
   // Query epoch
   int    year,month,day;
@@ -199,7 +215,7 @@ void Position::SetRefSys(enRefSys RefSys)
   if (RefSys!=m_RefSys) {
     if (m_RefSys==Equator) {
       m_R = Equ2EclMatrix(m_TEquinox) * m_R;  m_RefSys = Ecliptic;
-    }
+	}
     else {
       m_R = Ecl2EquMatrix(m_TEquinox) * m_R;  m_RefSys = Equator;
     }

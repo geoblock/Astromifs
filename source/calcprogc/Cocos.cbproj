@@ -111,52 +111,72 @@
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="File1.cpp">
-            <BuildOrder>1</BuildOrder>
-        </CppCompile>
-        <None Include="..\code\AOEcat.cpp">
-            <Exclude>True</Exclude>
-            <BuildOrder>2</BuildOrder>
-        </None>
         <CppCompile Include="..\code\APC_Cheb.cpp">
-            <BuildOrder>4</BuildOrder>
+            <BuildOrder>17</BuildOrder>
         </CppCompile>
+        <None Include="..\code\APC_Cheb.h">
+            <BuildOrder>16</BuildOrder>
+        </None>
+        <None Include="..\code\APC_Const.h">
+            <BuildOrder>18</BuildOrder>
+        </None>
         <CppCompile Include="..\code\APC_DE.cpp">
-            <BuildOrder>3</BuildOrder>
+            <BuildOrder>17</BuildOrder>
         </CppCompile>
+        <None Include="..\code\APC_DE.h">
+            <BuildOrder>18</BuildOrder>
+        </None>
         <CppCompile Include="..\code\APC_IO.cpp">
-            <BuildOrder>5</BuildOrder>
+            <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <None Include="..\code\APC_IO.h">
+            <BuildOrder>19</BuildOrder>
+        </None>
         <CppCompile Include="..\code\APC_Kepler.cpp">
-            <BuildOrder>6</BuildOrder>
+            <BuildOrder>19</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\code\APC_Math.cpp">
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\code\APC_Moon.cpp">
-            <BuildOrder>8</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\code\APC_Phys.cpp">
-            <BuildOrder>9</BuildOrder>
-        </CppCompile>
+        <None Include="..\code\APC_Kepler.h">
+            <BuildOrder>20</BuildOrder>
+        </None>
+        <None Include="..\code\APC_Math.h">
+            <BuildOrder>21</BuildOrder>
+        </None>
+        <None Include="..\code\APC_Moon.h">
+            <BuildOrder>22</BuildOrder>
+        </None>
+        <None Include="..\code\APC_Phys.h">
+            <BuildOrder>23</BuildOrder>
+        </None>
         <CppCompile Include="..\code\APC_Planets.cpp">
-            <BuildOrder>10</BuildOrder>
+            <BuildOrder>20</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\code\APC_PrecNut.cpp">
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
+        <None Include="..\code\APC_Planets.h">
+            <BuildOrder>24</BuildOrder>
+        </None>
+        <None Include="..\code\APC_PrecNut.h">
+            <BuildOrder>25</BuildOrder>
+        </None>
         <CppCompile Include="..\code\APC_Spheric.cpp">
-            <BuildOrder>12</BuildOrder>
+            <BuildOrder>21</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\code\APC_Sun.cpp">
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\code\APC_Time.cpp">
-            <BuildOrder>14</BuildOrder>
-        </CppCompile>
+        <None Include="..\code\APC_Spheric.h">
+            <BuildOrder>26</BuildOrder>
+        </None>
+        <None Include="..\code\APC_Sun.h">
+            <BuildOrder>27</BuildOrder>
+        </None>
+        <None Include="..\code\APC_Time.h">
+            <BuildOrder>28</BuildOrder>
+        </None>
         <CppCompile Include="..\code\APC_VecMat3D.cpp">
-            <BuildOrder>14</BuildOrder>
+            <BuildOrder>20</BuildOrder>
         </CppCompile>
+        <None Include="..\code\APC_VecMat3D.h">
+            <BuildOrder>29</BuildOrder>
+        </None>
+        <None Include="..\code\GNU_iomanip.h">
+            <BuildOrder>30</BuildOrder>
+        </None>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

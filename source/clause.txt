@@ -1,2 +1,0 @@
-Some source codes and utils converted to Delphi&C++Builder from the book
-O.Montenbruck, T.Pfleger. Astronomy on the Personal Computer (1989, 1993, 1999). 

@@ -10,6 +10,11 @@
 #include <cmath>
 #include <iomanip>
 #include <iostream>
+#include <math.h>
+#include <vcl.h>
+#include <windows.h>    // Header file for windows
+#include <stdio.h>      // Header file for standard Input/Output
+
 
 #include "APC_Const.h"
 #include "APC_VecMat3D.h"

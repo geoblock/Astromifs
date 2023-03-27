@@ -4,6 +4,15 @@
 // 
 //    Implements computations dealing with Keplerian orbits
 //
+//    The original Fortran/Pascal/C++ codes is described in
+//
+//  - Shampine, Gordon: "Computer solution of Ordinary Differential Equations",
+//    Freeman and Comp., San Francisco (1975)
+//  - Montenbruck O., Pfleger T.: Astronomie Mit Dem Personal Computer.
+//    Springer-Verlag Berlin Heidelberg (1989).
+//  - Montenbruck O., Pfleger T.: Astronomy on the Personal Computer.
+//    Springer-Verlag Berlin Heidelberg (2000).
+//
 //------------------------------------------------------------------------------
 
 #include <cmath>
@@ -13,10 +22,14 @@
 #include <limits>
 #endif
 
+#include <math.h>
+#include <vcl.h>
+#include <windows.h>    // Header file for windows
+#include <stdio.h>      // Header file for standard Input/Output
+
 #include "APC_Const.h"
 #include "APC_Kepler.h"
 #include "APC_Math.h"
-#include "APC_VecMat3D.h"
 
 
 using namespace std;
@@ -44,13 +57,13 @@ namespace // Unnamed namespace
     //
     const double eps = 100.0 * eps_mach;
 
-    
-    //
-    // Variables
-    //
-    double  w,W,a,n,g;
 
-    
+	//
+	// Variables
+	//
+	double  w,W,a,n,g;
+
+
     w = m/(eta*eta)-l; 
 
     if (fabs(w)<0.1) { // Series expansion
@@ -166,7 +179,7 @@ double HypAnom (double Mh, double e)
     ++i;
     if (i==maxit) {
       cerr << " Convergence problems in HypAnom" << endl;
-      break;
+	  break;
     }
   }
   while ( fabs(f) > eps*(1.0+fabs(H+Mh)) );
@@ -364,12 +377,12 @@ void Parab ( double GM, double t0, double t, double q, double e,
 
     if (i == maxit) {
       cerr << " Convergence problems in Parab" << endl;
-      break;
-    }
+	  break;
+	}
   }
   while (fabs(E2-E20) >= eps);
 
-  R  = q * ( 1.0 + u2*c2*e/fac ); 
+  R  = q * ( 1.0 + u2*c2*e/fac );
 
   r = Vec3D (q*(1.0-u2*c2/fac), q*sqrt((1.0+e)/fac)*u*c1, 0.0);
   v = Vec3D (-k*r[y]/R, k*(r[x]/R+e), 0.0);
@@ -398,9 +411,9 @@ void Parab ( double GM, double t0, double t, double q, double e,
 // Note: t0 and t in Julian centuries since J2000
 //
 //------------------------------------------------------------------------------
-void Kepler ( double GM, double t0, double t, 
-              double q, double e, const Mat3D& PQR,
-              Vec3D& r, Vec3D& v )
+void Kepler ( double GM, double t0, double t,
+			  double q, double e, const Mat3D& PQR,
+			  Vec3D& r, Vec3D& v )
 {
   //
   // Constants
@@ -457,7 +470,7 @@ Mat3D GaussVec (double Omega, double i, double omega)
 
 //------------------------------------------------------------------------------
 //
-// Elements:  computes the elements of an elliptical orbit from position 
+// Elements:  computes the elements of an elliptical orbit from position
 //            and velocity vectors
 //
 // Input:
@@ -543,7 +556,7 @@ void Elements ( double GM, const Vec3D& r, const Vec3D& v,
 //
 //------------------------------------------------------------------------------
 void Elements ( double GM, double Mjd_a, double Mjd_b, 
-                const Vec3D& r_a, const Vec3D& r_b,
+				const Vec3D& r_a, const Vec3D& r_b,
                 double& Mjd_p, double& q, double& e,
                 double& i, double& Omega, double& omega ) 
 {
@@ -572,7 +585,7 @@ void Elements ( double GM, double Mjd_a, double Mjd_b,
 
   if (i==0.0) 
     u = atan2 ( r_a[y], r_a[x] );
-  else 
+  else
     u = atan2 ( (+e_0[x]*R[y]-e_0[y]*R[x]) , (-e_a[x]*R[y]+e_a[y]*R[x]) );
 
   

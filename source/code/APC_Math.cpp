@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 //
 // APC_Math.cpp
-// 
+//
 //    Implements mathematical functions and classes
 //
 //------------------------------------------------------------------------------
@@ -9,6 +9,11 @@
 #include <cmath>
 #include <iomanip>
 #include <iostream>
+#include <math.h>
+#include <vcl.h>
+#include <windows.h>    // Header file for windows
+#include <stdio.h>      // Header file for standard Input/Output
+
 
 #include "APC_Math.h"
 
@@ -414,7 +419,7 @@ ostream& operator << (ostream& os, const Angle& alpha)
       break;
   }
    
-  os.setf(flags); // restore output stream format flags
+  /// os.setf(flags); // restore output stream format flags
 
   return os;
 }

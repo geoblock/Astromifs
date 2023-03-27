@@ -7,11 +7,17 @@
 //------------------------------------------------------------------------------
 
 #include <cmath>
+#include <math.h>
+#include <vcl.h>
+#include <windows.h>    // Header file for windows
+#include <stdio.h>      // Header file for standard Input/Output
+
 
 #include "APC_Const.h"
 #include "APC_Math.h"
 #include "APC_Phys.h"
 #include "APC_Planets.h"
+#include "APC_VecMat3D.h"
 
 
 //------------------------------------------------------------------------------

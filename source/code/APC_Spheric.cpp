@@ -1,12 +1,16 @@
 //------------------------------------------------------------------------------
 //
 // APC_Spheric.cpp
-// 
+//
 // Transformations frequently found in spherical astronomy
 //
 //------------------------------------------------------------------------------
 
 #include <cmath>
+
+#include <math.h>
+#include <stdio.h>      // Header file for standard Input/Output
+
 
 #include "APC_Const.h"
 #include "APC_Spheric.h"
@@ -90,7 +94,7 @@ void Equ2Hor ( double Dec, double tau, double lat,
 
 //------------------------------------------------------------------------------
 //
-// Hor2Equ: Transformation of horizon system coordinates 
+// Hor2Equ: Transformation of horizon system coordinates
 //          to equatorial coordinates
 //
 // Input:

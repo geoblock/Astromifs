@@ -1,0 +1,24 @@
+#!/bin/bash
+Fail()
+{
+    echo "FATAL($0): $1"
+    exit 1
+}
+
+if [[ "$1" == "debug" ]]; then
+    BUILDOPT='-g -O0'
+elif [[ -z "$1" ]]; then
+    BUILDOPT='-O3'
+else
+    Fail "unrecognized command line option"
+fi
+
+mkdir -p bin
+for name in solar_time gravity galactic camera moonphase positions linux_riseset riseset seasons culminate horizon lunar_eclipse triangulate ecliptic_vector; do
+    rm -f bin/${name}
+    echo "Compiling ${name}.c"
+    gcc ${BUILDOPT} -Wall -Werror -o bin/${name} -I../../source/c ../../source/c/astronomy.c astro_demo_common.c ${name}.c -lm ||
+        Fail "Error building ${name}.c"
+done
+
+exit 0
