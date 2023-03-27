@@ -1,2 +1,2 @@
-# Astromif
-Astronomical Myths &amp; Legends for Constellations
+# Astromifs
+Astronomical Myths &amp; Legends for skycultures of constellations
