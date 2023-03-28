@@ -62,8 +62,8 @@
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <IncludePath>source\interface\;D:\GLS\EXAMPLES\AstroZone\Astromyth\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>source\interface\;D:\GLS\EXAMPLES\AstroZone\Astromyth\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>source\astronomy\;source\interface\;D:\GLS\EXAMPLES\AstroZone\Astromyth\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>source\astronomy\;source\interface\;D:\GLS\EXAMPLES\AstroZone\Astromyth\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>AstromifC</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -125,6 +125,12 @@
         <CppCompile Include="AstromifC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <CppCompile Include="source\astronomy\astronomy.c">
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <None Include="source\astronomy\astronomy.h">
+            <BuildOrder>3</BuildOrder>
+        </None>
         <CppCompile Include="source\interface\fAstro_c.cpp">
             <Form>frmAstroC</Form>
             <FormType>dfm</FormType>

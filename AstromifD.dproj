@@ -138,20 +138,23 @@
             <Form>frmAstroD</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="source\code\Astro.Matlib.pas"/>
-        <DCCReference Include="source\code\Astro.Sphlib.pas"/>
-        <DCCReference Include="source\code\Astro.Pnulib.pas"/>
-        <DCCReference Include="source\code\Astro.DiffEq.pas"/>
-        <DCCReference Include="source\code\Astro.Kepler.pas"/>
-        <DCCReference Include="source\code\Astro.Moon.pas"/>
-        <DCCReference Include="source\code\Astro.Sunlib.pas"/>
-        <DCCReference Include="source\code\Astro.Planets.pas"/>
-        <DCCReference Include="source\code\Astro.Phylib.pas"/>
-        <DCCReference Include="source\code\Astro.Timlib.pas"/>
         <DCCReference Include="source\interface\fAbout_d.pas">
             <Form>frmAbout</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="source\astronomy\astronomy.pas"/>
+        <DCCReference Include="source\code\Qod.Randomam.pas"/>
+        <DCCReference Include="source\code\Qod.SolarSys.pas"/>
+        <DCCReference Include="source\apc\Apc.DiffEq.pas"/>
+        <DCCReference Include="source\apc\Apc.Kepler.pas"/>
+        <DCCReference Include="source\apc\Apc.Matlib.pas"/>
+        <DCCReference Include="source\apc\Apc.Moon.pas"/>
+        <DCCReference Include="source\apc\Apc.Phylib.pas"/>
+        <DCCReference Include="source\apc\Apc.Planets.pas"/>
+        <DCCReference Include="source\apc\Apc.Pnulib.pas"/>
+        <DCCReference Include="source\apc\Apc.Sphlib.pas"/>
+        <DCCReference Include="source\apc\Apc.Sunlib.pas"/>
+        <DCCReference Include="source\apc\Apc.Timlib.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

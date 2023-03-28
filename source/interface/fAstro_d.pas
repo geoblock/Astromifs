@@ -13,7 +13,7 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
 
-  Astro.Matlib,
+  Apc.Matlib,
   Vcl.Menus,
   Vcl.ComCtrls,
   Vcl.ExtCtrls,
