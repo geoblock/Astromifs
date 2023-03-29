@@ -7,12 +7,12 @@ program Eclipse(Input, Output);
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
-  Apc.Sunlib,
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
+  Apc.Sun,
   Apc.Moon,
-  Apc.Timlib;
+  Apc.Time;
 
 const
   MAX_TP_DEG = 8; (* max. degree of Chebyshev polyn. *)
@@ -25,8 +25,8 @@ var
   T_begin, T_END, T, DT, MJDUT: Double;
   ETDIFUT: Double;
   LAMBDA, PHI, T_UMBRA: Double;
-  RAM_POLY, DEM_POLY, RM_POLY: TPolynom;
-  RAS_POLY, DES_POLY, RS_POLY: TPolynom;
+  RAM_POLY, DEM_POLY, RM_POLY: TPolynomCheb;
+  RAS_POLY, DES_POLY, RS_POLY: TPolynomCheb;
   PHASE: PHASE_TYPE;
 
   (* ----------------------------------------------------------------------- *)
@@ -57,7 +57,7 @@ begin
   T := (MJD(D, M, Y, UT) - 51544.5) / 36525.0;
   T_begin := T - 0.25 / 36525.0;
   T_END := T + 0.25 / 36525.0;
-  Etminut(T, ETDIFUT, VALID);
+  ETminUT(T, ETDIFUT, VALID);
   write(' Difference ET-UT (sec)          : ');
   if (VALID) then
     write('  (proposal:', TRUNC(ETDIFUT + 0.5):4, ' sec) ');
@@ -81,7 +81,7 @@ var
 
 begin
 
-  CALDAT(MJDUT, DAY, MONTH, YEAR, HOUR); (* date *)
+  CalDat(MJDUT, DAY, MONTH, YEAR, HOUR); (* date *)
   write(YEAR:5, '/', MONTH:2, '/', DAY:2);
   DMS(HOUR + 0.5 / 60.0, H, M, S);
   write(H:4, M:3); (* time rounded to 1 min *)
@@ -116,7 +116,7 @@ end;
 (* IntSect: calculates the intersection of the shadow axis with the *)
 (* surface of the Earth *)
 (* *)
-(* RAM,DEM,RM,  equatorial coordinates of Moon and Sun (right asc. RA *)
+(* RAM,DEM,RM,  equatorial coordinates of Moon and Sun (right asc. Ra *)
 (* RAS,DES,RS:  and declination in deg; distance in Earth radii) *)
 (* X,Y,Z:       equatorial coord. of the shadow point (in Earth radii) *)
 (* EX,EY,EZ:    unit vector of the shadow axis *)
@@ -138,9 +138,9 @@ var
 
 begin
 
-  CART(RM, DEM, RAM, XM, YM, ZM);
+  Cart(RM, DEM, RAM, XM, YM, ZM);
   ZM := ZM / FAC; (* solar and lunar coordinat. *)
-  CART(RS, DES, RAS, XS, YS, ZS);
+  Cart(RS, DES, RAS, XS, YS, ZS);
   ZS := ZS / FAC; (* scale z-coordinate *)
 
   XMS := XM - XS;
@@ -196,8 +196,8 @@ end;
 (* PHASE:       phase of the eclipse *)
 (* ----------------------------------------------------------------------- *)
 
-procedure Central(T_UT, ETDIFUT: Double; RAM_POLY, DEM_POLY, RM_POLY: TPolynom;
-  RAS_POLY, DES_POLY, RS_POLY: TPolynom; var LAMBDA, PHI, T_UMBRA: Double; var PHASE: PHASE_TYPE);
+procedure Central(T_UT, ETDIFUT: Double; RAM_POLY, DEM_POLY, RM_POLY: TPolynomCheb;
+  RAS_POLY, DES_POLY, RS_POLY: TPolynomCheb; var LAMBDA, PHI, T_UMBRA: Double; var PHASE: PHASE_TYPE);
 
 const
   AU = 23454.78; (* 1AU in earth radii (149597870/6378.14) *)
@@ -206,12 +206,12 @@ const
   OMEGA = 4.3755E-3; (* angular velocity of the earth (rad/min) *)
 
 var
-  RAM, DEM, RM, RAS, DES, RS, RA, DEC, R, DX, DY, DZ, D, MJDUT: Double;
+  RAM, DEM, RM, RAS, DES, RS, Ra, Dec, R, DX, DY, DZ, D, MJDUT: Double;
   T, X, Y, Z, EX, EY, EZ, D_UMBRA, XX, YY, ZZ, EXX, EYY, EZZ, DU, W: Double;
   PH: PHASE_TYPE;
 
   (* calculate lunar and solar coordinates from Chebyshev coefficients *)
-  (*sub*)procedure POSITION(T: Double; var RAM, DEM, RM, RAS, DES, RS: Double);
+  (*sub*)procedure Position(T: Double; var RAM, DEM, RM, RAS, DES, RS: Double);
   begin
     RAM := T_Eval(RAM_POLY, T);
     RAS := T_Eval(RAS_POLY, T);
@@ -228,7 +228,7 @@ begin
   T := T_UT + ETDIFUT / (86400.0 * 36525.0);
 
   (* phase of eclipse and coordinates of the shadow at time T *)
-  POSITION(T, RAM, DEM, RM, RAS, DES, RS);
+  Position(T, RAM, DEM, RM, RAS, DES, RS);
   IntSect(RAM, DEM, RM, RAS, DES, RS, X, Y, Z, EX, EY, EZ, D_UMBRA, PHASE);
 
   (* for central phase only:  geogr. coord. and duration of totality *)
@@ -242,21 +242,21 @@ begin
   begin
     (* geographic coordinates: *)
     MJDUT := 36525.0 * T_UT + 51544.5;
-    Polar(X, Y, Z, R, DEC, RA);
-    PHI := DEC + 0.1924 * SN(2.0 * DEC);
-    LAMBDA := 15.0 * LMST(MJDUT, 0.0) - RA;
+    Polar(X, Y, Z, R, Dec, Ra);
+    PHI := Dec + 0.1924 * SN(2.0 * Dec);
+    LAMBDA := 15.0 * LMST(MJDUT, 0.0) - Ra;
     if LAMBDA > +180.0 then
       LAMBDA := LAMBDA - 360.0;
     if LAMBDA < -180.0 then
       LAMBDA := LAMBDA + 360.0;
     (* duration of totality for this place *)
     (* (a) shadow coordinates at time T+DT (or T-DT) *)
-    POSITION(T + DT / MPC, RAM, DEM, RM, RAS, DES, RS);
+    Position(T + DT / MPC, RAM, DEM, RM, RAS, DES, RS);
     W := +DT * OMEGA;
     IntSect(RAM, DEM, RM, RAS, DES, RS, XX, YY, ZZ, EXX, EYY, EZZ, DU, PH);
     if (ORD(PH) < ORD(ANNULAR)) then
     begin
-      POSITION(T - DT / MPC, RAM, DEM, RM, RAS, DES, RS);
+      Position(T - DT / MPC, RAM, DEM, RM, RAS, DES, RS);
       W := -DT * OMEGA;
       IntSect(RAM, DEM, RM, RAS, DES, RS, XX, YY, ZZ, EXX, EYY, EZZ, DU, PH);
     end;
@@ -281,8 +281,8 @@ begin (* main program *)
   Get_Input(T_begin, T_END, DT, ETDIFUT);
 
   (* Chebyshev approximations *)
-  T_FIT_MOON(T_begin - H, T_END + H, 8, RAM_POLY, DEM_POLY, RM_POLY);
-  T_FIT_SUN(T_begin - H, T_END + H, 3, RAS_POLY, DES_POLY, RS_POLY);
+  T_Fit_Moon(T_begin - H, T_END + H, 8, RAM_POLY, DEM_POLY, RM_POLY);
+  T_Fit_Sun(T_begin - H, T_END + H, 3, RAS_POLY, DES_POLY, RS_POLY);
 
   (* calculate phase and central line of the eclipse *)
   T := T_begin;

@@ -1,0 +1,8 @@
+ 1806  6 28.039     ! perihelion time T0 (y m d.d)  =  JD  2380865.539
+    2.541676        ! q  ( a =  2.767164 )
+    0.081487        ! e 
+   10.6178          ! i 
+   80.9788          ! long.asc.node 
+   66.0387          ! arg.perih. ( long.per. =  147.0174 )
+ 1806.00            ! equinox (J)
+! Ceres (Gauss's example)                                                       

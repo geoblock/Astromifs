@@ -4,8 +4,8 @@ interface
 
 uses
   System.Math,
-  Apc.Matlib,
-  Apc.Sphlib;
+  Apc.Mathem,
+  Apc.Spheric;
 
 (*-----------------------------------------------------------------------*)
 (* EccAnom: calculation of the eccentric anomaly E=EccAnom(MAN,ECC)      *)
@@ -19,7 +19,7 @@ function EccAnom(MAN, ECC: Double): Double;
 (*          for elliptic and hyperbolic orbits                           *)
 (*                                                                       *)
 (*   JDA,JDB: time of passage of points A and B (Julian Date)            *)
-(*   RA, RB : position vectors of points A and B                         *)
+(*   Ra, RB : position vectors of points A and B                         *)
 (*   TP     : perihelion time (in Julian centuries since J2000)          *)
 (*   Q      : perihelion distance                                        *)
 (*   ECC    : eccentricity                                               *)
@@ -27,7 +27,7 @@ function EccAnom(MAN, ECC: Double): Double;
 (*   LAN    : longitude of the ascending node (in deg)                   *)
 (*   AOP    : argument of perihelion (in deg)                            *)
 (*-----------------------------------------------------------------------*)
-procedure Element(JDA, JDB: Double; RA, RB: VECTOR; var TP, Q, ECC, INC, LAN, AOP: Double);
+procedure Element(JDA, JDB: Double; Ra, RB: Vector; var TP, Q, ECC, INC, LAN, AOP: Double);
 (*-----------------------------------------------------------------------*)
 (* Ellip: calculation of position and velocity vector                    *)
 (*        for elliptic orbits                                            *)
@@ -41,7 +41,7 @@ procedure Ellip(M, A, ECC: Double; var X, Y, VX, VY: Double);
 (* Find_ETA: determines the sector/triangle ratio                        *)
 (*           from two positions and the time difference                  *)
 (*-----------------------------------------------------------------------*)
-function Find_ETA(RA, RB: VECTOR; TAU: Double): Double;
+function Find_ETA(Ra, RB: Vector; TAU: Double): Double;
 (*-----------------------------------------------------------------------*)
 (* HypAnom: calculation of the eccentric anomaly H=HypAnom(MH,ECC) from  *)
 (*          mean anomaly MH and eccentricity ECC for                     *)
@@ -114,7 +114,6 @@ implementation
 (*-----------------------------------------------------------------------*)
 function EccAnom(MAN, ECC: Double): Double;
 const
-  PI = 3.141592654;
   TWOPI = 6.283185308;
   RAD = 0.0174532925199433;
   EPS = 1E-11;
@@ -130,7 +129,7 @@ begin
   if (ECC < 0.8) then
     E := M
   else
-    E := PI;
+    E := Pi;
   F := E - ECC * Sin(E) - M;
   I := 0;
   while((abs(F) > EPS) and (I < MAXIT))
@@ -147,7 +146,7 @@ end;
 
 (*-----------------------------------------------------------------------*)
 
-procedure Element(JDA, JDB: Double; RA, RB: VECTOR; var TP, Q, ECC, INC, LAN, AOP: Double);
+procedure Element(JDA, JDB: Double; Ra, RB: Vector; var TP, Q, ECC, INC, LAN, AOP: Double);
 const
   KGAUSS = 0.01720209895;
   RAD = 0.01745329252; (* 180/pi *)
@@ -156,15 +155,15 @@ var
   TAU, ETA, P, AX, N, NY, E, M, U: Double;
   SA, SB, S0, FAC, DUMMY, SHH: Double;
   COS_DNY, SIN_DNY, ECOS_NY, ESIN_NY: Double;
-  EA, R0, E0, R: VECTOR;
-  I: INDEX;
+  EA, R0, E0, R: Vector;
+  I: Index;
 
 begin
-  (* calculate vector R0 (fraction of RB perpendicular to RA) *)
-  (* and the magnitudes of RA, RB and R0 *)
-  SA := Norm(RA);
+  (* calculate vector R0 (fraction of RB perpendicular to Ra) *)
+  (* and the magnitudes of Ra, RB and R0 *)
+  SA := Norm(Ra);
   for I := X to Z do
-    EA[I] := RA[I] / SA;
+    EA[I] := Ra[I] / SA;
   SB := Norm(RB);
   FAC := Dot(RB, EA);
   for I := X to Z do
@@ -179,11 +178,11 @@ begin
   INC := 90.0 - INC;
   U := ATN2((+E0[X] * R[Y] - E0[Y] * R[X]), (-EA[X] * R[Y] + EA[Y] * R[X]));
   if INC = 0.0 then
-    U := ATN2(RA[Y], RA[X]);
+    U := ATN2(Ra[Y], Ra[X]);
 
   (* semilatus rectum p *)
   TAU := KGAUSS * abs(JDB - JDA);
-  ETA := Find_ETA(RA, RB, TAU);
+  ETA := Find_ETA(Ra, RB, TAU);
   P := SA * S0 * ETA / TAU;
   P := P * P;
 
@@ -239,7 +238,7 @@ end;
 
 (* ----------------------------------------------------------------------- *)
 
-function Find_ETA(RA, RB: VECTOR; TAU: Double): Double;
+function Find_ETA(Ra, RB: Vector; TAU: Double): Double;
 
 const
   DELTA = 1.0E-9;
@@ -286,9 +285,9 @@ var
   end; (* Find_ETA.F *)
 
 begin
-  SA := Norm(RA);
+  SA := Norm(Ra);
   SB := Norm(RB);
-  KAPPA := Sqrt(2.0 * (SA * SB + Dot(RA, RB)));
+  KAPPA := Sqrt(2.0 * (SA * SB + Dot(Ra, RB)));
   M := TAU * TAU / (KAPPA * KAPPA * KAPPA);
   L := (SA + SB) / (2.0 * KAPPA) - 0.5;
   ETA_MIN := Sqrt(M / (L + 1.0));
@@ -394,8 +393,8 @@ begin
     Ellip(M, 1.0 / INVAX, ECC, XX, YY, VVX, VVY)
   else
     Hyperb(T0, T, 1.0 / INVAX, ECC, XX, YY, VVX, VVY);
-  ORBECL(XX, YY, PQR, X, Y, Z);
-  ORBECL(VVX, VVY, PQR, VX, VY, VZ);
+  Orb2Ecl(XX, YY, PQR, X, Y, Z);
+  Orb2Ecl(VVX, VVY, PQR, VX, VY, VZ);
 end;
 
 (* ----------------------------------------------------------------------- *)

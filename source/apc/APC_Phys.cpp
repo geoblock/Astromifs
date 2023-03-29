@@ -128,7 +128,7 @@ void Orient ( PlanetType Planet, SystemType System, double T,
   //
   // Variables
   //
-  double N, RA, Dec, W;
+  double N, Ra, Dec, W;
   double d = 36525.0*T;
     
 
@@ -136,22 +136,22 @@ void Orient ( PlanetType Planet, SystemType System, double T,
   // with respect to the equator and equinox of J2000;   
   // Prime meridian orientation
   switch (Planet) {
-    case Sun:      RA  = 286.13; 
+    case Sun:      Ra  = 286.13; 
                    Dec =  63.87; 
                    W   =  84.182 +  14.1844000*d; break;
-    case Mercury:  RA  = 281.01  -   0.033*T; 
+    case Mercury:  Ra  = 281.01  -   0.033*T; 
                    Dec =  61.45  -   0.005*T;    
                    W   = 329.68  +   6.1385025*d; break;
-    case Venus:    RA  = 272.76;
+    case Venus:    Ra  = 272.76;
                    Dec =  67.16;
                    W   = 160.20  -   1.4813688*d; break;
-    case Earth:    RA  =   0.00  -   0.641*T; 
+    case Earth:    Ra  =   0.00  -   0.641*T; 
                    Dec =  90.00  -   0.557*T;
                    W   = 190.16  + 360.9856235*d; break;
-    case Mars:     RA  = 317.681 -   0.108*T;
+    case Mars:     Ra  = 317.681 -   0.108*T;
                    Dec =  52.886 -   0.061*T;
                    W   = 176.901 + 350.8919830*d; break;
-    case Jupiter:  RA  = 268.05  -   0.009*T; 
+    case Jupiter:  Ra  = 268.05  -   0.009*T; 
                    Dec =  64.49  +   0.003*T;
                    switch (System) {
                      case Sys_I   : W =  67.10  + 877.900*d; break;
@@ -159,7 +159,7 @@ void Orient ( PlanetType Planet, SystemType System, double T,
                      case Sys_III : W = 284.695 + 870.536*d; break;
                    }
                    break;
-    case Saturn:   RA  =  40.589 -   0.036*T;    
+    case Saturn:   Ra  =  40.589 -   0.036*T;    
                    Dec =  83.537 -   0.004*T;
                    switch (System) {
                      case Sys_I   :
@@ -167,24 +167,24 @@ void Orient ( PlanetType Planet, SystemType System, double T,
                      case Sys_III : W =  38.90   + 810.7939024*d; break;
                    }
                    break;
-    case Uranus:   RA  = 257.311;
+    case Uranus:   Ra  = 257.311;
                    Dec = -15.175;
                    W   = 203.81  - 501.1600928*d; break; // System III
     case Neptune:  N   = Rad*(357.85+52.316*T);    
-                   RA  = 299.36  + 0.70*sin(N); 
+                   Ra  = 299.36  + 0.70*sin(N); 
                    Dec =  43.46  - 0.51*cos(N); 
                    W   = 253.18  + 536.3128492*d - 0.48*sin(N); break;
-    case Pluto:    RA  = 313.02; 
+    case Pluto:    Ra  = 313.02; 
                    Dec =   9.09;
                    W   = 236.77  -  56.3623195*d;
   }
 
-  RA*=Rad; Dec*=Rad; W=Rad*Modulo(W,360.0);  
+  Ra*=Rad; Dec*=Rad; W=Rad*Modulo(W,360.0);  
   
   
   // Transformation from Earth mean equator and equinox of J2000 to
   // body fixed equator and prime meridian system                   
-  E = R_z(W) * R_x(pi/2.0-Dec) * R_z(pi/2.0+RA);
+  E = R_z(W) * R_x(pi/2.0-Dec) * R_z(pi/2.0+Ra);
 
   
   // Sense of rotation

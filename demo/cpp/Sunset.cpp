@@ -61,18 +61,18 @@ double SinAlt ( enEvent Event, double MJD0, double Hour,
   //
   // Variables
   //  
-  double  MJD, T, RA, Dec, tau;
+  double  MJD, T, Ra, Dec, tau;
   
 
   MJD = MJD0 + Hour/24.0;         
   T   = (MJD-51544.5)/36525.0;
 
   if ( Event == Moon )
-    MiniMoon ( T, RA, Dec);
+    MiniMoon ( T, Ra, Dec);
   else
-    MiniSun ( T, RA, Dec );
+    MiniSun ( T, Ra, Dec );
 
-  tau = GMST(MJD) + lambda - RA;
+  tau = GMST(MJD) + lambda - Ra;
   
   return ( Sphi*sin(Dec)+Cphi*cos(Dec)*cos(tau) );
 }

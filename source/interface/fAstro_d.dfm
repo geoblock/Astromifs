@@ -12,6 +12,7 @@ object frmAstroD: TfrmAstroD
   Font.Style = []
   Menu = MainMenu1
   Position = poScreenCenter
+  OnCreate = FormCreate
   TextHeight = 15
   object PanelLeft: TPanel
     Left = 0
@@ -28,9 +29,7 @@ object frmAstroD: TfrmAstroD
       Align = alClient
       Indent = 19
       TabOrder = 0
-      Items.NodeData = {
-        0301000000300000000000000000000000FFFFFFFFFFFFFFFF00000000000000
-        0000000000010941006E00640072006F006D00650064006100}
+      OnClick = tvConstellationsClick
     end
     object PanelTop: TPanel
       Left = 1
@@ -119,12 +118,14 @@ object frmAstroD: TfrmAstroD
       end
     end
   end
-  object GLSceneViewer1: TGLSceneViewer
+  object GLSceneViewer: TGLSceneViewer
     Left = 161
     Top = 44
     Width = 591
     Height = 559
+    Camera = Camera
     Buffer.BackgroundColor = clBlack
+    FieldOfView = 155.768493652343800000
     PenAsTouch = False
     Align = alClient
     TabOrder = 4
@@ -267,16 +268,87 @@ object frmAstroD: TfrmAstroD
       end
     end
   end
-  object GLScene1: TGLScene
+  object GLScene: TGLScene
     Left = 296
     Top = 128
+    object sbMilkiWay: TGLSkyBox
+      MaterialLibrary = GLMatLib
+      MatNameTop = 'Top'
+      MatNameBottom = 'Bottom'
+      MatNameLeft = 'Left'
+      MatNameRight = 'Right'
+      MatNameFront = 'Front'
+      MatNameBack = 'Back'
+      MatNameClouds = 'Clouds'
+      CloudsPlaneOffset = 0.200000002980232200
+      CloudsPlaneSize = 32.000000000000000000
+    end
+    object Camera: TGLCamera
+      DepthOfView = 100000.000000000000000000
+      FocalLength = 60.000000000000000000
+      NearPlaneBias = 0.100000001490116100
+      TargetObject = dcWorld
+      Position.Coordinates = {0000004000000000000000000000803F}
+    end
+    object LightSource: TGLLightSource
+      ConstAttenuation = 1.000000000000000000
+      Position.Coordinates = {0000C8420000C8420000C8420000803F}
+      SpotCutOff = 180.000000000000000000
+      object LensFlare: TGLLensFlare
+        Seed = 1465
+        FlareIsNotOccluded = True
+      end
+    end
+    object dcWorld: TGLDummyCube
+      CubeSize = 1.000000000000000000
+      object Planet: TGLSphere
+        Radius = 0.500000000000000000
+        Slices = 64
+        Stacks = 64
+      end
+    end
   end
-  object GLCadencer1: TGLCadencer
+  object GLCadencer: TGLCadencer
+    Scene = GLScene
+    OnProgress = GLCadencerProgress
     Left = 296
     Top = 200
   end
-  object GLMaterialLibrary1: TGLMaterialLibrary
-    Left = 288
-    Top = 272
+  object GLMatLib: TGLMaterialLibrary
+    Left = 352
+    Top = 340
+  end
+  object GLNavigator: TGLNavigator
+    Left = 448
+    Top = 56
+  end
+  object GLUserInterface1: TGLUserInterface
+    GLNavigator = GLNavigator
+    Left = 584
+    Top = 56
+  end
+  object GLSimpleNavigation1: TGLSimpleNavigation
+    Form = Owner
+    GLSceneViewer = GLSceneViewer
+    FormCaption = 'Astromyths & Legends D - %FPS'
+    KeyCombinations = <
+      item
+        ShiftState = [ssLeft, ssRight]
+        Action = snaZoom
+      end
+      item
+        ShiftState = [ssLeft]
+        Action = snaMoveAroundTarget
+      end
+      item
+        ShiftState = [ssRight]
+        Action = snaMoveAroundTarget
+      end>
+    Left = 264
+    Top = 328
+  end
+  object OpenDialog: TOpenDialog
+    Left = 195
+    Top = 312
   end
 end

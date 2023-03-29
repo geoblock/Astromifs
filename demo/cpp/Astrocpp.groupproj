@@ -1,0 +1,204 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F2BB7E7A-81ED-46F6-8F2A-572BC28FA16F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Coco.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Comet.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Eclipse.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="EclTimer.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Foto.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Luna.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Numint.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Occult.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Phases.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Phys.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Planetpos.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Planetrise.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PPMbin.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PPMcat.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Sunset.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Coco">
+        <MSBuild Projects="Coco.cbproj"/>
+    </Target>
+    <Target Name="Coco:Clean">
+        <MSBuild Projects="Coco.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Coco:Make">
+        <MSBuild Projects="Coco.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Comet">
+        <MSBuild Projects="Comet.cbproj"/>
+    </Target>
+    <Target Name="Comet:Clean">
+        <MSBuild Projects="Comet.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Comet:Make">
+        <MSBuild Projects="Comet.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Eclipse">
+        <MSBuild Projects="Eclipse.cbproj"/>
+    </Target>
+    <Target Name="Eclipse:Clean">
+        <MSBuild Projects="Eclipse.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Eclipse:Make">
+        <MSBuild Projects="Eclipse.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="EclTimer">
+        <MSBuild Projects="EclTimer.cbproj"/>
+    </Target>
+    <Target Name="EclTimer:Clean">
+        <MSBuild Projects="EclTimer.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EclTimer:Make">
+        <MSBuild Projects="EclTimer.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Foto">
+        <MSBuild Projects="Foto.cbproj"/>
+    </Target>
+    <Target Name="Foto:Clean">
+        <MSBuild Projects="Foto.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Foto:Make">
+        <MSBuild Projects="Foto.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Luna">
+        <MSBuild Projects="Luna.cbproj"/>
+    </Target>
+    <Target Name="Luna:Clean">
+        <MSBuild Projects="Luna.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Luna:Make">
+        <MSBuild Projects="Luna.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Numint">
+        <MSBuild Projects="Numint.cbproj"/>
+    </Target>
+    <Target Name="Numint:Clean">
+        <MSBuild Projects="Numint.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Numint:Make">
+        <MSBuild Projects="Numint.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Occult">
+        <MSBuild Projects="Occult.cbproj"/>
+    </Target>
+    <Target Name="Occult:Clean">
+        <MSBuild Projects="Occult.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Occult:Make">
+        <MSBuild Projects="Occult.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Phases">
+        <MSBuild Projects="Phases.cbproj"/>
+    </Target>
+    <Target Name="Phases:Clean">
+        <MSBuild Projects="Phases.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Phases:Make">
+        <MSBuild Projects="Phases.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Phys">
+        <MSBuild Projects="Phys.cbproj"/>
+    </Target>
+    <Target Name="Phys:Clean">
+        <MSBuild Projects="Phys.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Phys:Make">
+        <MSBuild Projects="Phys.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Planetpos">
+        <MSBuild Projects="Planetpos.cbproj"/>
+    </Target>
+    <Target Name="Planetpos:Clean">
+        <MSBuild Projects="Planetpos.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Planetpos:Make">
+        <MSBuild Projects="Planetpos.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Planetrise">
+        <MSBuild Projects="Planetrise.cbproj"/>
+    </Target>
+    <Target Name="Planetrise:Clean">
+        <MSBuild Projects="Planetrise.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Planetrise:Make">
+        <MSBuild Projects="Planetrise.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PPMbin">
+        <MSBuild Projects="PPMbin.cbproj"/>
+    </Target>
+    <Target Name="PPMbin:Clean">
+        <MSBuild Projects="PPMbin.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PPMbin:Make">
+        <MSBuild Projects="PPMbin.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PPMcat">
+        <MSBuild Projects="PPMcat.cbproj"/>
+    </Target>
+    <Target Name="PPMcat:Clean">
+        <MSBuild Projects="PPMcat.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PPMcat:Make">
+        <MSBuild Projects="PPMcat.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Sunset">
+        <MSBuild Projects="Sunset.cbproj"/>
+    </Target>
+    <Target Name="Sunset:Clean">
+        <MSBuild Projects="Sunset.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Sunset:Make">
+        <MSBuild Projects="Sunset.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Coco;Comet;Eclipse;EclTimer;Foto;Luna;Numint;Occult;Phases;Phys;Planetpos;Planetrise;PPMbin;PPMcat;Sunset"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Coco:Clean;Comet:Clean;Eclipse:Clean;EclTimer:Clean;Foto:Clean;Luna:Clean;Numint:Clean;Occult:Clean;Phases:Clean;Phys:Clean;Planetpos:Clean;Planetrise:Clean;PPMbin:Clean;PPMcat:Clean;Sunset:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Coco:Make;Comet:Make;Eclipse:Make;EclTimer:Make;Foto:Make;Luna:Make;Numint:Make;Occult:Make;Phases:Make;Phys:Make;Planetpos:Make;Planetrise:Make;PPMbin:Make;PPMcat:Make;Sunset:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

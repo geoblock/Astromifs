@@ -7,9 +7,9 @@ interface
 uses
   System.Math,
   Apc.Kepler,
-  Apc.Matlib,
-  Apc.Sphlib,
-  Apc.Sunlib;
+  Apc.Mathem,
+  Apc.Spheric,
+  Apc.Sun;
 
 
 type
@@ -17,7 +17,7 @@ type
 
 (*-----------------------------------------------------------------------*)
 (*                                                                       *)
-(* POSITION:                                                             *)
+(* PlanetPos:                                                             *)
 (*                                                                       *)
 (*   Computes the position of a planet assuming Keplerian orbits. Mean   *)
 (*   elements at epoch J2000 are used for Mercury to Mars; osculating    *)
@@ -29,10 +29,11 @@ type
 (*   X,Y,Z   Ecliptic coordinates (equinox J2000)                        *)
 (*                                                                       *)
 (*-----------------------------------------------------------------------*)
-procedure Position(Planet: PlanetType; T: Double; var X, Y, Z: Double);
+procedure PlanetPos(Planet: PlanetType; T: Double; var X, Y, Z: Double);
+
 (*-----------------------------------------------------------------------*)
 (*                                                                       *)
-(* GEOCEN: geocentric coordinates (geometric and light-time corrected)   *)
+(* GeoCentric: geocentric coordinates (geometric and light-time corrected)   *)
 (*                                                                       *)
 (*   T:        time in Julian centuries since J2000                      *)
 (*             T=(JD-2451545.0)/36525.0                                  *)
@@ -51,78 +52,86 @@ procedure Position(Planet: PlanetType; T: Double; var X, Y, Z: Double);
 (*   (all angles in degrees, distances in AU)                            *)
 (*                                                                       *)
 (*-----------------------------------------------------------------------*)
-procedure GEOCEN(T, LP, BP, RP, LS, BS, RS: Double; IPLAN, IMODE: integer;
+procedure GeoCentric(T, LP, BP, RP, LS, BS, RS: Double; IPLAN, IMODE: integer;
   var XP, YP, ZP, XS, YS, ZS, X, Y, Z, DELTA0: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Mercury200: Mercury; ecliptic coordinates L,B,R (in deg and AU)       *)
+(* MercuryPos: Mercury; ecliptic coordinates L,B,R (in deg and AU)       *)
 (*         equinox of date                                               *)
 (*         (T: time in Julian centuries since J2000)                     *)
 (*         (   = (JED-2451545.0)/36525             )                     *)
 (*-----------------------------------------------------------------------*)
-procedure Mercury200(T: Double; var L, B, R: Double);
+procedure MercuryPos(T: Double; var L, B, R: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Venus200: Venus; ecliptic coordinates L,B,R (in deg and AU)           *)
+(* VenusPos: Venus; ecliptic coordinates L,B,R (in deg and AU)           *)
 (*         equinox of date                                               *)
 (*         (T: time in Julian centuries since J2000)                     *)
 (*         (   = (JED-2451545.0)/36525             )                     *)
 (*-----------------------------------------------------------------------*)
-procedure Venus200(T: Double; var L, B, R: Double);
+procedure VenusPos(T: Double; var L, B, R: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Mars200: Mars; ecliptic coordinates L,B,R (in deg and AU)             *)
+(* MarsPos: Mars; ecliptic coordinates L,B,R (in deg and AU)             *)
 (*         equinox of date                                               *)
 (*         (T: time in Julian centuries since J2000)                     *)
 (*         (   = (JED-2451545.0)/36525             )                     *)
 (*-----------------------------------------------------------------------*)
-procedure Mars200(T: Double; var L, B, R: Double);
+procedure MarsPos(T: Double; var L, B, R: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Jupiter200: Jupiter; ecliptic coordinates L,B,R (in deg and AU)       *)
+(* JupiterPos: Jupiter; ecliptic coordinates L,B,R (in deg and AU)       *)
 (*         equinox of date                                               *)
 (*         T: time in Julian centuries since J2000                       *)
 (*            = (JED-2451545.0)/36525                                    *)
 (*-----------------------------------------------------------------------*)
-procedure Jupiter200(T: Double; var L, B, R: Double);
+procedure JupiterPos(T: Double; var L, B, R: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Saturn200: Saturn; ecliptic coordinates L,B,R (in deg and AU)         *)
+(* SaturnPos: Saturn; ecliptic coordinates L,B,R (in deg and AU)         *)
 (*         equinox of date                                               *)
 (*         (T: time in Julian centuries since J2000)                     *)
 (*         (   = (JED-2451545.0)/36525             )                     *)
 (*-----------------------------------------------------------------------*)
-procedure Saturn200(T: Double; var L, B, R: Double);
+procedure SaturnPos(T: Double; var L, B, R: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Uranus200: Uranus; ecliptic coordinates L,B,R (in deg and AU)         *)
+(* UranusPos: Uranus; ecliptic coordinates L,B,R (in deg and AU)         *)
 (*         equinox of date                                               *)
 (*         (T: time in Julian centuries since J2000)                     *)
 (*         (   = (JED-2451545.0)/36525             )                     *)
 (*-----------------------------------------------------------------------*)
-procedure Uranus200(T: Double; var L, B, R: Double);
+procedure UranusPos(T: Double; var L, B, R: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Neptune200: Neptune; ecliptic coordinates L,B,R (in deg and AU)       *)
+(* NeptunePos: Neptune; ecliptic coordinates L,B,R (in deg and AU)       *)
 (*         equinox of date                                               *)
 (*         (T: time in Julian centuries since J2000)                     *)
 (*         (   = (JED-2451545.0)/36525             )                     *)
 (*-----------------------------------------------------------------------*)
-procedure Neptune200(T: Double; var L, B, R: Double);
+procedure NeptunePos(T: Double; var L, B, R: Double);
+
 (*-----------------------------------------------------------------------*)
-(* Pluto200: Pluto; ecliptic coordinates L,B,R (in deg and AU)           *)
+(* PlutoPos: Pluto; ecliptic coordinates L,B,R (in deg and AU)           *)
 (*         equinox of date; only valid between 1890 and 2100!!           *)
 (*         (T: time in Julian centuries since J2000)                     *)
 (*         (   = (JED-2451545.0)/36525             )                     *)
 (*-----------------------------------------------------------------------*)
-procedure Pluto200(T: Double; var L, B, R: Double);
+procedure PlutoPos(T: Double; var L, B, R: Double);
 
 //=====================================================
 implementation
 //=====================================================
 
 
-procedure Position(Planet: PlanetType; T: Double; var X, Y, Z: Double);
+procedure PlanetPos(Planet: PlanetType; T: Double; var X, Y, Z: Double);
 var
   A, E, M, O, I, W, N: Double;
   XX, YY, VVX, VVY: Double;
   T0: Double;
   PQR: Double33;
 begin
-  (* Heliocentric ecliptic orbital elements for equinox J2000 *)
+  // Heliocentric ecliptic orbital elements for equinox J2000
   case Planet of
     Mercury:
       begin
@@ -223,15 +232,15 @@ begin
   end;
   M := M + N * (T - T0);
 
-  (* Cartesian coordinates mean ecliptic and equinox J2000 *)
-  GAUSVEC(O, I, W - O, PQR);
+  // Cartesian coordinates mean ecliptic and equinox J2000
+  GaussVec(O, I, W - O, PQR);
   Ellip(M, A, E, XX, YY, VVX, VVY);
-  ORBECL(XX, YY, PQR, X, Y, Z);
+  Orb2Ecl(XX, YY, PQR, X, Y, Z);
 end; // Position
 
 (* --------------------------------------------------------------------- *)
 
-procedure GEOCEN(T, LP, BP, RP, LS, BS, RS: Double; IPLAN, IMODE: integer;
+procedure GeoCentric(T, LP, BP, RP, LS, BS, RS: Double; IPLAN, IMODE: integer;
   var XP, YP, ZP, XS, YS, ZS, X, Y, Z, DELTA0: Double);
 
 const
@@ -248,7 +257,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure POSVEL(L, B, R, DL, DB, DR: Double; var X, Y, Z, VX, VY, VZ: Double);
+  (*sub*)procedure PosVel(L, B, R, DL, DB, DR: Double; var X, Y, Z, VX, VY, VZ: Double);
   var
     CL, SL, CB, SB: Double;
   begin
@@ -274,21 +283,21 @@ begin
 
   if (IMODE > 0) then
   begin
-    M := P2 * Frac(0.9931266 + 99.9973604 * T); (* Sun *)
+    M := P2 * Frac(0.9931266 + 99.9973604 * T); // Sun
     DLS := 172.00 + 5.75 * Sin(M);
     DRS := 2.87 * Cos(M);
     DBS := 0.0;
 
-    (* dl,db in 1e-4 rad/d, dr in 1e-4 AU/d *)
+    // dl,db in 1e-4 rad/d, dr in 1e-4 AU/d
     case IPLAN of
-      0:
+      0: // Sun
         begin
           DL := 0.0;
           DB := 0.0;
           DR := 0.0;
-        end; (* Sun *)
-      1:
-        begin (* Mercury *)
+        end;
+      1: // Mercury
+        begin
           M := P2 * Frac(0.4855407 + 415.2014314 * T);
           DL := 714.00 + 292.66 * Cos(M) + 71.96 * Cos(2 * M) + 18.16 * Cos(3 * M) + 4.61 *
             Cos(4 * M) + 3.81 * Sin(2 * M) + 2.43 * Sin(3 * M) + 1.08 * Sin(4 * M);
@@ -296,56 +305,56 @@ begin
           DB := 73.40 * Cos(M) + 29.82 * Cos(2 * M) + 10.22 * Cos(3 * M) + 3.28 * Cos(4 * M) - 40.44
             * Sin(M) - 16.55 * Sin(2 * M) - 5.56 * Sin(3 * M) - 1.72 * Sin(4 * M);
         end;
-      2:
-        begin (* Venus *)
+      2: // Venus
+        begin
           M := P2 * Frac(0.1400197 + 162.5494552 * T);
           DL := 280.00 + 3.79 * Cos(M);
           DR := 1.37 * Sin(M);
           DB := 9.54 * Cos(M) - 13.57 * Sin(M);
         end;
-      3:
+      3: // Earth
         begin
           DL := DLS;
           DR := DRS;
           DB := -DBS;
-        end; (* Earth *)
-      4:
-        begin (* Mars *)
+        end;
+      4: // Mars
+        begin
           M := P2 * Frac(0.0538553 + 53.1662736 * T);
           DL := 91.50 + 17.07 * Cos(M) + 2.03 * Cos(2 * M);
           DR := 12.98 * Sin(M) + 1.21 * Cos(2 * M);
           DB := 0.83 * Cos(M) + 2.80 * Sin(M);
         end;
-      5:
-        begin (* Jupiter *)
+      5: // Jupiter
+        begin
           M := P2 * Frac(0.0565314 + 8.4302963 * T);
           DL := 14.50 + 1.41 * Cos(M);
           DR := 3.66 * Sin(M);
           DB := 0.33 * Sin(M);
         end;
-      6:
-        begin (* Saturn *)
+      6: // Saturn
+        begin
           M := P2 * Frac(0.8829867 + 3.3947688 * T);
           DL := 5.84 + 0.65 * Cos(M);
           DR := 3.09 * Sin(M);
           DB := 0.24 * Cos(M);
         end;
-      7:
-        begin (* Uranus *)
+      7: // Uranus
+        begin
           M := P2 * Frac(0.3967117 + 1.1902849 * T);
           DL := 2.05 + 0.19 * Cos(M);
           DR := 1.86 * Sin(M);
           DB := -0.03 * Sin(M);
         end;
-      8:
-        begin (* Neptune *)
+      8: // Neptune
+        begin
           M := P2 * Frac(0.7214906 + 0.6068526 * T);
           DL := 1.04 + 0.02 * Cos(M);
           DR := 0.27 * Sin(M);
           DB := 0.03 * Sin(M);
         end;
-      9:
-        begin (* Pluto *)
+      9: // Pluto
+        begin
           M := P2 * Frac(0.0385795 + 0.4026667 * T);
           DL := 0.69 + 0.34 * Cos(M) + 0.12 * Cos(2 * M) + 0.05 * Cos(3 * M);
           DR := 6.66 * Sin(M) + 1.64 * Sin(2 * M);
@@ -354,8 +363,8 @@ begin
     end;
   end;
 
-  POSVEL(LS, BS, RS, DLS, DBS, DRS, XS, YS, ZS, VXS, VYS, VZS);
-  POSVEL(LP, BP, RP, DL, DB, DR, XP, YP, ZP, VX, VY, VZ);
+  PosVel(LS, BS, RS, DLS, DBS, DRS, XS, YS, ZS, VXS, VYS, VZS);
+  PosVel(LP, BP, RP, DL, DB, DR, XP, YP, ZP, VX, VY, VZ);
   X := XP + XS;
   Y := YP + YS;
   Z := ZP + ZS;
@@ -388,7 +397,7 @@ end;
 
 (* ----------------------------------------------------------------------- *)
 
-procedure Mercury200(T: Double; var L, B, R: Double);
+procedure MercuryPos(T: Double; var L, B, R: Double);
 const
   P2 = 6.283185307;
 var
@@ -406,7 +415,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
@@ -415,7 +424,7 @@ var
   (*sub*)procedure Term(I1, I, IT: integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   begin
     if IT = 0 then
-      ADDTHE(C1[I1], S1[I1], C[I], S[I], U, V)
+      AddThe(C1[I1], S1[I1], C[I], S[I], U, V)
     else
     begin
       U := U * T;
@@ -426,7 +435,7 @@ var
     DB := DB + DBC * U + DBS * V;
   end;
 
-  (*sub*)procedure PERTVEN; (* Kepler terms and perturbations by Venus *)
+  (*sub*)procedure PertVenus; // Kepler terms and perturbations by Venus
   var
     I: integer;
   begin
@@ -435,7 +444,7 @@ var
     C[-1] := Cos(M2);
     S[-1] := -Sin(M2);
     for I := -1 downto -4 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(1, 0, 0, 259.74, 84547.39, -78342.34, 0.01, 11683.22, 21203.79);
     Term(1, 0, 1, 2.30, 5.04, -7.52, 0.02, 138.55, -71.01);
     Term(1, 0, 2, 0.01, -0.01, 0.01, 0.01, -0.19, -0.54);
@@ -474,14 +483,14 @@ var
     Term(5, -5, 0, 0.18, 0.03, -0.02, 0.12, 0.09, -0.03);
   end;
 
-  (*sub*)procedure PERTEAR; (* perturbations by the Earth *)
+  (*sub*)procedure PertEarth; // perturbations by the Earth
   var
     I: integer;
   begin
     C[-1] := Cos(M3);
     S[-1] := -Sin(M3);
     for I := -1 downto -3 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(0, -4, 0, -0.11, -0.07, -0.08, 0.11, -0.02, -0.04);
     Term(1, -1, 0, 0.10, -0.20, 0.15, 0.07, 0.00, 0.00);
     Term(1, -2, 0, -0.35, 0.28, -0.13, -0.17, -0.01, 0.00);
@@ -491,14 +500,14 @@ var
     Term(2, -4, 0, -0.33, -0.18, 0.17, -0.31, -0.04, 0.00);
   end;
 
-  (*sub*)procedure PERTJUP; (* perturbations by Jupiter *)
+  (*sub*)procedure PertJupiter; // perturbations by Jupiter
   var
     I: integer;
   begin
     C[-1] := Cos(M5);
     S[-1] := -Sin(M5);
     for I := -1 downto -2 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(-1, -1, 0, -0.08, 0.16, 0.15, 0.08, -0.04, 0.01);
     Term(-1, -2, 0, 0.10, -0.06, -0.07, -0.12, 0.07, -0.01);
     Term(0, -1, 0, -0.31, 0.48, -0.02, 0.13, -0.03, -0.02);
@@ -511,14 +520,14 @@ var
     Term(3, -2, 0, 0.20, -0.15, 0.10, 0.14, 0.04, -0.08);
   end;
 
-  (*sub*)procedure PERTSAT; (* perturbations by Saturn *)
+  (*sub*)procedure PertSaturn; // perturbations by Saturn
   begin
     C[-2] := Cos(2 * M6);
     S[-2] := -Sin(2 * M6);
     Term(1, -2, 0, -0.19, 0.33, 0.00, 0.00, 0.00, 0.00);
   end;
 
-begin (* Mercury200 *)
+begin // MercuryPos
 
   DL := 0.0;
   DR := 0.0;
@@ -535,21 +544,20 @@ begin (* Mercury200 *)
   C1[-1] := C1[1];
   S1[-1] := -S1[1];
   for I := 2 to 9 do
-    ADDTHE(C1[I - 1], S1[I - 1], C1[1], S1[1], C1[I], S1[I]);
-  PERTVEN;
-  PERTEAR;
-  PERTJUP;
-  PERTSAT;
+    AddThe(C1[I - 1], S1[I - 1], C1[1], S1[1], C1[I], S1[I]);
+  PertVenus;
+  PertEarth;
+  PertJupiter;
+  PertSaturn;
   DL := DL + (2.8 + 3.2 * T);
   L := 360.0 * Frac(0.2151379 + M1 / P2 + ((5601.7 + 1.1 * T) * T + DL) / 1296.0E3);
   R := 0.3952829 + 0.0000016 * T + DR * 1.0E-6;
   B := (-2522.15 + (-30.18 + 0.04 * T) * T + DB) / 3600.0;
-
-end; (* Mercury200 *)
+end; // MercuryPos
 
 (* ----------------------------------------------------------------------- *)
 
-procedure Venus200(T: Double; var L, B, R: Double);
+procedure VenusPos(T: Double; var L, B, R: Double);
 const
   P2 = 6.283185307;
 var
@@ -567,7 +575,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
@@ -576,7 +584,7 @@ var
   (*sub*)procedure Term(I1, I, IT: integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   begin
     if IT = 0 then
-      ADDTHE(C2[I1], S2[I1], C[I], S[I], U, V)
+      AddThe(C2[I1], S2[I1], C[I], S[I], U, V)
     else
     begin
       U := U * T;
@@ -587,27 +595,27 @@ var
     DB := DB + DBC * U + DBS * V;
   end;
 
-  (*sub*)procedure PERTMER; (* perturbations by Mercury *)
+  (*sub*)procedure PertMercury; // perturbations by Mercury
   begin
     C[0] := 1.0;
     S[0] := 0.0;
     C[-1] := Cos(M1);
     S[-1] := -Sin(M1);
-    ADDTHE(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
+    AddThe(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
     Term(1, -1, 0, 0.00, 0.00, 0.06, -0.09, 0.01, 0.00);
     Term(2, -1, 0, 0.25, -0.09, -0.09, -0.27, 0.00, 0.00);
     Term(4, -2, 0, -0.07, -0.08, -0.14, 0.14, -0.01, -0.01);
     Term(5, -2, 0, -0.35, 0.08, 0.02, 0.09, 0.00, 0.00);
   end;
 
-  (*sub*)procedure PERTEAR; (* Kepler terms and perturbations by the Earth *)
+  (*sub*)procedure PertEarth; // Kepler terms and perturbations by the Earth
   var
     I: integer;
   begin
     C[-1] := Cos(M3);
     S[-1] := -Sin(M3);
     for I := -1 downto -7 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(1, 0, 0, 2.37, 2793.23, -4899.07, 0.11, 9995.27, 7027.22);
     Term(1, 0, 1, 0.10, -19.65, 34.40, 0.22, 64.95, -86.10);
     Term(1, 0, 2, 0.06, 0.04, -0.07, 0.11, -0.55, -0.07);
@@ -637,27 +645,27 @@ var
     Term(8, -8, 0, -0.03, -0.02, 0.06, -0.08, 0.00, 0.00);
   end;
 
-  (*sub*)procedure PERTMAR; (* perturbations by Mars *)
+  (*sub*)procedure PertMars; // perturbations by Mars
   var
     I: integer;
   begin
     C[-1] := Cos(M4);
     S[-1] := -Sin(M4);
     for I := -1 downto -2 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(1, -3, 0, -0.65, 1.02, -0.04, -0.02, -0.02, 0.00);
     Term(2, -2, 0, -0.05, 0.04, -0.09, -0.10, 0.00, 0.00);
     Term(2, -3, 0, -0.50, 0.45, -0.79, -0.89, 0.01, 0.03);
   end;
 
-  (*sub*)procedure PERTJUP; (* perturbations by Jupiter *)
+  (*sub*)procedure PertJupiter; // perturbations by Jupiter
   var
     I: integer;
   begin
     C[-1] := Cos(M5);
     S[-1] := -Sin(M5);
     for I := -1 downto -2 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(0, -1, 0, -0.05, 1.56, 0.16, 0.04, -0.08, -0.04);
     Term(1, -1, 0, -2.62, 1.40, -2.35, -4.40, 0.02, 0.03);
     Term(1, -2, 0, -0.47, -0.08, 0.12, -0.76, 0.04, -0.18);
@@ -666,7 +674,7 @@ var
     Term(3, -3, 0, -0.01, 0.04, -0.11, -0.02, 0.00, 0.00);
   end;
 
-  (*sub*)procedure PERTSAT; (* perturbations by Saturn *)
+  (*sub*)procedure PertSaturn; // perturbations by Saturn
   begin
     C[-1] := Cos(M6);
     S[-1] := -Sin(M6);
@@ -674,7 +682,7 @@ var
     Term(1, -1, 0, -0.11, -0.14, 0.24, -0.20, 0.01, 0.00);
   end;
 
-begin (* Venus200 *)
+begin // VenusPos
   DL := 0.0;
   DR := 0.0;
   DB := 0.0;
@@ -689,24 +697,24 @@ begin (* Venus200 *)
   C2[1] := Cos(M2);
   S2[1] := Sin(M2);
   for I := 2 to 8 do
-    ADDTHE(C2[I - 1], S2[I - 1], C2[1], S2[1], C2[I], S2[I]);
-  PERTMER;
-  PERTEAR;
-  PERTMAR;
-  PERTJUP;
-  PERTSAT;
+    AddThe(C2[I - 1], S2[I - 1], C2[1], S2[1], C2[I], S2[I]);
+  PertMercury;
+  PertEarth;
+  PertMars;
+  PertJupiter;
+  PertSaturn;
   DL := DL + 2.74 * Sin(P2 * (0.0764 + 0.4174 * T)) + 0.27 * Sin(P2 * (0.9201 + 0.3307 * T));
   DL := DL + (1.9 + 1.8 * T);
   L := 360.0 * Frac(0.3654783 + M2 / P2 + ((5071.2 + 1.1 * T) * T + DL) / 1296.0E3);
   R := 0.7233482 - 0.0000002 * T + DR * 1.0E-6;
   B := (-67.70 + (0.04 + 0.01 * T) * T + DB) / 3600.0;
 
-end; (* Venus200 *)
+end; // VenusPos
 
 
-(* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
-procedure Mars200(T: Double; var L, B, R: Double);
+procedure MarsPos(T: Double; var L, B, R: Double);
 const
   P2 = 6.283185307;
 var
@@ -724,7 +732,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
@@ -733,7 +741,7 @@ var
   (*sub*)procedure Term(I1, I, IT: integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   begin
     if IT = 0 then
-      ADDTHE(C4[I1], S4[I1], C[I], S[I], U, V)
+      AddThe(C4[I1], S4[I1], C[I], S[I], U, V)
     else
     begin
       U := U * T;
@@ -744,13 +752,13 @@ var
     DB := DB + DBC * U + DBS * V;
   end;
 
-  (*sub*)procedure PERTVEN; (* perturbations by Venus *)
+  (*sub*)procedure PertVenus; // perturbations by Venus
   begin
     C[0] := 1.0;
     S[0] := 0.0;
     C[-1] := Cos(M2);
     S[-1] := -Sin(M2);
-    ADDTHE(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
+    AddThe(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
     Term(0, -1, 0, -0.01, -0.03, 0.10, -0.04, 0.00, 0.00);
     Term(1, -1, 0, 0.05, 0.10, -2.08, 0.75, 0.00, 0.00);
     Term(2, -1, 0, -0.25, -0.57, -2.58, 1.18, 0.05, -0.04);
@@ -765,14 +773,14 @@ var
     Term(7, -2, 0, -0.03, -0.03, 0.11, -0.13, 0.00, -0.01);
   end;
 
-  (*sub*)procedure PERTEAR; (* Kepler terms and perturbations by the Earth *)
+  (*sub*)procedure PertEarth; // Kepler terms and perturbations by the Earth
   var
     I: integer;
   begin
     C[-1] := Cos(M3);
     S[-1] := -Sin(M3);
     for I := -1 downto -8 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(1, 0, 0, -5.32, 38481.97, -141856.04, 0.40, -6321.67, 1876.89);
     Term(1, 0, 1, -1.12, 37.98, -138.67, -2.93, 37.28, 117.48);
     Term(1, 0, 2, -0.32, -0.03, 0.12, -1.19, 1.04, -0.40);
@@ -828,14 +836,14 @@ var
     Term(16, -9, 0, 0.03, -0.06, -0.25, -0.11, 0.00, 0.00);
   end;
 
-  (*sub*)procedure PERTJUP; (* perturbations by Jupiter *)
+  (*sub*)procedure PertJupiter; // perturbations by Jupiter
   var
     I: integer;
   begin
     C[-1] := Cos(M5);
     S[-1] := -Sin(M5);
     for I := -1 downto -4 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(-2, -1, 0, 0.05, 0.03, 0.08, -0.14, 0.01, -0.01);
     Term(-1, -1, 0, 0.39, 0.27, 0.92, -1.50, -0.03, -0.06);
     Term(-1, -2, 0, -0.16, 0.03, 0.13, 0.67, -0.01, 0.06);
@@ -867,14 +875,14 @@ var
     Term(5, -5, 0, 0.00, -0.03, 0.21, 0.01, 0.00, 0.00);
   end;
 
-  (*sub*)procedure PERTSAT; (* perturbations by Saturn *)
+  (*sub*)procedure PertSaturn; // perturbations by Saturn
   var
     I: integer;
   begin
     C[-1] := Cos(M6);
     S[-1] := -Sin(M6);
     for I := -1 downto -3 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(-1, -1, 0, 0.03, 0.13, 0.48, -0.13, 0.02, 0.00);
     Term(0, -1, 0, 0.27, 0.84, 0.40, -0.43, 0.01, -0.01);
     Term(0, -2, 0, 0.12, -0.04, -0.33, -0.55, -0.01, -0.02);
@@ -889,7 +897,7 @@ var
     Term(3, -2, 0, 0.07, -0.05, 0.16, 0.22, 0.01, 0.01);
   end;
 
-begin (* Mars200 *)
+begin // MarsPos
 
   DL := 0.0;
   DR := 0.0;
@@ -904,16 +912,16 @@ begin (* Mars200 *)
   C4[1] := Cos(M4);
   S4[1] := Sin(M4);
   for I := 2 to 16 do
-    ADDTHE(C4[I - 1], S4[I - 1], C4[1], S4[1], C4[I], S4[I]);
+    AddThe(C4[I - 1], S4[I - 1], C4[1], S4[1], C4[I], S4[I]);
   for I := -2 to -1 do
   begin
     C4[I] := C4[-I];
     S4[I] := -S4[-I]
   end;
-  PERTVEN;
-  PERTEAR;
-  PERTJUP;
-  PERTSAT;
+  PertVenus;
+  PertEarth;
+  PertJupiter;
+  PertSaturn;
   DL := DL + 52.49 * Sin(P2 * (0.1868 + 0.0549 * T)) + 0.61 * Sin(P2 * (0.9220 + 0.3307 * T)) + 0.32
     * Sin(P2 * (0.4731 + 2.1485 * T)) + 0.28 * Sin(P2 * (0.9467 + 0.1133 * T));
   DL := DL + (0.14 + 0.87 * T - 0.11 * T * T);
@@ -922,8 +930,9 @@ begin (* Mars200 *)
   B := (596.32 + (-2.92 - 0.10 * T) * T + DB) / 3600.0;
 end;
 
-(* ----------------------------------------------------------------------- *)
-procedure Jupiter200(T: Double; var L, B, R: Double);
+//-----------------------------------------------------------------------
+
+procedure JupiterPos(T: Double; var L, B, R: Double);
 const
   P2 = 6.283185307;
 var
@@ -941,7 +950,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
@@ -950,7 +959,7 @@ var
   (*sub*)procedure Term(I5, I, IT: integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   begin
     if IT = 0 then
-      ADDTHE(C5[I5], S5[I5], C[I], S[I], U, V)
+      AddThe(C5[I5], S5[I5], C[I], S[I], U, V)
     else
     begin
       U := U * T;
@@ -961,7 +970,7 @@ var
     DB := DB + DBC * U + DBS * V;
   end;
 
-  (*sub*)procedure PERTSAT; (* Kepler terms and perturbations by Saturn *)
+  (*sub*)procedure PertSaturn; // Kepler terms and perturbations by Saturn
   var
     I: integer;
   begin
@@ -970,7 +979,7 @@ var
     C[-1] := Cos(M6);
     S[-1] := -Sin(M6);
     for I := -1 downto -9 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(-1, -1, 0, -0.2, 1.4, 2.0, 0.6, 0.1, -0.2);
     Term(0, -1, 0, 9.4, 8.9, 3.9, -8.3, -0.4, -1.4);
     Term(0, -2, 0, 5.6, -3.0, -5.4, -5.7, -2.0, 0.0);
@@ -1021,16 +1030,16 @@ var
     Term(5, -10, 0, 2.5, -2.2, 2.8, 3.1, 0.1, -0.2);
   end;
 
-  (*sub*)procedure PERTURA; (* perturbations by Uranus *)
+  (*sub*)procedure PertUranus; // perturbations by Uranus
   begin
     C[-1] := Cos(M7);
     S[-1] := -Sin(M7);
-    ADDTHE(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
+    AddThe(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
     Term(1, -1, 0, 0.4, 0.9, 0.0, 0.0, 0.0, 0.0);
     Term(1, -2, 0, 0.4, 0.4, -0.4, 0.3, 0.0, 0.0);
   end;
 
-  (*sub*)procedure PERTSUR; (* perturbations by Saturn and Uranus *)
+  (*sub*)procedure PertSUR; // perturbations by Saturn and Uranus
   var
     PHI, X, Y: Double;
   begin
@@ -1039,13 +1048,13 @@ var
     Y := Sin(PHI);
     DL := DL - 0.8 * X + 8.5 * Y;
     DR := DR - 0.1 * X;
-    ADDTHE(X, Y, C5[1], S5[1], X, Y);
+    AddThe(X, Y, C5[1], S5[1], X, Y);
     DL := DL + 0.4 * X + 0.5 * Y;
     DR := DR - 0.7 * X + 0.5 * Y;
     DB := DB - 0.1 * X;
   end;
 
-begin (* Jupiter200 *)
+begin // JupiterPos
 
   DL := 0.0;
   DR := 0.0;
@@ -1060,18 +1069,19 @@ begin (* Jupiter200 *)
   C5[-1] := C5[1];
   S5[-1] := -S5[1];
   for I := 2 to 5 do
-    ADDTHE(C5[I - 1], S5[I - 1], C5[1], S5[1], C5[I], S5[I]);
-  PERTSAT;
-  PERTURA;
-  PERTSUR;
+    AddThe(C5[I - 1], S5[I - 1], C5[1], S5[1], C5[I], S5[I]);
+  PertSaturn;
+  PertUranus;
+  PertSUR;
   L := 360.0 * Frac(0.0388910 + M5 / P2 + ((5025.2 + 0.8 * T) * T + DL) / 1296.0E3);
   R := 5.208873 + 0.000041 * T + DR * 1.0E-5;
   B := (227.3 - 0.3 * T + DB) / 3600.0;
 
-end; (* Jupiter200 *)
+end; // JupiterPos
 
-(*-----------------------------------------------------------------------*)
-procedure Saturn200(T: Double; var L, B, R: Double);
+//-----------------------------------------------------------------------
+
+procedure SaturnPos(T: Double; var L, B, R: Double);
 const
   P2 = 6.283185307;
 var
@@ -1089,7 +1099,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
@@ -1098,7 +1108,7 @@ var
   (*sub*)procedure Term(I6, I, IT: Integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   begin
     if IT = 0 then
-      ADDTHE(C6[I6], S6[I6], C[I], S[I], U, V)
+      AddThe(C6[I6], S6[I6], C[I], S[I], U, V)
     else
     begin
       U := U * T;
@@ -1109,7 +1119,7 @@ var
     DB := DB + DBC * U + DBS * V;
   end;
 
-  (*sub*)procedure PERTJUP; (* Kepler terms and perturbations by Jupiter *)
+  (*sub*)procedure PertJupiter; // Kepler terms and perturbations by Jupiter
   var
     I: Integer;
   begin
@@ -1118,7 +1128,7 @@ var
     C[1] := Cos(M5);
     S[1] := Sin(M5);
     for I := 0 downto -5 do
-      ADDTHE(C[I], S[I], C[1], -S[1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[1], -S[1], C[I - 1], S[I - 1]);
     Term(0, -1, 0, 12.0, -1.4, -13.9, 6.4, 1.2, -1.8);
     Term(0, -2, 0, 0.0, -0.2, -0.9, 1.0, 0.0, -0.1);
     Term(1, 1, 0, 0.9, 0.4, -1.8, 1.9, 0.2, 0.2);
@@ -1175,14 +1185,14 @@ var
     Term(11, -4, 0, 1.6, -1.3, 3.0, 3.7, 0.8, -0.2);
   end;
 
-  (*sub*)procedure PERTURA; (* perturbations by Uranus *)
+  (*sub*)procedure PertUranus; // perturbations by Uranus
   var
     I: Integer;
   begin
     C[-1] := Cos(M7);
     S[-1] := -Sin(M7);
-    for I := -1 downto -4 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+    for I := -1 downto - 4 do
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(0, -1, 0, 1.0, 0.7, 0.4, -1.5, 0.1, 0.0);
     Term(0, -2, 0, 0.0, -0.4, -1.1, 0.1, -0.1, -0.1);
     Term(0, -3, 0, -0.9, -1.2, -2.7, 2.1, -0.5, -0.3);
@@ -1199,17 +1209,17 @@ var
     Term(3, -5, 0, -0.1, -0.4, 1.1, -0.3, 0.0, 0.0);
   end;
 
-  (*sub*)procedure PERTNEP; (* perturbations by Neptune *)
+  (*sub*)procedure PertNep; // perturbations by Neptune
   begin
     C[-1] := Cos(M8);
     S[-1] := -Sin(M8);
-    ADDTHE(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
+    AddThe(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
     Term(1, -1, 0, -1.3, -1.2, 2.3, -2.5, 0.0, 0.0);
     Term(1, -2, 0, 1.0, -0.1, 0.1, 1.4, 0.0, 0.0);
     Term(2, -2, 0, 1.1, -0.1, 0.2, 3.3, 0.0, 0.0);
   end;
 
-  (*sub*)procedure PERTJUR; (* perturbations by Jupiter and Uranus *)
+  (*sub*)procedure PertJUR; // perturbations by Jupiter and Uranus
   var
     PHI, X, Y: Double;
   begin
@@ -1219,16 +1229,16 @@ var
     DL := DL - 0.8 * X - 0.1 * Y;
     DR := DR - 0.2 * X + 1.8 * Y;
     DB := DB + 0.3 * X + 0.5 * Y;
-    ADDTHE(X, Y, C6[1], S6[1], X, Y);
+    AddThe(X, Y, C6[1], S6[1], X, Y);
     DL := DL + (+2.4 - 0.7 * T) * X + (27.8 - 0.4 * T) * Y;
     DR := DR + 2.1 * X - 0.2 * Y;
-    ADDTHE(X, Y, C6[1], S6[1], X, Y);
+    AddThe(X, Y, C6[1], S6[1], X, Y);
     DL := DL + 0.1 * X + 1.6 * Y;
     DR := DR - 3.6 * X + 0.3 * Y;
     DB := DB - 0.2 * X + 0.6 * Y;
   end;
 
-begin (* Saturn200 *)
+begin // SaturnPos
 
   DL := 0.0;
   DR := 0.0;
@@ -1242,20 +1252,20 @@ begin (* Saturn200 *)
   C6[1] := Cos(M6);
   S6[1] := Sin(M6);
   for I := 2 to 11 do
-    ADDTHE(C6[I - 1], S6[I - 1], C6[1], S6[1], C6[I], S6[I]);
-  PERTJUP;
-  PERTURA;
-  PERTNEP;
-  PERTJUR;
+    AddThe(C6[I - 1], S6[I - 1], C6[1], S6[1], C6[I], S6[I]);
+  PertJupiter;
+  PertUranus;
+  PertNep;
+  PertJUR;
   L := 360.0 * Frac(0.2561136 + M6 / P2 + ((5018.6 + T * 1.9) * T + DL) / 1296.0E3);
   R := 9.557584 - 0.000186 * T + DR * 1.0E-5;
   B := (175.1 - 10.2 * T + DB) / 3600.0;
 
-end; (* Saturn200 *)
+end; // SaturnPos
 
-(* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
-procedure Uranus200(T: Double; var L, B, R: Double);
+procedure UranusPos(T: Double; var L, B, R: Double);
 const
   P2 = 6.283185307;
 var
@@ -1273,7 +1283,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
@@ -1282,7 +1292,7 @@ var
   (*sub*)procedure Term(I7, I, IT: Integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   begin
     if IT = 0 then
-      ADDTHE(C7[I7], S7[I7], C[I], S[I], U, V)
+      AddThe(C7[I7], S7[I7], C[I], S[I], U, V)
     else
     begin
       U := U * T;
@@ -1293,13 +1303,13 @@ var
     DB := DB + DBC * U + DBS * V;
   end;
 
-  (*sub*)procedure PERTJUP; (* perturbations by Jupiter *)
+  (*sub*)procedure PertJupiter; // perturbations by Jupiter
   begin
     C[0] := 1.0;
     S[0] := 0.0;
     C[-1] := Cos(M5);
     S[-1] := -Sin(M5);
-    ADDTHE(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
+    AddThe(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
     Term(-1, -1, 0, 0.0, 0.0, -0.1, 1.7, -0.1, 0.0);
     Term(0, -1, 0, 0.5, -1.2, 18.9, 9.1, -0.9, 0.1);
     Term(1, -1, 0, -21.2, 48.7, -455.5, -198.8, 0.0, 0.0);
@@ -1309,14 +1319,14 @@ var
     Term(3, -1, 0, 0.0, 0.2, -1.8, 0.4, 0.0, 0.0);
   end;
 
-  (*sub*)procedure PERTSAT; (* perturbations by Saturn *)
+  (*sub*)procedure PertSaturn; // perturbations by Saturn
   var
     I: Integer;
   begin
     C[-1] := Cos(M6);
     S[-1] := -Sin(M6);
     for I := -1 downto -3 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(0, -1, 0, 1.4, -0.5, -6.4, 9.0, -0.4, -0.8);
     Term(1, -1, 0, -18.6, -12.6, 36.7, -336.8, 1.0, 0.3);
     Term(1, -2, 0, -0.7, -0.3, 0.5, -7.5, 0.1, 0.0);
@@ -1338,14 +1348,14 @@ var
     Term(6, -2, 0, -0.2, -0.6, 1.4, -0.7, 0.0, 0.0);
   end;
 
-  (*sub*)procedure PERTNEP; (* Kepler terms and perturbations by Neptune *)
+  (*sub*)procedure PertNep; // Kepler terms and perturbations by Neptune
   var
     I: Integer;
   begin
     C[-1] := Cos(M8);
     S[-1] := -Sin(M8);
     for I := -1 downto -7 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(1, 0, 0, -78.1, 19518.1, -90718.2, -334.7, 2759.5, -311.9);
     Term(1, 0, 1, -81.6, 107.7, -497.4, -379.5, -2.8, -43.7);
     Term(1, 0, 2, -6.6, -3.1, 14.4, -30.6, -0.4, -0.5);
@@ -1383,7 +1393,7 @@ var
     Term(7, -8, 0, 0.1, 0.0, 0.4, 0.9, 0.0, 0.0);
   end;
 
-  (*sub*)procedure PERTJSU; (* perturbations by Jupiter and Saturn *)
+  (*sub*)procedure PertJSU; // perturbations by Jupiter and Saturn
   var
     I: Integer;
   begin
@@ -1392,7 +1402,7 @@ var
     C[-4] := Cos(-4 * M6 + 2 * M5);
     S[-4] := Sin(-4 * M6 + 2 * M5);
     for I := -4 downto -5 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(-2, -4, 0, -0.7, 0.4, -1.5, -2.5, 0.0, 0.0);
     Term(-1, -4, 0, -0.1, -0.1, -2.2, 1.0, 0.0, 0.0);
     Term(1, -5, 0, 0.1, -0.4, 1.4, 0.2, 0.0, 0.0);
@@ -1404,7 +1414,7 @@ var
     Term(4, -6, 0, 0.0, 1.3, -6.0, -0.1, 0.0, 0.0);
   end;
 
-begin (* Uranus200 *)
+begin // UranusPos
 
   DL := 0.0;
   DR := 0.0;
@@ -1418,25 +1428,25 @@ begin (* Uranus200 *)
   C7[1] := Cos(M7);
   S7[1] := Sin(M7);
   for I := 2 to 7 do
-    ADDTHE(C7[I - 1], S7[I - 1], C7[1], S7[1], C7[I], S7[I]);
+    AddThe(C7[I - 1], S7[I - 1], C7[1], S7[1], C7[I], S7[I]);
   for I := 1 to 2 do
   begin
     C7[-I] := C7[I];
     S7[-I] := -S7[I];
   end;
-  PERTJUP;
-  PERTSAT;
-  PERTNEP;
-  PERTJSU;
+  PertJupiter;
+  PertSaturn;
+  PertNep;
+  PertJSU;
   L := 360.0 * Frac(0.4734843 + M7 / P2 + ((5082.3 + 34.2 * T) * T + DL) / 1296.0E3);
   R := 19.211991 + (-0.000333 - 0.000005 * T) * T + DR * 1.0E-5;
   B := (-130.61 + (-0.54 + 0.04 * T) * T + DB) / 3600.0;
 
-end; (* Uranus200 *)
+end; // UranusPos
 
-(* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
-procedure Neptune200(T: Double; var L, B, R: Double);
+procedure NeptunePos(T: Double; var L, B, R: Double);
 const
   P2 = 6.283185307;
 var
@@ -1454,7 +1464,7 @@ var
     Frac := X
   end;
 
-  (*sub*)procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
@@ -1463,7 +1473,7 @@ var
   (*sub*)procedure Term(I1, I, IT: Integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   begin
     if IT = 0 then
-      ADDTHE(C8[I1], S8[I1], C[I], S[I], U, V)
+      AddThe(C8[I1], S8[I1], C[I], S[I], U, V)
     else
     begin
       U := U * T;
@@ -1474,13 +1484,13 @@ var
     DB := DB + DBC * U + DBS * V;
   end;
 
-  (*sub*)procedure PERTJUP; (* perturbations by Jupiter *)
+  (*sub*)procedure PertJupiter; // perturbations by Jupiter
   begin
     C[0] := 1.0;
     S[0] := 0.0;
     C[-1] := Cos(M5);
     S[-1] := -Sin(M5);
-    ADDTHE(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
+    AddThe(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
     Term(0, -1, 0, 0.1, 0.1, -3.0, 1.8, -0.3, -0.3);
     Term(1, 0, 0, 0.0, 0.0, -15.9, 9.0, 0.0, 0.0);
     Term(1, -1, 0, -17.6, -29.3, 416.1, -250.0, 0.0, 0.0);
@@ -1488,13 +1498,13 @@ var
     Term(2, -1, 0, -0.2, -0.4, 2.4, -1.4, 0.4, -0.3);
   end;
 
-  (*sub*)procedure PERTSAT; (* perturbations by Saturn *)
+  (*sub*)procedure PertSaturn; // perturbations by Saturn
   begin
     C[0] := 1.0;
     S[0] := 0.0;
     C[-1] := Cos(M6);
     S[-1] := -Sin(M6);
-    ADDTHE(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
+    AddThe(C[-1], S[-1], C[-1], S[-1], C[-2], S[-2]);
     Term(0, -1, 0, -0.1, 0.0, 0.2, -1.8, -0.1, -0.5);
     Term(1, 0, 0, 0.0, 0.0, -8.3, -10.4, 0.0, 0.0);
     Term(1, -1, 0, 13.6, -12.7, 187.5, 201.1, 0.0, 0.0);
@@ -1503,7 +1513,7 @@ var
     Term(2, -2, 0, -0.1, 0.0, -0.2, 2.7, 0.0, 0.0);
   end;
 
-  (*sub*)procedure PERTURA; (* Kepler terms and perturbations by Uranus *)
+  (*sub*)procedure PertUranus; // Kepler terms and perturbations by Uranus
   var
     I: Integer;
   begin
@@ -1512,7 +1522,7 @@ var
     C[-1] := Cos(M7);
     S[-1] := -Sin(M7);
     for I := -1 downto -5 do
-      ADDTHE(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[-1], S[-1], C[I - 1], S[I - 1]);
     Term(1, 0, 0, 32.3, 3549.5, -25880.2, 235.8, -6360.5, 374.0);
     Term(1, 0, 1, 31.2, 34.4, -251.4, 227.4, 34.9, 29.3);
     Term(1, 0, 2, -1.4, 3.9, -28.6, -10.1, 0.0, -0.9);
@@ -1539,7 +1549,7 @@ var
     Term(6, -6, 0, -0.1, 0.1, 1.4, 0.7, 0.0, 0.0);
   end;
 
-begin (* Neptune200 *)
+begin // NeptunePos
 
   DL := 0.0;
   DR := 0.0;
@@ -1553,18 +1563,19 @@ begin (* Neptune200 *)
   C8[1] := Cos(M8);
   S8[1] := Sin(M8);
   for I := 2 to 6 do
-    ADDTHE(C8[I - 1], S8[I - 1], C8[1], S8[1], C8[I], S8[I]);
-  PERTJUP;
-  PERTSAT;
-  PERTURA;
+    AddThe(C8[I - 1], S8[I - 1], C8[1], S8[1], C8[I], S8[I]);
+  PertJupiter;
+  PertSaturn;
+  PertUranus;
   L := 360.0 * Frac(0.1254046 + M8 / P2 + ((4982.8 - 21.3 * T) * T + DL) / 1296.0E3);
   R := 30.072984 + (0.001234 + 0.000003 * T) * T + DR * 1.0E-5;
   B := (54.77 + (0.26 + 0.06 * T) * T + DB) / 3600.0;
 
-end; (* Neptune200 *)
+end; // NeptunePos
 
-(* ----------------------------------------------------------------------- *)
-procedure Pluto200(T: Double; var L, B, R: Double);
+//-----------------------------------------------------------------------
+
+procedure PlutoPos(T: Double; var L, B, R: Double);
 
 const
   P2 = 6.283185307;
@@ -1575,7 +1586,7 @@ var
   DL, DR, DB: Double;
   I: Integer;
 
-  (* sub *) function Frac(X: Double): Double;
+  (*sub*)function Frac(X: Double): Double;
   begin
     X := X - Trunc(X);
     if (X < 0) then
@@ -1583,23 +1594,23 @@ var
     Frac := X
   end;
 
-(* sub *) procedure ADDTHE(C1, S1, C2, S2: Double; var C, S: Double);
+  (*sub*)procedure AddThe(C1, S1, C2, S2: Double; var C, S: Double);
   begin
     C := C1 * C2 - S1 * S2;
     S := S1 * C2 + C1 * S2;
   end;
 
-(* sub *) procedure Term(I9, I: Integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
+  (*sub*)procedure Term(I9, I: Integer; DLC, DLS, DRC, DRS, DBC, DBS: Double);
   var
     U, V: Double;
   begin
-    ADDTHE(C9[I9], S9[I9], C[I], S[I], U, V);
+    AddThe(C9[I9], S9[I9], C[I], S[I], U, V);
     DL := DL + DLC * U + DLS * V;
     DR := DR + DRC * U + DRS * V;
     DB := DB + DBC * U + DBS * V;
   end;
 
-(* sub *) procedure PERTJUP; (* Kepler terms and perturbations by Jupiter *)
+  (*sub*)procedure PertJupiter; // Kepler terms and perturbations by Jupiter
   var
     I: Integer;
   begin
@@ -1608,8 +1619,8 @@ var
     C[1] := Cos(M5);
     S[1] := Sin(M5);
     for I := 0 downto -1 do
-      ADDTHE(C[I], S[I], C[1], -S[1], C[I - 1], S[I - 1]);
-    ADDTHE(C[1], S[1], C[1], S[1], C[2], S[2]);
+      AddThe(C[I], S[I], C[1], -S[1], C[I - 1], S[I - 1]);
+    AddThe(C[1], S[1], C[1], S[1], C[2], S[2]);
     Term(1, 0, 0.06, 100924.08, -960396.0, 15965.1, 51987.68, -24288.76);
     Term(2, 0, 3274.74, 17835.12, -118252.2, 3632.4, 12687.49, -6049.72);
     Term(3, 0, 1543.52, 4631.99, -21446.6, 1167.0, 3504.00, -1853.10);
@@ -1630,14 +1641,14 @@ var
     Term(0, -2, -0.04, -0.07, 2.6, -1.5, 0.07, -0.02);
   end;
 
-(* sub *) procedure PERTSAT; (* perturbations by Saturn *)
+  (*sub*)procedure PertSaturn; // perturbations by Saturn
   var
     I: Integer;
   begin
     C[1] := Cos(M6);
     S[1] := Sin(M6);
     for I := 0 downto -1 do
-      ADDTHE(C[I], S[I], C[1], -S[1], C[I - 1], S[I - 1]);
+      AddThe(C[I], S[I], C[1], -S[1], C[I - 1], S[I - 1]);
     Term(1, -1, -29.47, 75.97, -106.4, -204.9, -40.71, -17.55);
     Term(0, 1, -13.88, 18.20, 42.6, -46.1, 1.13, 0.43);
     Term(1, 1, 5.81, -23.48, 15.0, -6.8, -7.48, 3.07);
@@ -1648,7 +1659,7 @@ var
     Term(0, -2, 4.25, 2.48, -5.9, -3.3, 0.58, 0.02);
   end;
 
-(* sub *) procedure PERTJUS; (* perturbations by Jupiter and Saturn *)
+  (*sub*)procedure PertJUS; // perturbations by Jupiter and Saturn
   var
     PHI, X, Y: Double;
   begin
@@ -1658,28 +1669,28 @@ var
     DL := DL - 9.11 * X + 0.12 * Y;
     DR := DR - 3.4 * X - 3.3 * Y;
     DB := DB + 0.81 * X + 0.78 * Y;
-    ADDTHE(X, Y, C9[1], S9[1], X, Y);
+    AddThe(X, Y, C9[1], S9[1], X, Y);
     DL := DL + 5.92 * X + 0.25 * Y;
     DR := DR + 2.3 * X - 3.8 * Y;
     DB := DB - 0.67 * X - 0.51 * Y;
   end;
 
-(* sub *) procedure PREC(T: Double; var L, B: Double); (* precess. 1950->equinox of date *)
+  (*sub*)procedure Prec(T: Double; var L, B: Double); // precess. 1950->equinox of date
   const
     DEG = 57.2957795;
   var
-    D, PPI, PI, P, C1, S1, C2, S2, C3, S3, X, Y, Z: Double;
+    D, PPI, Pis, P, C1, S1, C2, S2, C3, S3, X, Y, Z: Double;
   begin
     D := T + 0.5;
     L := L / DEG;
     B := B / DEG;
     PPI := 3.044;
-    PI := 2.28E-4 * D;
+    Pis := 2.28E-4 * D;
     P := (0.0243764 + 5.39E-6 * D) * D;
-    C1 := Cos(PI);
+    C1 := Cos(Pi);
     C2 := Cos(B);
     C3 := Cos(PPI - L);
-    S1 := Sin(PI);
+    S1 := Sin(Pis);
     S2 := Sin(B);
     S3 := Sin(PPI - L);
     X := C2 * C3;
@@ -1692,7 +1703,7 @@ var
       L := 360.0 * Frac((PPI + P - ArcTan(Y / X)) / P2 + 0.5);
   end;
 
-begin (* Pluto200 *)
+begin // PlutoPos
 
   DL := 0.0;
   DR := 0.0;
@@ -1705,16 +1716,16 @@ begin (* Pluto200 *)
   C9[1] := Cos(M9);
   S9[1] := Sin(M9);
   for I := 2 to 6 do
-    ADDTHE(C9[I - 1], S9[I - 1], C9[1], S9[1], C9[I], S9[I]);
-  PERTJUP;
-  PERTSAT;
-  PERTJUS;
+    AddThe(C9[I - 1], S9[I - 1], C9[1], S9[1], C9[I], S9[I]);
+  PertJupiter;
+  PertSaturn;
+  PertJUS;
   L := 360.0 * Frac(0.6232469 + M9 / P2 + DL / 1296.0E3);
   R := 40.7247248 + DR * 1.0E-5;
   B := -3.909434 + DB / 3600.0;
-  PREC(T, L, B);
+  Prec(T, L, B);
 
-end; (* Pluto200 *)
+end; // PlutoPos
 
 
 end.

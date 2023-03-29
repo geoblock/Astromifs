@@ -2,7 +2,7 @@
 //
 // Eclipse program (Eclipse.cpp)
 //
-// Computes the centre line of a solar eclipse
+// Computes the center line of a solar eclipse
 //
 //------------------------------------------------------------------------------
 

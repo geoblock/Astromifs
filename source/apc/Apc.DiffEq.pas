@@ -400,7 +400,7 @@ begin (* STEP *)
 
   if (START) then
   begin
-    (* Initialize. Compute appropriate step size for first step. *)
+    // Initialize. Compute appropriate step size for first step.
     F(X, Y, YP);
     SUM := 0.0;
     for L := 1 to NEQN do
@@ -515,7 +515,7 @@ begin (* STEP *)
           W[IQ] := V[IQ];
         end;
 
-      (* Compute the G[*] in the work vector W[*] *)
+      // Compute the G[*] in the work vector W[*]
       NSP2 := NS + 2;
       if (KP1 >= NSP2) then
         for I := NSP2 to KP1 do
@@ -540,7 +540,7 @@ begin (* STEP *)
     (* K, K-1, K-2 as if constant step size were used. *)
     (* *)
 
-    (* Change PHI to PHI star *)
+    // Change PHI to PHI star
     if (K >= NSP1) then
       for I := NSP1 to K do
       begin
@@ -549,7 +549,7 @@ begin (* STEP *)
           PHI[L, I] := TEMP1 * PHI[L, I];
       end;
 
-    (* Predict solution and differences *)
+    // Predict solution and differences
     for L := 1 to NEQN do
     begin
       PHI[L, KP2] := PHI[L, KP1];
@@ -862,7 +862,7 @@ end; (* Interp *)
 
 //----------------------------------------------------------------------------
 
-procedure DE(F: DE_FUNC; (* Turbo Pascal *)
+procedure DE(F: DE_FUNC;
   NEQN: Integer; var Y: DE_EQN_VECTOR; var T, TOUT: Double; var RELERR, ABSERR: Double;
   var IFLAG: Integer; var WORK: DE_WORKSPACE_RECORD);
 

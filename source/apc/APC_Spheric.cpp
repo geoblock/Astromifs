@@ -178,16 +178,16 @@ Vec3D Site (double lambda, double phi)
 //
 // Output:
 //
-//   RA        Right ascension [rad]
+//   Ra        Right ascension [rad]
 //   Dec       Declination [rad]
 //
 // Note: all angles in [rad]
 //
 //------------------------------------------------------------------------------
 void StdEqu ( double RA0, double Dec0, double X, double Y,
-              double& RA, double& Dec )
+              double& Ra, double& Dec )
 {
-  RA  = RA0 + atan ( -X / (cos(Dec0)-Y*sin(Dec0)) );
+  Ra  = RA0 + atan ( -X / (cos(Dec0)-Y*sin(Dec0)) );
   Dec = asin ( (sin(Dec0)+Y*cos(Dec0))/sqrt(1.0+X*X+Y*Y) );
 }
 
@@ -200,7 +200,7 @@ void StdEqu ( double RA0, double Dec0, double X, double Y,
 //
 //   RA0       Right ascension of optical axis [rad]
 //   Dec0      Declination of optical axis [rad]
-//   RA        Right ascension [rad]
+//   Ra        Right ascension [rad]
 //   Dec       Declination [rad]
 //
 // Output:
@@ -209,16 +209,16 @@ void StdEqu ( double RA0, double Dec0, double X, double Y,
 //   Y         Standard coordinate Y 
 //
 //------------------------------------------------------------------------------
-void EquStd ( double RA0, double Dec0, double RA, double Dec,
+void EquStd ( double RA0, double Dec0, double Ra, double Dec,
               double& X, double& Y ) 
 {
   //
   // Constants
   //
   const double c =
-    cos(Dec0)*cos(Dec)*cos(RA-RA0)+sin(Dec0)*sin(Dec);
+    cos(Dec0)*cos(Dec)*cos(Ra-RA0)+sin(Dec0)*sin(Dec);
 
 
-  X = - ( cos(Dec)*sin(RA-RA0) ) / c;
-  Y = - ( sin(Dec0)*cos(Dec)*cos(RA-RA0)-cos(Dec0)*sin(Dec) ) / c;
+  X = - ( cos(Dec)*sin(Ra-RA0) ) / c;
+  Y = - ( sin(Dec0)*cos(Dec)*cos(Ra-RA0)-cos(Dec0)*sin(Dec) ) / c;
 }

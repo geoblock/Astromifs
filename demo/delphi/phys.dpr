@@ -1,19 +1,18 @@
-(* ----------------------------------------------------------------------- *)
-(* Phys *)
-(* physical ephemerides of the major planets and the Sun *)
-(* ----------------------------------------------------------------------- *)
-
 program Phys(Input, Output);
+
+(* ----------------------------------------------------------------------- *)
+(* Physical ephemeris of the major planets and the Sun *)
+(* ----------------------------------------------------------------------- *)
 
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Timlib,
-  Apc.Sphlib,
-  Apc.Pnulib,
+  Apc.Mathem,
+  Apc.Time,
+  Apc.Spheric,
+  Apc.PrecNut,
   Apc.Planets,
-  Apc.Phylib;
+  Apc.Physic;
 
 const
   AU = 149597870.0; (* 1 AU in km *)
@@ -38,11 +37,10 @@ var
   PMAT: Double33;
 
 begin
-
   (* Print header and read desired date *)
 
   writeln;
-  writeln(' Phys: physical ephemerides of the planets and the Sun');
+  writeln(' Phys: physical ephemeris of the planets and the Sun');
   writeln('                 Version 93/07/01                     ');
   writeln('     (c) 1993 Thomas Pfleger, Oliver Montenbruck      ');
   writeln;
@@ -59,80 +57,68 @@ begin
   (* Precession matrix (J2000 -> mean equinox of date) *)
   (* for equatorial coordinates *)
 
-  PMATEQU(J2000, T, PMAT);
+  PrecMatEqu(J2000, T, PMAT);
 
   (* Equatorial coordinates of the Earth, mean equinox of J2000 *)
+  PlanetPos(Earth, T, XE, YE, ZE);
+  Ecl2Equ(J2000, XE, YE, ZE);
 
-  POSITION(Earth, T, XE, YE, ZE);
-  ECLEQU(J2000, XE, YE, ZE);
-
-  (* Physical ephemerides of the planets *)
-
+  (* Physical ephemeris of the planets *)
   for Planet := Mercury to Pluto do
     if Planet <> Earth then
-
     begin
-
       (* Compute the planet's geocentric geometric position and the *)
       (* light time (in days) *)
-
-      POSITION(Planet, T, X, Y, Z);
-      ECLEQU(J2000, X, Y, Z);
+      PlanetPos(Planet, T, X, Y, Z);
+      Ecl2Equ(J2000, X, Y, Z);
       DELTA := SQRT((X - XE) * (X - XE) + (Y - YE) * (Y - YE) + (Z - ZE) * (Z - ZE));
       T0 := T - (DELTA / C_LIGHT) / 36525.0;
 
       (* Compute the antedated planetary position at emission of light *)
       (* (i.e. apply a first order light time correction) *)
 
-      POSITION(Planet, T0, X, Y, Z);
-      ECLEQU(J2000, X, Y, Z);
+      PlanetPos(Planet, T0, X, Y, Z);
+      Ecl2Equ(J2000, X, Y, Z);
 
       (* Light time corrected geocentric coordinates *)
-
       XX := X - XE;
       YY := Y - YE;
       ZZ := Z - ZE;
 
       (* Compute apparent equatorial diameter (in ") *)
-
-      SHAPE(Planet, R_EQU, F);
+      Shape(Planet, R_EQU, F);
       D_EQU := 3600.0 * 2.0 * ASN(R_EQU / (DELTA * AU));
 
       (* Compute right ascension and declination of the axis of *)
       (* rotation with respect to the equator and equinox of J2000; *)
       (* compute orientation of the prime meridian *)
 
-      ORIENT(Planet, SYS_I, T0, A0, D0, W1, SENSE);
-      ORIENT(Planet, SYS_II, T0, A0, D0, W2, SENSE);
-      ORIENT(Planet, SYS_III, T0, A0, D0, W3, SENSE);
+      Orient(Planet, SYS_I, T0, A0, D0, W1, SENSE);
+      Orient(Planet, SYS_II, T0, A0, D0, W2, SENSE);
+      Orient(Planet, SYS_III, T0, A0, D0, W3, SENSE);
 
       (* Compute planetocentric longitude and latitude of the Earth *)
-
-      ROTATION(XX, YY, ZZ, A0, D0, W1, SENSE, F, AX, AY, AZ, L1, B, D);
-      ROTATION(XX, YY, ZZ, A0, D0, W2, SENSE, F, AX, AY, AZ, L2, B, D);
-      ROTATION(XX, YY, ZZ, A0, D0, W3, SENSE, F, AX, AY, AZ, L3, B, D);
+      Rotation(XX, YY, ZZ, A0, D0, W1, SENSE, F, AX, AY, AZ, L1, B, D);
+      Rotation(XX, YY, ZZ, A0, D0, W2, SENSE, F, AX, AY, AZ, L2, B, D);
+      Rotation(XX, YY, ZZ, A0, D0, W3, SENSE, F, AX, AY, AZ, L3, B, D);
 
       (* Compute planetocentric longitude and latitude of the Sun *)
-
-      ROTATION(X, Y, Z, A0, D0, W1, SENSE, F, AX, AY, AZ, LSUN, BSUN, DSUN);
+      Rotation(X, Y, Z, A0, D0, W1, SENSE, F, AX, AY, AZ, LSUN, BSUN, DSUN);
 
       (* Compute illumination and apparent magnitude *)
-
-      ILLUM(X, Y, Z, XE, YE, ZE, R, DELTA, ELONG, PHI, K);
-      MAG := BRIGHT(Planet, R, DELTA, PHI, DSUN, LSUN - L1);
+      Illum(X, Y, Z, XE, YE, ZE, R, DELTA, ELONG, PHI, K);
+      MAG := Bright(Planet, R, DELTA, PHI, DSUN, LSUN - L1);
 
       (* Compute position angles of the axis of rotation and of the *)
       (* Sun with respect to the mean equinox of date *)
+      PrecArt(PMAT, X, Y, Z);
+      PrecArt(PMAT, XX, YY, ZZ);
+      PrecArt(PMAT, AX, AY, AZ);
 
-      PRECART(PMAT, X, Y, Z);
-      PRECART(PMAT, XX, YY, ZZ);
-      PRECART(PMAT, AX, AY, AZ);
-
-      POSAX := POSANG(XX, YY, ZZ, AX, AY, AZ);
-      POSSUN := POSANG(XX, YY, ZZ, -X, -Y, -Z);
+      POSAX := PosAng(XX, YY, ZZ, AX, AY, AZ);
+      POSSUN := PosAng(XX, YY, ZZ, -X, -Y, -Z);
 
       (* Print results *)
-
       case Planet of
         Mercury:
           write(' Mercury  ');
@@ -167,18 +153,16 @@ begin
       end;
 
       writeln(B:8:2);
-
     end;
-
-  (* Physical ephemerides of the Sun *)
+  (* Physical ephemeris of the Sun *)
 
   (* Compute light time corrected equatorial coordinates of *)
   (* the Earth with respect to the equator and equinox of J2000 *)
 
   DELTA := SQRT(XE * XE + YE * YE + ZE * ZE);
   T0 := T - (DELTA / C_LIGHT) / 36525.0;
-  POSITION(Earth, T0, XE, YE, ZE);
-  ECLEQU(J2000, XE, YE, ZE);
+  PlanetPos(Earth, T0, XE, YE, ZE);
+  Ecl2Equ(J2000, XE, YE, ZE);
 
   (* Right ascension and declination of the Sun's axis (J2000), *)
   (* orientation of the prime meridian and equatorial radius (km) *)
@@ -191,27 +175,22 @@ begin
   R_EQU := 696000.0;
 
   (* Compute heliographic coordinates of the Earth *)
-
-  ROTATION(-XE, -YE, -ZE, A0, D0, W1, RETROGRADE, 0.0, AX, AY, AZ, L1, B, B);
+  Rotation(-XE, -YE, -ZE, A0, D0, W1, Retrograde, 0.0, AX, AY, AZ, L1, B, B);
 
   (* Compute position angle of the axis of rotation *)
   (* with respect to the mean equinox of date *)
-
-  PRECART(PMAT, XE, YE, ZE);
-  PRECART(PMAT, AX, AY, AZ);
-  POSAX := POSANG(-XE, -YE, -ZE, AX, AY, AZ);
+  PrecArt(PMAT, XE, YE, ZE);
+  PrecArt(PMAT, AX, AY, AZ);
+  POSAX := PosAng(-XE, -YE, -ZE, AX, AY, AZ);
 
   (* Express position angle of the Sun's axis within -180..180 deg *)
-
   if POSAX > 180.0 then
     POSAX := POSAX - 360.0;
 
   (* Compute apparent equatorial diameter (in ") *)
-
   D_EQU := 2.0 * ASN(R_EQU / (DELTA * AU));
 
-  (* Print results *)
-
+  // Output results
   DMS(D_EQU, DD, DM, DS);
   writeln('''':10, '"':3, 'o':29, 'o':8, 'o':22);
   writeln(' Sun  ', DM:3, DS:6:2, POSAX:29:2, L1:8:2, B:22:2)

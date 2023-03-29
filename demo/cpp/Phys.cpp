@@ -2,7 +2,7 @@
 //
 // Phys.cpp
 //
-// Physical ephemerides of the major planets and the Sun
+// Physical ephemeris of the major planets and the Sun
 //
 //------------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ int main()
 
   // Title
   cout << endl
-       << " PHYS: physical ephemerides of the planets and the Sun" << endl
+       << " PHYS: physical ephemeris of the planets and the Sun" << endl
        << "       (c) 1999 Oliver Montenbruck, Thomas Pfleger    " << endl
        << endl;
 

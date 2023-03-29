@@ -45,7 +45,7 @@ Vec3D SunEqu (double T);
 
 //------------------------------------------------------------------------------
 //
-// MiniSun: Computes the Sun's RA and declination using a low precision 
+// MiniSun: Computes the Sun's Ra and declination using a low precision 
 //           analytical series
 //
 // Input:
@@ -54,11 +54,11 @@ Vec3D SunEqu (double T);
 //
 // Output:
 //
-//   RA        Right Ascension of the Sun in [rad]
+//   Ra        Right Ascension of the Sun in [rad]
 //   Dec       Declination of the Sun in [rad]
 //
 //------------------------------------------------------------------------------
-void MiniSun (double T, double& RA, double& Dec);
+void MiniSun (double T, double& Ra, double& Dec);
 
 
 #endif  // include blocker

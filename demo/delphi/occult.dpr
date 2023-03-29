@@ -8,12 +8,12 @@ program Occult(Input, Output, OCCINP);
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
-  Apc.Sunlib,
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
+  Apc.Sun,
   Apc.Moon,
-  Apc.Timlib;
+  Apc.Time;
 
 const
   TOVLAP = 3.42E-6; (* 3h in julian centuries *)
@@ -21,7 +21,7 @@ const
   NAME_LENGTH = 17; (* maxim.length of a star's name *)
 
 type
-  NAME_STRING = array [1 .. NAME_LENGTH] of CHAR;
+  NAME_STRING = array [1 .. NAME_LENGTH] of Char;
 
 var
   T_begin, T_END, T1, T2, TM, T_EQX, T_EPOCH: Double;
@@ -29,7 +29,7 @@ var
   RA_STAR, DE_STAR: Double;
   VX, VY, VZ: Double;
   LAMBDA, PHI, RCPHI, RSPHI: Double;
-  RAPOLY, DEPOLY, RPOLY: TPolynom;
+  RAPOLY, DEPOLY, RPOLY: TPolynomCheb;
   PNMAT: Double33;
   OCCINP: TEXT;
   NAME: NAME_STRING;
@@ -56,7 +56,7 @@ begin
   readln(Y, M, D);
   T_END := (MJD(D, M, Y, 0) - 51544.5) / 36525.0;
   T := (T_begin + T_END) / 2.0;
-  Etminut(T, ETDIFUT, VALID);
+  ETminUT(T, ETDIFUT, VALID);
   if (VALID) then
     write(' Difference ET-UT (proposal:', Trunc(ETDIFUT + 0.5):3, ' sec)          ... ')
   else
@@ -82,26 +82,26 @@ end;
 (* GETSTAR: read star coordinates from file OCCINP and correct for *)
 (* proper motion *)
 (* ----------------------------------------------------------------------- *)
-procedure GETSTAR(T_EPOCH, T: Double; var RA, DEC: Double; var NAME: NAME_STRING);
+procedure GETSTAR(T_EPOCH, T: Double; var Ra, Dec: Double; var NAME: NAME_STRING);
 var
   G, M, I: integer;
   S, PM_RA, PM_DEC: Double;
 begin
   read(OCCINP, G, M, S);
-  DDD(G, M, S, RA); (* right ascension at epoch *)
+  Ddd(G, M, S, Ra); (* right ascension at epoch *)
   read(OCCINP, PM_RA);
   read(OCCINP, G, M, S);
-  DDD(G, M, S, DEC); (* declination at epoch *)
+  Ddd(G, M, S, Dec); (* declination at epoch *)
   read(OCCINP, PM_DEC);
-  RA := RA + (T - T_EPOCH) * PM_RA / 3600.0; (* proper motion right asc. *)
-  DEC := DEC + (T - T_EPOCH) * PM_DEC / 3600.0; (* proper motion declination *)
+  Ra := Ra + (T - T_EPOCH) * PM_RA / 3600.0; (* proper motion right asc. *)
+  Dec := Dec + (T - T_EPOCH) * PM_DEC / 3600.0; (* proper motion declination *)
   for I := 1 to NAME_LENGTH do (* name of the star *)
     if (not EOLN(OCCINP)) then
       read(OCCINP, NAME[I])
     else
       NAME[I] := ' ';
   readln(OCCINP);
-  RA := 15.0 * RA; (* RA in deg *)
+  Ra := 15.0 * Ra; (* Ra in deg *)
 end;
 
 (* ----------------------------------------------------------------------- *)
@@ -112,7 +112,7 @@ end;
 (* *)
 (* TA,TB:    time interval for search of conjunction *)
 (* RAPOLY,DEPOLY,RPOLY: Chebyshev coefficients for lunar coordinates *)
-(* RA,DEC:   right ascension and declination of the star (0<=RA<=360) *)
+(* Ra,Dec:   right ascension and declination of the star (0<=Ra<=360) *)
 (* CONJ:     True/False (conjunction found / no conjunction found) *)
 (* T_CONJ:   time of conjunction in right ascension (0.0 if CONJ=False) *)
 (* *)
@@ -121,11 +121,11 @@ end;
 (* values between -360 and +360 degress and cover less than one orbit. *)
 (* ----------------------------------------------------------------------- *)
 
-procedure Conjunct(TA, TB: Double; RAPOLY, DEPOLY, RPOLY: TPolynom; RA, DEC: Double;
+procedure Conjunct(TA, TB: Double; RAPOLY, DEPOLY, RPOLY: TPolynomCheb; Ra, Dec: Double;
   var CONJ: Boolean; var T_CONJ: Double);
 
 const
-  EPS = 1E-3; (* accuracy in degrees RA *)
+  EPS = 1E-3; (* accuracy in degrees Ra *)
 
 var
   RA_A, RA_B: Double;
@@ -138,12 +138,12 @@ begin
   RA_A := T_Eval(RAPOLY, TA);
   RA_B := T_Eval(RAPOLY, TB);
 
-  (* check if RA_A <= RA <= RA_B *)
-  CONJ := (RA_A <= RA) and (RA <= RA_B);
-  if (not CONJ) then (* check again with RA-360deg *)
+  (* check if RA_A <= Ra <= RA_B *)
+  CONJ := (RA_A <= Ra) and (Ra <= RA_B);
+  if (not CONJ) then (* check again with Ra-360deg *)
   begin
-    RA := RA - 360.0;
-    CONJ := ((RA_A <= RA) and (RA <= RA_B));
+    Ra := Ra - 360.0;
+    CONJ := ((RA_A <= Ra) and (Ra <= RA_B));
   end;
 
   if CONJ then
@@ -154,12 +154,12 @@ begin
     (* ([T1,T2] always contains T_CONJ) *)
 
     T1 := TA;
-    DRA1 := RA_A - RA;
+    DRA1 := RA_A - Ra;
     T2 := TB;
-    DRA2 := RA_B - RA;
+    DRA2 := RA_B - Ra;
     repeat
       T_NEW := T2 - DRA2 * (T2 - T1) / (DRA2 - DRA1);
-      DRA_NEW := T_Eval(RAPOLY, T_NEW) - RA;
+      DRA_NEW := T_Eval(RAPOLY, T_NEW) - Ra;
       if DRA_NEW > 0 then
       begin
         T2 := T_NEW;
@@ -177,7 +177,7 @@ begin
 
     DE_CON := T_Eval(DEPOLY, T_CONJ);
     R_CON := T_Eval(RPOLY, T_CONJ);
-    CONJ := (abs(SN(DE_CON - DEC) * R_CON) < 1.5);
+    CONJ := (abs(SN(DE_CON - Dec) * R_CON) < 1.5);
 
   end;
 
@@ -206,7 +206,7 @@ end;
 
 procedure Shadow
 
-  (RAPOLY, DEPOLY, RPOLY: TPolynom; T_CONJ_ET, ETDIFUT, LAMBDA, RCPHI, RSPHI, RA_STAR,
+  (RAPOLY, DEPOLY, RPOLY: TPolynomCheb; T_CONJ_ET, ETDIFUT, LAMBDA, RCPHI, RSPHI, RA_STAR,
   DE_STAR: Double; var EVENT: Boolean; var MJD_UT_IN, MJD_UT_OUT: Double;
   var POS_IN, POS_OUT, H_IN, H_OUT, A_IN, A_OUT, B_IN, B_OUT: Double);
 
@@ -312,12 +312,12 @@ end;
 (* ----------------------------------------------------------------------- *)
 function DARKNESS(MODJD, LAMBDA, CPHI, SPHI: Double): Boolean;
 var
-  T, RA, DEC, TAU, SIN_HSUN: Double;
+  T, Ra, Dec, TAU, SIN_HSUN: Double;
 begin
   T := (MODJD - 51544.5) / 36525.0;
-  MINI_SUN(T, RA, DEC);
-  TAU := 15.0 * (LMST(MODJD, LAMBDA) - RA);
-  SIN_HSUN := SPHI * SN(DEC) + CPHI * CS(DEC) * CS(TAU);
+  MiniSun(T, Ra, Dec);
+  TAU := 15.0 * (LMST(MODJD, LAMBDA) - Ra);
+  SIN_HSUN := SPHI * SN(Dec) + CPHI * CS(Dec) * CS(TAU);
   DARKNESS := (SIN_HSUN < -0.10);
 end;
 
@@ -334,7 +334,7 @@ end;
 (* NAME                 : star's name *)
 (* ----------------------------------------------------------------------- *)
 
-procedure Examine(T1, T2: Double; RAPOLY, DEPOLY, RPOLY: TPolynom;
+procedure Examine(T1, T2: Double; RAPOLY, DEPOLY, RPOLY: TPolynomCheb;
   ETDIFUT, LAMBDA, RCPHI, RSPHI, RA_STAR, DE_STAR: Double; NAME: NAME_STRING);
 
 const
@@ -348,7 +348,7 @@ var
 
 begin
 
-  (* test for conjunction in RA and find time of conjunction *)
+  (* test for conjunction in Ra and find time of conjunction *)
 
   Conjunct(T1, T2, RAPOLY, DEPOLY, RPOLY, RA_STAR, DE_STAR, CONJ, T_CONJ_ET);
 
@@ -372,7 +372,7 @@ begin
         begin
 
           (* disappearance *)
-          CALDAT(MJD_UT_IN, DAY, MONTH, YEAR, HOUR);
+          CalDat(MJD_UT_IN, DAY, MONTH, YEAR, HOUR);
           DMS(HOUR, H, M, S);
           write((YEAR MOD 100):3, '/', MONTH:2, '/', DAY:2, H:5, M:3, Trunc(S + 0.5):3, '   D  ',
             Trunc(POS_IN + 0.5):5, Trunc(H_IN + 0.5):6, A_IN:8:1, B_IN:6:1, ' ':3);
@@ -381,7 +381,7 @@ begin
           writeln;
 
           (* reapparence *)
-          CALDAT(MJD_UT_OUT, DAY, MONTH, YEAR, HOUR);
+          CalDat(MJD_UT_OUT, DAY, MONTH, YEAR, HOUR);
           DMS(HOUR, H, M, S);
           writeln((YEAR MOD 100):3, '/', MONTH:2, '/', DAY:2, H:5, M:3, Trunc(S + 0.5):3, '   R  ',
             Trunc(POS_OUT + 0.5):5, Trunc(H_OUT + 0.5):6, A_OUT:8:1, B_OUT:6:1);
@@ -402,7 +402,7 @@ begin (* main program *)
 
   (* calculate geocentric coordinates of the observer *)
 
-  SITE(PHI, RCPHI, RSPHI);
+  Site(PHI, RCPHI, RSPHI);
 
   (* search occultations in subsequent time intervals *)
 
@@ -415,7 +415,7 @@ begin (* main program *)
 
     (* approximate lunar coordinates by Chebyshev polynomials *)
 
-    T_FIT_MOON(T1 - TOVLAP, T2 + TOVLAP, MAX_TP_DEG, RAPOLY, DEPOLY, RPOLY);
+    T_Fit_Moon(T1 - TOVLAP, T2 + TOVLAP, MAX_TP_DEG, RAPOLY, DEPOLY, RPOLY);
 
     (* print header *)
 
@@ -423,9 +423,9 @@ begin (* main program *)
 
     (* open star catalogue file, read epoch and equinox *)
 
-    (* RESET ( OCCINP ); *)                           (* Standard Pascal *)
-    ASSIGN(OCCINP, 'OCCINP.DAT');
-    RESET(OCCINP); (* Turbo Pascal *)
+    (* Reset ( OCCINP ); *)                           (* Standard Pascal *)
+    Assign(OCCINP, 'OCCINP.DAT');
+    Reset(OCCINP); (* Turbo Pascal *)
 
     readln(OCCINP, T_EPOCH, T_EQX);
     T_EQX := (T_EQX - 2000.0) / 100.0;
@@ -435,11 +435,11 @@ begin (* main program *)
     (* star catalog and the true equinox of the search interval center *)
 
     TM := (T1 + T2) / 2.0;
-    PN_MATRIX(T_EQX, TM, PNMAT);
+    PN_Matrix(T_EQX, TM, PNMAT);
 
     (* heliocentric velocity of the earth for calculation of aberration *)
 
-    ABERRAT(TM, VX, VY, VZ);
+    Aberrat(TM, VX, VY, VZ);
 
     (* loop through list of stars and search for possible occultations *)
 
@@ -448,7 +448,7 @@ begin (* main program *)
       (* read new star coordinates *)
       GETSTAR(T_EPOCH, TM, RA_STAR, DE_STAR, NAME);
       (* calculate apparent coordinates *)
-      APPARENT(PNMAT, VX, VY, VZ, RA_STAR, DE_STAR);
+      Apparent(PNMAT, VX, VY, VZ, RA_STAR, DE_STAR);
       (* check for occultation *)
       Examine(T1, T2, RAPOLY, DEPOLY, RPOLY, ETDIFUT, LAMBDA, RCPHI, RSPHI, RA_STAR, DE_STAR, NAME);
     end;

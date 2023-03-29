@@ -1,0 +1,8 @@
+ 1986 2 9.43867  ! Time of perihelion (year month day.fraction)
+    0.5870992    ! Perihelion distance q in AU
+    0.9672725    ! Eccentricity e
+  162.23932      ! Inclination i in [deg]
+   58.14397      ! Longitude of the ascending node in [deg]
+  111.84658      ! Argument of perihelion in [deg]
+ 1950.0          ! Equinox for the orbital elements
+! --- Comet 1P/Halley 1985/86 --- !

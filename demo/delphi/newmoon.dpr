@@ -8,7 +8,7 @@ program NewMoon(Input, Output);
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Timlib;
+  Apc.Time;
 
 const
   D1 = +1236.853086; (* rate of change dD/dT of the mean elongation *)
@@ -86,7 +86,7 @@ begin (* main program *)
     Improve(T_NEW_MOON, B_MOON);
     Improve(T_NEW_MOON, B_MOON);
     MJD_NEW_MOON := 36525.0 * T_NEW_MOON + 51544.5;
-    CALDAT(MJD_NEW_MOON, DAY, MONTH, YEAR, HOUR);
+    CalDat(MJD_NEW_MOON, DAY, MONTH, YEAR, HOUR);
     if YEAR = YEAR_CALC then
       writeln(YEAR:12, '/', MONTH:2, '/', DAY:2, HOUR:6:1, B_MOON:9:1)
   end;

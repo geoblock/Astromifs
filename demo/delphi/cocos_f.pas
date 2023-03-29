@@ -14,19 +14,19 @@ uses
   Vcl.Dialogs,
   Vcl.StdCtrls,
 
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
-  Apc.Sunlib,
-  Apc.Timlib;
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
+  Apc.Sun,
+  Apc.Time;
 
 var
       X,Y,Z,XS,YS,ZS: Double;
       T,TEQX,TEQXN  : Double;
       LS,BS,RS      : Double;
       A             : Double33;
-      ECLIPT        : Boolean;
-      MODE          : CHAR;
+      IsEclipt        : Boolean;
+      CharMode          : Char;
 
 
 type

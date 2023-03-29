@@ -70,13 +70,13 @@ int main(int argc, char* argv[])
 
   long      PPM;        // PPM number
   float     mag;        // Brightness 
-  double    RA,Dec;     // Right ascension, declination
+  double    Ra,Dec;     // Right ascension, declination
   float     pmRA,pmDec; // Proper motion 
   Vec3D     e,e0;       // Unit vectors
 
   struct {
     long   PPM;
-    double RA,Dec;
+    double Ra,Dec;
     float  pmRA,pmDec,mag;
   } Data;
 
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
   // Header 
   cout 
    << endl
-   << " PPM Number       RA          Dec        PM(RA)  PM(Dec)   m   " 
+   << " PPM Number       Ra          Dec        PM(Ra)  PM(Dec)   m   " 
    << endl
    << "               h  m  s        o  '  \"     s/cy    \"/cy    mag  " 
    << endl;
@@ -126,20 +126,20 @@ int main(int argc, char* argv[])
     if (inp.fail()) break;
 
     PPM   = Data.PPM;
-    RA    = Data.RA  + Data.pmRA *T;
+    Ra    = Data.Ra  + Data.pmRA *T;
     Dec   = Data.Dec + Data.pmDec*T;
     pmRA  = Data.pmRA;
     pmDec = Data.pmDec;
     mag   = Data.mag;
 
     // Unit vector
-    e = Vec3D(Polar(RA,Dec));
+    e = Vec3D(Polar(Ra,Dec));
 
     // Ouput of stars within the field of view
     if ( Dot(e,e0)>cos(r) ) {
       cout << fixed 
            << " PPM " << setw(6) << PPM << "  " 
-           << setw(12) << setprecision(3) << Angle(Deg*RA/15.0,DMMSSs)
+           << setw(12) << setprecision(3) << Angle(Deg*Ra/15.0,DMMSSs)
            << "  " 
            << showpos
            << setw(12) << setprecision(2) << Angle(Deg*Dec,DMMSSs)

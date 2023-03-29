@@ -113,7 +113,7 @@ function Random_LogNormal(const Mean, StdDev: Extended;
   GENERATES A RANDOM GAMMA VARIATE.
   CALLS EITHER random_gamma1 (Shape > 1.0) OR random_exponential (Shape = 1.0)
   OR random_gamma2 (Shape < 1.0).
-  Shape = SHAPE PARAMETER OF DISTRIBUTION (0 < REAL).
+  Shape = Shape PARAMETER OF DISTRIBUTION (0 < REAL).
 *)
 function Random_Gamma(const Shape: Extended): Extended; overload;
 (*
@@ -121,7 +121,7 @@ function Random_Gamma(const Shape: Extended): Extended; overload;
   CALLS EITHER random_gamma1 (Shape > 1.0)
   OR random_exponential (Shape = 1.0)
   OR random_gamma2 (Shape < 1.0).
-  Shape = SHAPE PARAMETER OF DISTRIBUTION (0 < REAL)
+  Shape = Shape PARAMETER OF DISTRIBUTION (0 < REAL)
 *)
 function Random_Gamma(const Shape: Extended;
   RandomGenerator: TRandomGenFunction): Extended; overload;
@@ -167,8 +167,8 @@ function Random_Weibull(const a: Extended; RandomGenerator: TRandomGenFunction)
   FROM A BETA DISTRIBUTION WITH DENSITY
   PROPORTIONAL TO BETA**(AA-1) * (1-BETA)**(BB-1).
   USING CHENG'S LOG LOGISTIC METHOD.
-  AA = SHAPE PARAMETER FROM DISTRIBUTION (0 < REAL)
-  BB = SHAPE PARAMETER FROM DISTRIBUTION (0 < REAL)
+  AA = Shape PARAMETER FROM DISTRIBUTION (0 < REAL)
+  BB = Shape PARAMETER FROM DISTRIBUTION (0 < REAL)
 *)
 function Random_Beta(const aa, bb: Extended): Extended; overload;
 function Random_Beta(const aa, bb: Extended;
@@ -185,12 +185,12 @@ function Random_T(const DF: Integer; RandomGenerator: TRandomGenFunction)
 
 (*
   GENERATES AN N VARIATE RANDOM NORMAL
-  VECTOR USING A CHOLESKY DECOMPOSITION.
+  Vector USING A CHOLESKY DECOMPOSITION.
 
   ARGUMENTS:
-  N = NUMBER OF VARIATES IN VECTOR (INPUT,INTEGER >= 1)
-  H(J) = J'TH ELEMENT OF VECTOR OF MEANS (INPUT,REAL)
-  X(J) = J'TH ELEMENT OF DELIVERED VECTOR (OUTPUT,REAL)
+  N = NUMBER OF VARIATES IN Vector (INPUT,INTEGER >= 1)
+  H(J) = J'TH ELEMENT OF Vector OF MEANS (INPUT,REAL)
+  X(J) = J'TH ELEMENT OF DELIVERED Vector (OUTPUT,REAL)
 
   D(J*(J-1)/2+I) = (I,J)'TH ELEMENT OF VARIANCE MATRIX (J> = I) (INPUT,REAL)
   F((J-1)*(2*N-J)/2+I) = (I,J)'TH ELEMENT OF LOWER TRIANGULAR
@@ -397,6 +397,7 @@ var
   I: integer;
   R: single;
 begin
+  RandEmpiric := 0;
   R := Random;
   for I := 1 to NClass do
   begin
@@ -518,7 +519,7 @@ begin
     A GAMMA DISTRIBUTION WITH DENSITY PROPORTIONAL TO
     GAMMA2**(S-1) * EXP(-GAMMA2),
     USING A SWITCHING METHOD.
-    S = SHAPE PARAMETER OF DISTRIBUTION
+    S = Shape PARAMETER OF DISTRIBUTION
     (REAL < 1.0) }
   function Random_Gamma2(const Shape: Extended;
     RandomGenerator: TRandomGenFunction): Extended;
@@ -1432,7 +1433,7 @@ begin
 
           // STEP P. PREPARATIONS FOR STEPS Q AND H.
           // (RECALCULATIONS OF PARAMETERS IF NECESSARY)
-          // .3989423=(2*PI)**(-.5)  .416667E-1=1./24.  .1428571=1./7.
+          // .3989423=(2*Pi)**(-.5)  .416667E-1=1./24.  .1428571=1./7.
           // THE QUANTITIES B1, B2, C3, C2, C1, C0 ARE FOR THE HERMITE
           // APPROXIMATIONS TO THE DISCRETE NORMAL PROBABILITIES FK.
           // C=.1069/MU GUARANTEES MAJORIZATION BY THE 'HAT'-FUNCTION.
@@ -1492,7 +1493,7 @@ begin
             begin
               // CASE ival >= 10 USES POLYNOMIAL APPROXIMATION
               // A0-A7 FOR ACCURACY WHEN ADVISABLE
-              // .8333333E-1=1./12.  .3989423=(2*PI)**(-.5)
+              // .8333333E-1=1./12.  .3989423=(2*Pi)**(-.5)
 
               del := 0.8333333E-1 / fk; // 80
               del := del - 4.8 * Sqr(del) * del;

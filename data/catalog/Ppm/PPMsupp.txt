@@ -1,0 +1,261 @@
+1
+                                                                      Page 1
+-
+-
+                 ***********************************************************
+                 *                                                         *
+                 *                                                         *
+                 *             The 90 000 Stars Supplement                 *
+                 *                                                         *
+                 *                        to the                           *
+                 *                                                         *
+                 *                  PPM Star Catalogue                     *
+                 *                                                         *
+                 *                                                         *
+                 ***********************************************************
+-
+-
+-
+-                                 S. Roeser and U. Bastian
+0                         Astronomisches Rechen-Institut, Heidelberg
+-                                        A. Kuzmin
+0                          Sternberg Astronomical Institute, Moscow
+-
+-
+-
+-
+0                                Heidelberg, December 1993
+1
+                                                                      Page 2
+-
+-
+                 ***********************************************************
+                 *                                                         *
+                 *                                                         *
+                 *       Introduction to the 90 000 Stars Supplement       *
+                 *                                                         *
+                 *                                                         *
+                 ***********************************************************
+-
+-
+0          Preface
+           =======
+0          The idea of this introduction to the 90 000 Stars Supplement is
+           to deliver a short explanation together with the catalogue
+           itself.  It briefly describes the catalogue and its format, with
+           heavy reference to the introductions to PPM North and PPM South.
+           The 90 000 Stars Supplement is also described in a paper by
+           Roeser, Bastian and Kuzmin in Astron. Astrophys. Suppl., 1994.
+-
+-
+0          Contents
+           ========
+-           1. Scope of the 90 000 Stars Supplement
+            2. Construction
+            3. Properties
+            4. Practical usage
+            5. Availability
+            6. Format of the machine-readable version
+0              Table 1
+               References
+               Acknowledgements
+1
+                                                                      Page 3
+-
+           1. Scope of the 90 000 Stars Supplement
+           =======================================
+0          Since its appearance in 1966 the SAO Catalogue (SAO, 1966) has
+           been the primary source for stellar positions and proper motions.
+           Typical values for the rms errors are 1 arcsec in the positions
+           at epoch 1990, and 1.5 arcsec/century in the proper motions.  The
+           corresponding figures for the AGK3 (Heckmann et al., 1975) on the
+           northern hemisphere are 0.45 arcsec and 0.9 arcsec/century.
+           Common to both catalogues is the fact that proper motions are
+           derived from two observational epochs only. Both catalogues are
+           nominally on the B1950 / FK4 coordinate system.
+0          The PPM Star Catalogue (R|ser and Bastian, 1991, Bastian et al.,
+           1993; for a short description see R|ser and Bastian, 1993)
+           effectively replaced these catalogues by providing more precise
+           astrometric data for more stars on the J2000 / FK5 coordinate
+           system.  Compared to the SAO Catalogue the improvement in
+           precision is about a factor of 3 on the northern and a factor of
+           6 to 10 on the southern hemisphere. In addition, the number of
+           stars is increased by about 50 percent.  Typical values for the
+           rms errors on the northern hemisphere are 0.27 arcsec in the
+           positions at epoch 1990, and 0.42 arcsec/century in the proper
+           motions. On the southern hemisphere PPM is much better, the
+           corresponding figures being 0.11 arcsec and 0.30 arcsec/century.
+0          The improvement over the SAO Catalogue was made possible by the
+           advent of new big catalogues of position measurements and by the
+           inclusion of the century-old Astrographic Catalogue (AC) into the
+           derivation of proper motions (for a description of AC see
+           Eichhorn, 1974).  But even PPM does not fully exploit the
+           treasure of photographic position measurements available in the
+           astronomical literature of the last 100 years.
+0          The Astrographic Catalogue contains roughly four million stars
+           that are not included in PPM.  For most of them no precise
+           modern-epoch position measurements exist.  Thus it is not yet
+           possible to derive proper motions with PPM quality for all AC
+           stars.  But among the 4 million there is a subset of some 100 000
+           CPC-2 stars (see below) that are not included in PPM.  These
+           stars constitute the 90 000 Stars Supplement to PPM.
+1
+                                                                      Page 4
+-
+           2. Construction
+           ===============
+0          The CPC-2 gives 276 000 high-quality photographic star positions
+           on the southern hemisphere. The plates were taken around 1966 in
+           South Africa and were measured in Great Britain.  The resulting
+           positions were published recently (Zacharias et al., 1992).
+           172 000 CPC-2 positions were already used in the construction of
+           PPM. The remaining 100 000 were not used because no precise
+           later-epoch observations were available and because the PPM
+           concept aimed at having more than two epochs per star.
+0          The 90 000 Stars Supplement provides J2000 positions and proper
+           motions for the majority of these remaining 100 000 stars.  It
+           was constructed in essentially the same way as PPM, but with only
+           CPC-2 and AC as observation catalogues. The former was used as
+           published, since it is on the system of FK5.  The latter (AC) was
+           used in the fully reduced form that was produced for the PPM
+           project.
+0          A provisional star list for the Supplement was set up by
+           cross-identifying CPC-2 with PPM and retaining only the
+           non-identified stars. It contained 102 681 stars.  This list was
+           then automatically cross-identified with AC. In cases of doubt
+           the GSC, NLTT and the Cape Photographic Durchmusterung were used
+           to verify the identity.  If doubts still remained or if the
+           individual AC measurements were grossly discordant, the star was
+           deleted from the list. Also deleted were all stars having only
+           one AC counterpart (the missing of the second one making the star
+           dubious), and of course those 4147 objects having no AC
+           counterpart at all.
+0          Proper motions were thus derived from three or four positions for
+           a vast majority of the remaining stars: one from CPC-2 (each
+           CPC-2 position in fact is the mean of four independent plate
+           measurements) and two or three from the overlapping plates of AC.
+           Only a few thousand stars have more than 4 positions. The details
+           of the catalogue construction process are largely identical to
+           those of PPM South.
+0          The resulting star catalogue contains 89 676 stars. Besides the
+           astrometric parameters the 90 000 Stars Supplement provides
+           magnitudes, spectral types (if available) and
+           cross-identifications to other star catalogues (Bonner
+           Durchmusterung, Cordoba Durchmusterung, Henry Draper Catalogue).
+1
+                                                                      Page 5
+-
+           3. Properties of the 90 000 Stars Supplement
+           ============================================
+-          A rough summary of the astrometric precision is given in Table 1,
+           below, along with comparison data for the main parts of PPM. The
+           numbers in the table are mean values. The numbers for individual
+           objects vary.  The Supplement stars are in fact divided in two
+           well-separated groups. The division is caused by two major
+           classes of precision of the CPC-2 positions. The division is
+           obvious in the precision of the present-day  positions, but less
+           so in proper motions, since there is a large variation of epochs
+           and mean errors in the AC positions.
+0          The positions and proper motions provided by the 90 000 Stars
+           Supplement are less precise than those in the southern part of
+           PPM, but they are more precise than those of PPM north.  Thus the
+           already existing imbalance between the two hemispheres (see
+           Table 1) is further increased.
+-
+-
+           4. Practical usage
+           ==================
+0          The practical usage of the 90 000 Stars Supplement is perfectly
+           the same as for the main parts of PPM. Explanations are given in
+           the Introductions to PPM North and PPM South.
+-
+-
+           5. Availability
+           ===============
+-          Magnetic tapes containing PPM and its 90 000 Stars Supplement can
+           be obtained from the astronomical data centres, e.g. the Centre
+           de Donnees Astronomique de Strasbourg (CDS), Strasbourg, France
+           and the Astronomical Data Centre at Goddard Space Flight Centre,
+           Greenbelt, USA. There will be no printed version of the 90 000
+           Stars Supplement, but inclusion into the various forthcoming
+           "astronomical catalogues sampler" CD-ROMs is aimed at.
+1
+                                                                      Page 6
+-
+           6. Format of the machine-readable version
+           =========================================
+0          The machine-readable version of the 90 000 Stars Supplement to
+           PPM contains 2 physical files. They are perfectly analogous to
+           Files 1 and 2 of the machine-readable version of PPM South. Thus
+           the description need not be repeated here.
+
+
+
+
+0          Table 1: Error budget of PPM and the 90 000 Stars Supplement
+           ============================================================
+0          The table gives some information on the accuracy of PPM and the
+           90 000 Stars Supplement.  The individual columns of the table
+           contain, in turn, the declination zone, the total number of stars
+           and average values for a number of characteristic quantities:
+           star density (stars per square degree), number of source
+           positions used for each star, mean epochs for right ascension and
+           declination, mean errors of the proper motions (in
+           arcsec/century) and mean errors of the 1990 positions (in
+           arcsec).
+0          The last two lines give rough statistics of the SAO Catalogue for
+           comparison.
+-             decl.     no.of   star   no.   mean ep.  mean err.   mean err.
+              (deg.)    stars   dens.  obs.   1900+    prop. mot.  pos. 1990
+-
+            PPM, north
+0           +90..-2.5  181731   8.7    6.2  31.5 30.7  0.43 0.42   0.27 0.27
+0           PPM, south
+0           -2.5..-90  197179  10.3    6.1  61.8 61.6  0.30 0.30   0.11 0.11
+0           90 000 Supp.
+0           +1.5..-90   89676   4.4    3.4  55.4 54.8  0.46 0.44   0.19 0.18
+-           SAOC, north
+0           +90..-2.5  133000   6.4    2.0  30   30    1.5  1.5    0.9  0.9
+0           SAOC, south
+0           -2.5..-90  126000   6.3    2.0  30   30    1.5  1.5    1.2  1.2
+1
+                                                                      Page 7
+-
+           References.
+           ===========
+0          Bastian, U., R|ser, S., et al., 1993, PPM Star Catalogue, Vols.
+                  III and IV, positions and proper motions of 197179 stars
+                  south of -2.5 degrees declination. Astronomisches Rechen-
+                  Institut, Heidelberg. Spektrum Akademischer Verlag,
+                  Heidelberg, Berlin, New York, 1993.
+0          Eichhorn, H., 1974, Astronomy of Star Positions, Frederick
+                  Ungar Publ. Co., New York.
+0          Heckmann, O., Dieckvoss, W., Kox, H., G}nther, A., Brosterhus, E.,
+                  1975, AGK3. Star catalogue of positions and proper
+                  motions north of -2.5 declination. Hamburg-Bergedorf 1975.
+0          R|ser, S., Bastian, U., 1991, PPM Star Catalogue, Vols. I and II,
+                  positions and proper motions of 181731 stars north of
+                  -2.5 degrees declination. Astronomisches Rechen-Institut,
+                  Heidelberg. Spektrum Akademischer Verlag, Heidelberg,
+                  Berlin, New York, 1991.
+0          R|ser, S., Bastian, U., 1993, The final PPM Star Catalogue for
+                  both hemispheres, Bull. Inform. CDS, 42, 11.
+0          R|ser, S., Bastian, U., Kuzmin, A., 1994, PPM Star Catalogue: The
+                  90 000 Stars Supplement, Astron. Astrophys. Suppl.,
+                  in press.
+0          SAO, Staff of, 1966, Star Catalogue. Positions and proper
+                  motions of 258997 stars for epoch and equinox of 1950.0.
+                  Publ. Smithsonian Inst. of Washington,D.C., No. 4562.
+0          Zacharias, N., de Vegt, C., Nicholson, W., Penston, M., 1992,
+                  CPC-2 - the Second Cape Photographic Catalogue.
+                  A&A 254, 394.
+1
+                                                                      Page 8
+-
+           Acknowledgements
+           ================
+0          This work was made possible by the key-punching of the Astrographic
+           Catalogue, performed by many patient and careful workers at Moscow,
+           supervised by V.V. Nesterov.
+           Financial support was provided by Deutsche Forschungsgemeinschaft
+           and the Russian Academy of Sciences.

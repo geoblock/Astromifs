@@ -9,19 +9,19 @@ program Comet(Input, Output, COMINP);
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
-  Apc.Sunlib,
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
+  Apc.Sun,
   Apc.Kepler,
-  Apc.Timlib;
+  Apc.Time;
 
 var
   DAY, MONTH, YEAR, NLINE: integer;
   D, HOUR, T0, Q, ECC, TEQX0, FAC: Double;
   MODJD, T, T1, DT, T2, TEQX: Double;
   X, Y, Z, VX, VY, VZ, XS, YS, ZS: Double;
-  L, B, R, LS, BS, RS, RA, DEC, DELTA, DELTA0: Double;
+  L, B, R, LS, BS, RS, Ra, Dec, DELTA, DELTA0: Double;
   PQR, A, ASI: Double33;
   COMINP: TEXT;
 
@@ -41,9 +41,9 @@ begin
   writeln;
 
   (* open file for reading *)
-  (* RESET(COMINP); *)                              (* Standard Pascal *)
-  ASSIGN(COMINP, 'COMINP.DAT');
-  RESET(COMINP);  
+  (* Reset(COMINP); *)                              (* Standard Pascal *)
+  Assign(COMINP, 'COMINP.DAT');
+  Reset(COMINP);  
 
   (* display orbital elements *)
   Readln(COMINP, YEAR, MONTH, D);
@@ -65,13 +65,13 @@ begin
   HOUR := 24.0 * (D - DAY);
   T0 := (MJD(DAY, MONTH, YEAR, HOUR) - 51544.5) / 36525.0;
   TEQX0 := (TEQX0 - 2000.0) / 100.0;
-  GAUSVEC(LAN, INC, AOP, PQR);
+  GaussVec(LAN, INC, AOP, PQR);
 end;
 
 (* ----------------------------------------------------------------------- *)
-(* GETEPH: reads desired period of time and equinox of the ephemeris *)
+(* GetEph: reads desired period of time and equinox of the ephemeris *)
 (* ----------------------------------------------------------------------- *)
-procedure GETEPH(var T1, DT, T2, TEQX: Double);
+procedure GetEph(var T1, DT, T2, TEQX: Double);
 
 var
   YEAR, MONTH, DAY: integer;
@@ -121,11 +121,11 @@ end;
 begin (* Comet *)
 
   GetElm(T0, Q, ECC, PQR, TEQX0); (* read orbital elements *)
-  GETEPH(T1, DT, T2, TEQX); (* read period of time and equinox *)
+  GetEph(T1, DT, T2, TEQX); (* read period of time and equinox *)
 
   NLINE := 0;
 
-  PMATECL(TEQX0, TEQX, A); (* calculate precession matrix *)
+  PrecMatEcl(TEQX0, TEQX, A); (* calculate precession matrix *)
 
   T := T1;
 
@@ -134,20 +134,20 @@ begin (* Comet *)
     (* date *)
 
     MODJD := T * 36525.0 + 51544.5;
-    CALDAT(MODJD, DAY, MONTH, YEAR, HOUR);
+    CalDat(MODJD, DAY, MONTH, YEAR, HOUR);
 
     (* ecliptic coordinates of the sun, equinox TEQX *)
 
-    Sun200(T, LS, BS, RS);
-    CART(RS, BS, LS, XS, YS, ZS);
-    PMATECL(T, TEQX, ASI);
-    PRECART(ASI, XS, YS, ZS);
+    SunPos(T, LS, BS, RS);
+    Cart(RS, BS, LS, XS, YS, ZS);
+    PrecMatEcl(T, TEQX, ASI);
+    PrecArt(ASI, XS, YS, ZS);
 
     (* heliocentric ecliptic coordinates of the comet *)
 
     Kepler(T0, T, Q, ECC, PQR, X, Y, Z, VX, VY, VZ);
-    PRECART(A, X, Y, Z);
-    PRECART(A, VX, VY, VZ);
+    PrecArt(A, X, Y, Z);
+    PrecArt(A, VX, VY, VZ);
     Polar(X, Y, Z, R, B, L);
 
     (* geometric geocentric coordinates of the comet *)
@@ -163,15 +163,15 @@ begin (* Comet *)
     X := X - FAC * VX;
     Y := Y - FAC * VY;
     Z := Z - FAC * VZ;
-    ECLEQU(TEQX, X, Y, Z);
-    Polar(X, Y, Z, DELTA, DEC, RA);
-    RA := RA / 15.0;
+    Ecl2Equ(TEQX, X, Y, Z);
+    Polar(X, Y, Z, DELTA, Dec, Ra);
+    Ra := Ra / 15.0;
 
     (* output *)
 
     write(YEAR:4, '/', MONTH:2, '/', DAY:2, HOUR:6:1);
     write(LS:7:1, L:7:1, B:6:1, R:7:3);
-    WrtLBR(RA, DEC, DELTA0);
+    WrtLBR(Ra, Dec, DELTA0);
     NLINE := NLINE + 1;
     if (NLINE MOD 5) = 0 then
       writeln;

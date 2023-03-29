@@ -32,7 +32,7 @@
 
 namespace Imager
 {
-    const double PI = 3.141592653589793238462643383279502884;
+    const double Pi = 3.141592653589793238462643383279502884;
 
     // EPSILON is a tolerance value for floating point roundoff error.
     // It is used in many calculations where we want to err
@@ -44,7 +44,7 @@ namespace Imager
 
     inline double RadiansFromDegrees(double degrees)
     {
-        return degrees * (PI / 180.0);
+        return degrees * (Pi / 180.0);
     }
 
     //------------------------------------------------------------------------

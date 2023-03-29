@@ -100,7 +100,7 @@ int main()
   
   // Header
   cout << endl << endl
-       << "    Date      ET        RA            Dec      Distance  "
+       << "    Date      ET        Ra            Dec      Distance  "
        << " Parallax " << endl
        << "                      h  m  s       o  '  \"  Earth radii"
        << "    '  \"   " << endl;

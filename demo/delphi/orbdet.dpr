@@ -1,101 +1,93 @@
+program OrbDet(Input, Output, OrbInput, OrbOutput);
+
 (* ----------------------------------------------------------------------- *)
-(* OrbDet *)
 (* Gaussian orbit determination from three observations *)
 (* using the abbreviated method of Bucerius *)
 (* ----------------------------------------------------------------------- *)
 
-program OrbDet(Input, Output, OrbInput, OrbOutput);
-
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
-  Apc.Sunlib,
-  Apc.Timlib,
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
+  Apc.Sun,
+  Apc.Time,
   Apc.Kepler;
 
 type
-  CHAR80 = array [1 .. 80] of CHAR;
+  CHAR80 = array [1 .. 80] of Char;
 
 var
   TEQX: Double;
   TP, Q, ECC, INC, LAN, AOP: Double;
   JD0: Double3;
-  RSUN, E: MAT3X;
+  RSUN, E: Mat3X;
   HEADER: CHAR80;
   OrbInput, OrbOutput: TEXT;
 
-  (* ----------------------------------------------------------------------- *)
-  (* START: reads the input file and preprocesses the observational data *)
-  (* *)
-  (* output: *)
-  (* RSUN:  matrix of three Sun position vectors in ecliptic coordinates *)
-  (* E:     matrix of three observation direction unit vectors *)
-  (* JD:    julian date of the three observation times *)
-  (* TEQX:  equinox of RSUN and E (in Julian centuries since J2000) *)
-  (* ----------------------------------------------------------------------- *)
+  (* -----------------------------------------------------------------------
+   START: reads the input file and preprocesses the observational data output:
+   RSUN:  matrix of three Sun position vectors in ecliptic coordinates
+   E:     matrix of three observation direction unit vectors
+   JD:    julian date of the three observation times
+   TEQX:  equinox of RSUN and E (in Julian centuries since J2000)
+   ----------------------------------------------------------------------- *)
 
-procedure START(var HEADER: CHAR80; var RSUN, E: MAT3X; var JD0: Double3; var TEQX: Double);
-
+procedure START(var HEADER: CHAR80; var RSUN, E: Mat3X; var JD0: Double3; var TEQX: Double);
 var
   DAY, MONTH, YEAR, D, M, I: Integer;
   UT, S, DUMMY: Double;
   EQX0, EQX, TEQX0: Double;
-  LS, BS, RS, LP, BP, RA, DEC, T: Double3;
+  LS, BS, RS, LP, BP, Ra, Dec, T: Double3;
   A, ASI: Double33;
   OrbInput: TEXT;
 
 begin
+  // open input file
+  Assign(OrbInput, 'ORBINP.DAT');
+  Reset(OrbInput);
 
-  (* open input file *)
-
-  (* RESET(OrbInput); *)                              (* Standard Pascal *)
-  ASSIGN(OrbInput, 'OrbInput.DAT');
-  RESET(OrbInput); (* Turbo Pascal *)
-
-  (* read data from file OrbInput *)
-
-  for I := 1 to 80 do (* header *)
+  // read data from file OrbInput
+  for I := 1 to 80 do // header
     if not(EOLN(OrbInput)) then
       read(OrbInput, HEADER[I])
     else
       HEADER[I] := ' ';
   readln(OrbInput);
-  for I := 1 to 3 do (* 3 observations *)
+  for I := 1 to 3 do // 3 observations
   begin
-    READ(OrbInput, YEAR, MONTH, DAY, UT); (* date *)
-    READ(OrbInput, D, M, S);
-    DDD(D, M, S, RA[I]); (* RA *)
+    Read(OrbInput, YEAR, MONTH, DAY, UT); (* date *)
+    Read(OrbInput, D, M, S);
+    Ddd(D, M, S, Ra[I]); (* Ra *)
     readln(OrbInput, D, M, S);
-    DDD(D, M, S, DEC[I]); (* Dec *)
-    RA[I] := RA[I] * 15.0;
+    Ddd(D, M, S, Dec[I]); (* Dec *)
+    Ra[I] := Ra[I] * 15.0;
     JD0[I] := 2400000.5 + MJD(DAY, MONTH, YEAR, UT);
     T[I] := (JD0[I] - 2451545.0) / 36525.0;
   end;
   writeln;
   readln(OrbInput, EQX0);
-  TEQX0 := (EQX0 - 2000.0) / 100.0; (* equinox *)
+  TEQX0 := (EQX0 - 2000.0) / 100.0; // equinox
 
-  (* desired equinox of the orbital elements *)
+  // desired equinox of the orbital elements
 
   read(OrbInput, EQX);
   TEQX := (EQX - 2000.0) / 100.0;
 
-  (* calculate initial data of the orbit determination *)
+  // calculate initial data of the orbit determination
 
-  PMATECL(TEQX0, TEQX, A);
+  PrecMatEcl(TEQX0, TEQX, A);
   for I := 1 to 3 do
   begin
-    CART(1.0, DEC[I], RA[I], E[I, X], E[I, Y], E[I, Z]);
-    EQUECL(TEQX0, E[I, X], E[I, Y], E[I, Z]);
-    PRECART(A, E[I, X], E[I, Y], E[I, Z]);
+    Cart(1.0, Dec[I], Ra[I], E[I, X], E[I, Y], E[I, Z]);
+    Equ2Ecl(TEQX0, E[I, X], E[I, Y], E[I, Z]);
+    PrecArt(A, E[I, X], E[I, Y], E[I, Z]);
     Polar(E[I, X], E[I, Y], E[I, Z], DUMMY, BP[I], LP[I]);
-    PMATECL(T[I], TEQX, ASI);
-    Sun200(T[I], LS[I], BS[I], RS[I]);
-    CART(RS[I], BS[I], LS[I], RSUN[I, X], RSUN[I, Y], RSUN[I, Z]);
-    PRECART(ASI, RSUN[I, X], RSUN[I, Y], RSUN[I, Z]);
+    PrecMatEcl(T[I], TEQX, ASI);
+    SunPos(T[I], LS[I], BS[I], RS[I]);
+    Cart(RS[I], BS[I], LS[I], RSUN[I, X], RSUN[I, Y], RSUN[I, Z]);
+    PrecArt(ASI, RSUN[I, X], RSUN[I, Y], RSUN[I, Z]);
   end;
 
   writeln('   ORBDET: orbit determination from three observations ');
@@ -119,6 +111,7 @@ begin
   writeln;
   writeln;
 
+  Readln;
 end;
 
 (* ----------------------------------------------------------------------- *)
@@ -130,7 +123,7 @@ var
   MODJD, UT: Double;
 begin
   MODJD := TP * 36525.0 + 51544.5;
-  CALDAT(MODJD, DAY, MONTH, YEAR, UT);
+  CalDat(MODJD, DAY, MONTH, YEAR, UT);
   writeln(' Orbital elements', ' (Equinox ', 'J', 100.0 * TEQX + 2000.0:8:2, ')');
   writeln;
   writeln('  Perihelion date      tp    ', YEAR:4, '/', MONTH:2, '/', DAY:2, UT:8:4, 'h', '  (JD',
@@ -155,15 +148,14 @@ var
   MODJD, UT: Double;
 
 begin
+  // open file for writing
 
-  (* open file for writing *)
-
-  (* REWRITE(OrbOutput); *)                            (* Standard Pascal *)
-  ASSIGN(OrbOutput, 'OrbOutput.DAT');
-  REWRITE(OrbOutput); (* Turbo Pascal *)
+  (* REWRITE(OrbOut); *)
+  Assign(OrbOutput, 'OrbOut.DAT');
+  REWRITE(OrbOutput);
 
   MODJD := TP * 36525.0 + 51544.5;
-  CALDAT(MODJD, DAY, MONTH, YEAR, UT);
+  CalDat(MODJD, DAY, MONTH, YEAR, UT);
   write(OrbOutput, YEAR:5, MONTH:3, (DAY + UT / 24.0):7:3, '!':6);
   writeln(OrbOutput, ' perihelion time T0 (y m d.d)  =  JD ', (MODJD + 2400000.5):12:3);
   writeln(OrbOutput, Q:12:6, '!':9, ' q  ( a =', Q / (1 - ECC):10:6, ' )');
@@ -176,7 +168,7 @@ begin
   for I := 1 to 78 do
     write(OrbOutput, HEADER[I]);
 
-  RESET(OrbOutput); (* close file *)
+  Reset(OrbOutput); (* close file *)
 
 end;
 
@@ -201,9 +193,8 @@ begin
   TAU[3] := KGAUSS * (JD[2] - JD[1]);
 end;
 
-(* ----------------------------------------------------------------------- *)
+//----------------------------------------------------------------------
 (* Gauss: iteration of the abbreviated Gauss method *)
-(* *)
 (* RSUN: three vectors of geocentric Sun positions *)
 (* E   : three unit vectors of geocentric observation directions *)
 (* JD0 : three observation times (Julian Date) *)
@@ -213,20 +204,20 @@ end;
 (* INC : inclination *)
 (* LAN : longitude of the ascending node *)
 (* AOP : argument of perihelion *)
-(* ----------------------------------------------------------------------- *)
+//----------------------------------------------------------------------
 
-procedure Gauss(RSUN, E: MAT3X; JD0: Double3; var TP, Q, ECC, INC, LAN, AOP: Double);
+procedure Gauss(RSUN, E: Mat3X; JD0: Double3; var TP, Q, ECC, INC, LAN, AOP: Double);
 
 const
   EPS_RHO = 1.0E-8;
 
 var
   I, J: Integer;
-  S: INDEX;
+  S: Index;
   RHOOLD, DET: Double;
   JD, RHO, N, TAU, ETA: Double3;
-  DI: VECTOR;
-  RPL: MAT3X;
+  DI: Vector;
+  RPL: Mat3X;
   DD: Double33;
 
 begin
@@ -256,32 +247,29 @@ begin
 
   RHO[2] := 0;
 
-  (* Iterate until distance rho[2] does not change any more *)
-
+  // Iterate until distance rho[2] does not change any more
   RHO[2] := 0;
-
   repeat
-
     RHOOLD := RHO[2];
 
-    (* geocentric distance rho from n1 and n3 *)
+    // geocentric distance rho from n1 and n3
     for I := 1 to 3 do
       RHO[I] := (N[1] * DD[I, 1] - DD[I, 2] + N[3] * DD[I, 3]) / (N[I] * DET);
 
-    (* apply light-time correction and calculate time differences *)
+    // apply light-time correction and calculate time differences
     RETARD(JD0, RHO, JD, TAU);
 
-    (* heliocentric coordinate vectors *)
+    // heliocentric coordinate vectors
     for I := 1 to 3 do
       for S := X to Z do
         RPL[I, S] := RHO[I] * E[I, S] - RSUN[I, S];
 
-    (* sector/triangle ratios eta[i] *)
+    // sector/triangle ratios eta[i]
     ETA[1] := Find_ETA(RPL[2], RPL[3], TAU[1]);
     ETA[2] := Find_ETA(RPL[1], RPL[3], TAU[2]);
     ETA[3] := Find_ETA(RPL[1], RPL[2], TAU[3]);
 
-    (* improvement of the sector/triangle ratios *)
+    // improvement of the sector/triangle ratios
     N[1] := (TAU[1] / ETA[1]) / (TAU[2] / ETA[2]);
     N[3] := (TAU[3] / ETA[3]) / (TAU[2] / ETA[2]);
     writeln('  rho', ' ': 16, RHO[1]: 12: 8, RHO[2]: 12: 8, RHO[3]: 12: 8);
@@ -295,25 +283,20 @@ begin
   writeln;
   writeln;
 
-  (* derive orbital elements from first and third observation *)
-
+  // derive orbital elements from first and third observation
   Element(JD[1], JD[3], RPL[1], RPL[3], TP, Q, ECC, INC, LAN, AOP);
 
 end;
 
-(* ---------------------------------------------------------------------- *)
+//----------------------------------------------------------------------
 
 begin
-
   START(HEADER, RSUN, E, JD0, TEQX);
-
   Gauss(RSUN, E, JD0, TP, Q, ECC, INC, LAN, AOP);
-
   DumpElem(TP, Q, ECC, INC, LAN, AOP, TEQX);
   SaveElem(TP, Q, ECC, INC, LAN, AOP, TEQX, HEADER);
 
-  (* check solution *)
-
+  // check solution
   writeln;
   if (Dot(E[2], RSUN[2]) > 0) then
     writeln(' Warning: observation in hemisphere of conjunction;', '  possible second solution');
@@ -322,7 +305,7 @@ begin
   if ((abs(Q - 0.985) < 0.1) and (abs(ECC - 0.015) < 0.05)) then
     writeln(' Warning: probably Earth''s orbit solution');
 
-end.
+end. // Orbdet
 
-(* ----------------------------------------------------------------------- *)
+
 

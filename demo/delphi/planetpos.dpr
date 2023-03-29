@@ -8,12 +8,12 @@ program PlanetPos(Input, Output);
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
-  Apc.Sunlib,
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
+  Apc.Sun,
   Apc.Planets,
-  Apc.Timlib;
+  Apc.Time;
 
 const
   J2000 = 0.0;
@@ -23,14 +23,14 @@ var
   DAY, MONTH, YEAR, IPLAN, IMODE, K: integer;
   HOUR, MODJD, T, TEQX: Double;
   X, Y, Z, XP, YP, ZP, XS, YS, ZS: Double;
-  L, B, R, LS, BS, RS, RA, DEC, DELTA, DELTA0: Double;
+  L, B, R, LS, BS, RS, Ra, Dec, DELTA, DELTA0: Double;
   A: Double33;
-  MODE: CHAR;
+  CharMode: Char;
 
   (* ----------------------------------------------------------------------- *)
   (* PRINTOUT: print coordinates of one planet *)
   (* ----------------------------------------------------------------------- *)
-procedure PRINTOUT(IPLAN: integer; L, B, R, RA, DEC, DELTA: Double);
+procedure PRINTOUT(IPLAN: integer; L, B, R, Ra, Dec, DELTA: Double);
 var
   H, M: integer;
   S: Double;
@@ -43,9 +43,9 @@ begin
     write(R:11:6)
   else
     write(R:10:5, ' ');
-  DMS(RA, H, M, S);
+  DMS(Ra, H, M, S);
   write(H:4, M:3, S:6:2);
-  DMS(DEC, H, M, S);
+  DMS(Dec, H, M, S);
   write(H:4, M:3, S:5:1);
   if IPLAN < 4 then
     write(DELTA:11:6)
@@ -69,10 +69,10 @@ begin (* PlanetPos *)
     writeln(' (A) apparent coordinates    (E) end                ');
     writeln;
     write(' enter option: ');
-    Readln(MODE);
+    Readln(CharMode);
     writeln;
 
-    if MODE in ['A', 'a', 'J', 'j', 'B', 'b'] then
+    if CharMode in ['A', 'a', 'J', 'j', 'B', 'b'] then
 
     begin
 
@@ -88,7 +88,7 @@ begin (* PlanetPos *)
       T := (MODJD - 51544.5) / 36525.0;
       write(' date:  ', YEAR:4, '/', MONTH:2, '/', DAY:2, ' ', HOUR:5:1, '(ET)');
       write('JD:':6, (MODJD + 2400000.5):12:3, 'equinox ':18);
-      case MODE of
+      case CharMode of
         'A', 'a':
           writeln('of date');
         'J', 'j':
@@ -101,13 +101,13 @@ begin (* PlanetPos *)
       (* header *)
 
       write(' ':10, 'l':6, 'b':12, 'r':11);
-      writeln(' ':7, 'RA':5, 'Dec':13, 'delta':13);
+      writeln(' ':7, 'Ra':5, 'Dec':13, 'delta':13);
       write(' ':9, '   o  ''  "', ' ':3, '  o  ''  "', ' ':6, 'AU', ' ':4);
       writeln(' ':2, '  h  m  s', ' ':4, '  o  ''  "', ' ':6, 'AU');
 
       (* ecliptic coordinates of the sun, Equinox T *)
 
-      Sun200(T, LS, BS, RS);
+      SunPos(T, LS, BS, RS);
 
       (* planetary coordinates; include Pluto between 1890 and 2100 *)
 
@@ -124,21 +124,21 @@ begin (* PlanetPos *)
 
         case IPLAN of
           1:
-            Mercury200(T, L, B, R);
+            MercuryPos(T, L, B, R);
           2:
-            Venus200(T, L, B, R);
+            VenusPos(T, L, B, R);
           4:
-            Mars200(T, L, B, R);
+            MarsPos(T, L, B, R);
           5:
-            Jupiter200(T, L, B, R);
+            JupiterPos(T, L, B, R);
           6:
-            Saturn200(T, L, B, R);
+            SaturnPos(T, L, B, R);
           7:
-            Uranus200(T, L, B, R);
+            UranusPos(T, L, B, R);
           8:
-            Neptune200(T, L, B, R);
+            NeptunePos(T, L, B, R);
           9:
-            Pluto200(T, L, B, R);
+            PlutoPos(T, L, B, R);
           0:
             begin
               L := 0.0;
@@ -155,39 +155,39 @@ begin (* PlanetPos *)
 
         (* geocentric ecliptic coordinates (light-time corrected) *)
 
-        if MODE in ['A', 'a'] then
+        if CharMode in ['A', 'a'] then
           IMODE := 2
         else
           IMODE := 1;
-        GEOCEN(T, L, B, R, LS, BS, RS, IPLAN, IMODE, XP, YP, ZP, XS, YS, ZS, X, Y, Z, DELTA0);
+        GeoCentric(T, L, B, R, LS, BS, RS, IPLAN, IMODE, XP, YP, ZP, XS, YS, ZS, X, Y, Z, DELTA0);
 
         (* precession, equatorial coordinates, nutation *)
 
-        case MODE of
+        case CharMode of
           'J', 'j':
             TEQX := J2000;
           'B', 'b':
             TEQX := B1950;
         end;
 
-        if MODE in ['A', 'a'] then
+        if CharMode in ['A', 'a'] then
         begin
-          ECLEQU(T, X, Y, Z);
-          NUTEQU(T, X, Y, Z);
+          Ecl2Equ(T, X, Y, Z);
+          NutEqu(T, X, Y, Z);
         end
         else
         begin
-          PMATECL(T, TEQX, A);
-          PRECART(A, XP, YP, ZP);
-          PRECART(A, X, Y, Z);
-          ECLEQU(TEQX, X, Y, Z);
+          PrecMatEcl(T, TEQX, A);
+          PrecArt(A, XP, YP, ZP);
+          PrecArt(A, X, Y, Z);
+          Ecl2Equ(TEQX, X, Y, Z);
         end;
 
         (* spherical coordinates *)
 
         Polar(XP, YP, ZP, R, B, L);
-        Polar(X, Y, Z, DELTA, DEC, RA);
-        RA := RA / 15.0;
+        Polar(X, Y, Z, DELTA, Dec, Ra);
+        Ra := Ra / 15.0;
 
         (* output *)
 
@@ -214,15 +214,15 @@ begin (* PlanetPos *)
             write(' Pluto   ');
         end;
 
-        PRINTOUT(IPLAN, L, B, R, RA, DEC, DELTA0);
+        PRINTOUT(IPLAN, L, B, R, Ra, Dec, DELTA0);
         writeln;
 
       end;
 
       writeln;
       writeln(' l,b,r:   heliocentric ecliptic (geometric) ');
-      write(' RA,Dec:  geocentric equatorial ');
-      if MODE in ['A', 'a'] then
+      write(' Ra,Dec:  geocentric equatorial ');
+      if CharMode in ['A', 'a'] then
         writeln('(apparent)')
       else
         writeln('(astrometric)');
@@ -231,7 +231,7 @@ begin (* PlanetPos *)
 
     end;
 
-  until MODE in ['E', 'e']
+  until CharMode in ['E', 'e']
 
   end. (* PlanetPos *)
 

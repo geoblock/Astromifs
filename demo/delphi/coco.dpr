@@ -1,28 +1,27 @@
-(* ----------------------------------------------------------------------- *)
-(* Coco *)
-(* coordinate conversion *)
-(* ----------------------------------------------------------------------- *)
-
 program Coco(Input, Output);
+
+//-----------------------------------------------------------------------
+(* Coordinate conversion *)
+//-----------------------------------------------------------------------
 
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
-  Apc.Sunlib,
-  Apc.Timlib;
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
+  Apc.Sun,
+  Apc.Time;
 
 var
   X, Y, Z, XS, YS, ZS: Double;
   T, TEQX, TEQXN: Double;
   LS, BS, RS: Double;
   A: Double33;
-  ECLIPT: Boolean;
-  MODE: CHAR;
+  IsEclipt: Boolean;
+  CharMode: Char;
 
-  (* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
 procedure GetEqx(var TEQX: Double);
 begin
@@ -31,7 +30,7 @@ begin
   TEQX := (TEQX - 2000.0) / 100.0;
 end;
 
-(* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
 procedure GetDat(var T: Double);
 var
@@ -47,13 +46,13 @@ begin
   T := (JD - 2451545.0) / 36525.0;
 end;
 
-(* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
-procedure GetInp(var X, Y, Z, TEQX: Double; var ECLIPT: Boolean);
+procedure GetInp(var X, Y, Z, TEQX: Double; var IsEclipt: Boolean);
 var
   I, D, M: integer;
   L, B, R, S: Double;
-begin (* GetInp *)
+begin
 
   writeln;
   writeln('                Coco: coordinate conversion           ');
@@ -74,42 +73,42 @@ begin (* GetInp *)
       begin
         write(' Coordinates (x y z) ?  ');
         Readln(X, Y, Z);
-        ECLIPT := True;
+        IsEclipt := True;
       end;
     2:
       begin
         write(' Coordinates (L (o '' ")  B (o '' ")  R) ?  ');
         read(D, M, S);
-        DDD(D, M, S, L);
+        Ddd(D, M, S, L);
         Readln(D, M, S, R);
-        DDD(D, M, S, B);
-        CART(R, B, L, X, Y, Z);
-        ECLIPT := True;
+        Ddd(D, M, S, B);
+        Cart(R, B, L, X, Y, Z);
+        IsEclipt := True;
       end;
     3:
       begin
         write(' Coordinates (x y z) ?  ');
         Readln(X, Y, Z);
-        ECLIPT := False;
+        IsEclipt := False;
       end;
     4:
       begin
-        write(' Coordinates (RA (h m s)  DEC (o '' ")  R) ?  ');
+        write(' Coordinates (Ra (h m s)  Dec (o '' ")  R) ?  ');
         read(D, M, S);
-        DDD(D, M, S, L);
+        Ddd(D, M, S, L);
         Readln(D, M, S, R);
-        DDD(D, M, S, B);
+        Ddd(D, M, S, B);
         L := L * 15.0;
-        CART(R, B, L, X, Y, Z);
-        ECLIPT := False;
+        Cart(R, B, L, X, Y, Z);
+        IsEclipt := False;
       end;
-  end; (* case *)
-  GetEqx(TEQX); (* read equinox *)
-end; (* GetInp *)
+  end; // case
+  GetEqx(TEQX); // read equinox
+end; // GetInp
 
-(* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
-procedure Results(X, Y, Z: Double; ECLIPT: Boolean);
+procedure Results(X, Y, Z: Double; IsEclipt: Boolean);
 
 var
   L, B, R, S: Double;
@@ -122,7 +121,7 @@ begin (* Results *)
   writeln;
 
   Polar(X, Y, Z, R, B, L);
-  if ECLIPT then
+  if IsEclipt then
   begin
     writeln(' ':5, '   o  ''  " ', ' ':8, '   o  ''  " ');
     DMS(L, D, M, S);
@@ -134,29 +133,28 @@ begin (* Results *)
   begin
     writeln(' ':5, '   h  m  s ', ' ':10, '   o  ''  " ');
     DMS(L / 15, D, M, S);
-    write(' RA = ', D:2, M:3, S:5:1, ' ':3);
+    write(' Ra = ', D:2, M:3, S:5:1, ' ':3);
     DMS(B, D, M, S);
-    write(' DEC = ', D:3, M:3, S:5:1, ' ':3);
+    write(' Dec = ', D:3, M:3, S:5:1, ' ':3);
   end;
 
   writeln(' R = ', R:12:8);
   writeln;
   writeln;
+end; // Results
 
-end; (* Results *)
-
-(* ----------------------------------------------------------------------- *)
+//-----------------------------------------------------------------------
 
 begin (* Coco *)
-  GetInp(X, Y, Z, TEQX, ECLIPT);
-  Results(X, Y, Z, ECLIPT);
+  GetInp(X, Y, Z, TEQX, IsEclipt);
+  Results(X, Y, Z, IsEclipt);
   repeat
     write(' Command (?=Help): ');
-    Readln(MODE);
+    Readln(CharMode);
     writeln;
 
-    if MODE in ['?', 'P', 'p', 'E', 'e', 'H', 'h', 'G', 'g'] then
-      case MODE of
+    if CharMode in ['?', 'P', 'p', 'E', 'e', 'H', 'h', 'G', 'g'] then
+      case CharMode of
         '?':
           begin (* help *)
             writeln;
@@ -169,11 +167,11 @@ begin (* Coco *)
           begin (* precession *)
             write(' New');
             GetEqx(TEQXN); (* read new equinox *)
-            if ECLIPT then
-              PMATECL(TEQX, TEQXN, A)
+            if IsEclipt then
+              PrecMatEcl(TEQX, TEQXN, A)
             else
-              PMATEQU(TEQX, TEQXN, A);
-            PRECART(A, X, Y, Z);
+              PrecMatEqu(TEQX, TEQXN, A);
+            PrecArt(A, X, Y, Z);
             TEQX := TEQXN;
             writeln;
             writeln(' Coordinates referred to equinox T =', TEQX:13:10);
@@ -181,30 +179,30 @@ begin (* Coco *)
         'E', 'e':
           begin (* ecliptic <-> equatorial *)
             writeln;
-            if (ECLIPT) then
+            if (IsEclipt) then
             begin
-              ECLEQU(TEQX, X, Y, Z);
+              Ecl2Equ(TEQX, X, Y, Z);
               write(' Equatorial');
             end
             else
             begin
-              EQUECL(TEQX, X, Y, Z);
+              Equ2Ecl(TEQX, X, Y, Z);
               write(' Ecliptic');
             end;
             writeln(' coordinates: ');
-            ECLIPT := not ECLIPT;
+            IsEclipt := not IsEclipt;
           end;
         'G', 'g', (* -> geocentric coordinates *)
         'H', 'h': (* -> heliocentric coordinates *)
           begin
             GetDat(T); (* read date *)
-            Sun200(T, LS, BS, RS);
-            CART(RS, BS, LS, XS, YS, ZS);
-            PMATECL(T, TEQX, A);
-            PRECART(A, XS, YS, ZS);
-            if not ECLIPT then
-              ECLEQU(TEQX, XS, YS, ZS);
-            if MODE in ['G', 'g'] then (* -> geocentric *)
+            SunPos(T, LS, BS, RS);
+            Cart(RS, BS, LS, XS, YS, ZS);
+            PrecMatEcl(T, TEQX, A);
+            PrecArt(A, XS, YS, ZS);
+            if not IsEclipt then
+              Ecl2Equ(TEQX, XS, YS, ZS);
+            if CharMode in ['G', 'g'] then (* -> geocentric *)
             begin
               X := X + XS;
               Y := Y + YS;
@@ -220,8 +218,7 @@ begin (* Coco *)
             end;
           end;
       end;
-    if not(MODE in ['?', 'S', 's']) then
-      Results(X, Y, Z, ECLIPT);
-  until MODE in ['S', 's'];
-
-end. (* Coco *)
+    if not(CharMode in ['?', 'S', 's']) then
+      Results(X, Y, Z, IsEclipt);
+  until CharMode in ['S', 's'];
+end.

@@ -44,7 +44,7 @@ const int StrLen = 13;
 //   Dec0      Declination of plate centre
 //   NObj      Number of objects read
 //   Name[]    Names of the objects
-//   RA[]      Right ascensions of reference objects
+//   Ra[]      Right ascensions of reference objects
 //   Dec[]     Declinations of reference objects
 //   x[]       Measured coordinates of reference objects...
 //   y[]       ... with respect to the plate centre [mm]
@@ -54,7 +54,7 @@ const int StrLen = 13;
 //------------------------------------------------------------------------------
 void GetInput ( char* Filename,
                 double& RA0, double& Dec0, int& NObj, char Name[][StrLen],
-                double RA[], double Dec[], double x[], double y[] )
+                double Ra[], double Dec[], double x[], double y[] )
 {
   //
   // Variables
@@ -91,14 +91,14 @@ void GetInput ( char* Filename,
       inp >> h >> m >> s;       inp.get(c).get(c).get(sign);
       inp >> deg >> min >> sec; inp.ignore(81,'\n'); 
 
-      RA[i]  = Rad*15.0*Ddd(h,m,s);
+      Ra[i]  = Rad*15.0*Ddd(h,m,s);
       Dec[i] = Rad*Ddd(deg,min,sec); if (sign=='-') Dec[i] = -Dec[i];
     }
     else { 
       
       // Unknown object
       inp >> x[i] >> y[i]; inp.ignore(81,'\n'); 
-      RA[i]=0.0; Dec[i]=0.0;
+      Ra[i]=0.0; Dec[i]=0.0;
     };
     
     NObj = i+1;
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
   int       i, NObj;
   char      Name[MaxObj][StrLen];
   double    RA0, Dec0, RA_Obs, Dec_Obs, D_RA, D_Dec;
-  double    RA[MaxObj], Dec[MaxObj], Delta[MaxObj];
+  double    Ra[MaxObj], Dec[MaxObj], Delta[MaxObj];
   double    x[MaxObj], y[MaxObj];
   double    X[MaxObj], Y[MaxObj];
   double    A[NEst],C[NEst];
@@ -163,14 +163,14 @@ int main(int argc, char* argv[])
 
   
   // Read input file 
-  GetInput (InputFile, RA0,Dec0, NObj, Name, RA,Dec, x,y);
+  GetInput (InputFile, RA0,Dec0, NObj, Name, Ra,Dec, x,y);
 
 
   // Calculate standard coordinates of reference stars and 
   // fill least squares systems
   for (i=0;i<NObj;i++)
     if (Name[i][0]=='*') {
-      EquStd (RA0, Dec0, RA[i], Dec[i], X[i], Y[i]);
+      EquStd (RA0, Dec0, Ra[i], Dec[i], X[i], Y[i]);
       A[0]=x[i]; A[1]=y[i]; A[2]=1.0;
       LSQx.Accumulate (A, X[i]);
       LSQy.Accumulate (A, Y[i]);
@@ -188,11 +188,11 @@ int main(int argc, char* argv[])
     Y[i] = d*x[i]+e*y[i]+f;
     StdEqu (RA0, Dec0, X[i], Y[i], RA_Obs, Dec_Obs);
     if (Name[i][0]=='*') {  
-      D_RA  = (RA_Obs-RA[i]) * cos(Dec[i]);
+      D_RA  = (RA_Obs-Ra[i]) * cos(Dec[i]);
       D_Dec = (Dec_Obs-Dec[i]);
       Delta[i] = Arcs * sqrt(D_RA*D_RA+D_Dec*D_Dec);  // in [arcsec]
     };
-    RA[i] = RA_Obs;  Dec[i] = Dec_Obs;
+    Ra[i] = RA_Obs;  Dec[i] = Dec_Obs;
   };
   
   
@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
 
   cout << " Coordinates:" << endl << endl
        << "        Name        x      y       X       Y "
-       << "         RA           Dec    Error" << endl
+       << "         Ra           Dec    Error" << endl
        << "                   mm     mm                 "
        << "      h  m  s       o  '  \"     \" " << endl;
 
@@ -234,7 +234,7 @@ int main(int argc, char* argv[])
     cout << "   " << Name[i] << fixed 
          << setprecision(1) << setw(7) << x[i] << setw(7) << y[i]
          << setprecision(4) << setw(9) << X[i] << setw(8) << Y[i]
-         << setprecision(2) << setw(14) << Angle(Deg*RA[i]/15,DMMSSs)
+         << setprecision(2) << setw(14) << Angle(Deg*Ra[i]/15,DMMSSs)
          << showpos << "  "
          << setprecision(1) << setw(11) << Angle(Deg*Dec[i],DMMSSs)
          << noshowpos;

@@ -115,14 +115,14 @@ Vec3D Site (double lambda, double phi);
 //
 // Output :
 //
-//   RA        Right ascension
+//   Ra        Right ascension
 //   Dec       Declination
 //
 // Note: all angles in [rad]
 //
 //------------------------------------------------------------------------------
 void StdEqu ( double RA0, double Dec0, double X, double Y,
-              double& RA, double& Dec );
+              double& Ra, double& Dec );
 
 
 //------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ void StdEqu ( double RA0, double Dec0, double X, double Y,
 //
 //   RA0       Right ascension of optical axis
 //   Dec0      Declination of optical axis
-//   RA        Right ascension
+//   Ra        Right ascension
 //   Dec       Declination
 //
 // Output:
@@ -144,7 +144,7 @@ void StdEqu ( double RA0, double Dec0, double X, double Y,
 // Note: all angles in [rad]
 //
 //------------------------------------------------------------------------------
-void EquStd ( double RA0, double Dec0, double RA, double Dec,
+void EquStd ( double RA0, double Dec0, double Ra, double Dec,
               double& X, double& Y );
 
 

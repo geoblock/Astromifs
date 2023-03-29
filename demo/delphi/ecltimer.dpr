@@ -14,11 +14,11 @@ program EclTimer(Input, Output);
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Sphlib,
-  Apc.Sunlib,
+  Apc.Mathem,
+  Apc.Spheric,
+  Apc.Sun,
   Apc.Moon,
-  Apc.Timlib;
+  Apc.Time;
 
 const
   MAX_TP_DEG = 8; (* Degree of Tschebyscheff polynomials *)
@@ -31,7 +31,7 @@ type
   SHADOW_TYPE = (PENUMBRA, UMBRA);
   PHASE_TYPE = (NO_ECLIPSE, PARTIAL, ANNULAR, TOTAL);
   TPINDX = (RAM, DEM, RM, RAS, DES, RS);
-  TPOLYEPH = array [TPINDX] of TPolynom;
+  TPOLYEPH = array [TPINDX] of TPolynomCheb;
   REAL4 = array [1 .. 4] of Double;
 
   Tfunction = function(X: Double): Double; (* function prototype y=f(x) *)
@@ -63,7 +63,7 @@ begin
 end;
 
 (* --------------------------------------------------------------------------- *)
-(* Etminut: *)
+(* ETminUT: *)
 (* Difference between ephemeris time and universal time (polynomial *)
 (* representation for the years 1900-1995 and approximation for times *)
 (* before 1900. *)
@@ -71,7 +71,7 @@ end;
 (* DTSEC  DT=ET-UT in sec (only if VALID=True) *)
 (* VALID  True if T is before 1995 *)
 (* Note: *)
-(* Modified version of routine Etminut from "Astronomy on the PC". *)
+(* Modified version of routine ETminUT from "Astronomy on the PC". *)
 (* For historic periods the approximate relation given in *)
 (* F.R.Stephenson, "Pre-Telescopic Astronomical Observations", *)
 (* in "Tidal Friction and the Earth's Rotation", *)
@@ -79,7 +79,7 @@ end;
 (* is used. *)
 (* --------------------------------------------------------------------------- *)
 
-procedure Etminut(T: Double; var DTSEC: Double; var VALID: Boolean);
+procedure ETminUT(T: Double; var DTSEC: Double; var VALID: Boolean);
 
 begin
 
@@ -205,7 +205,7 @@ begin
   Readln(YEAR, MONTH, DAY, UT);
   TNEWMOON := (MJD(DAY, MONTH, YEAR, UT) - 51544.5) / 36525.0;
 
-  Etminut(TNEWMOON, ETDIFUT, DTVALID);
+  ETminUT(TNEWMOON, ETDIFUT, DTVALID);
   if (DTVALID) then
     write(' Difference ET-UT (proposal:', Trunc(ETDIFUT + 0.5):3, ' sec)         ... ')
   else
@@ -237,15 +237,15 @@ end; (* GetInput *)
 (* (in earth radii) *)
 (* --------------------------------------------------------------------------- *)
 
-procedure Bessel(T_UT, ETDIFUT: Double; POLYEPH: TPOLYEPH; var IJK: MAT3X; var XSH, YSH: Double;
+procedure Bessel(T_UT, ETDIFUT: Double; POLYEPH: TPOLYEPH; var IJK: Mat3X; var XSH, YSH: Double;
   var F1, L1, F2, L2: Double);
 
 var
   T_ET, DIST, ZSH: Double;
   RA_SUN, DEC_SUN, R_SUN: Double;
   RA_MOON, DEC_MOON, R_MOON: Double;
-  SUN_POS, MOON_POS, MS: VECTOR;
-  I: INDEX;
+  SUN_POS, MOON_POS, MS: Vector;
+  I: Index;
 
 begin
 
@@ -255,12 +255,12 @@ begin
   RA_SUN := T_Eval(POLYEPH[RAS], T_ET);
   DEC_SUN := T_Eval(POLYEPH[DES], T_ET);
   R_SUN := T_Eval(POLYEPH[RS], T_ET) * AE;
-  CART(R_SUN, DEC_SUN, RA_SUN, SUN_POS[X], SUN_POS[Y], SUN_POS[Z]);
+  Cart(R_SUN, DEC_SUN, RA_SUN, SUN_POS[X], SUN_POS[Y], SUN_POS[Z]);
 
   RA_MOON := T_Eval(POLYEPH[RAM], T_ET);
   DEC_MOON := T_Eval(POLYEPH[DEM], T_ET);
   R_MOON := T_Eval(POLYEPH[RM], T_ET);
-  CART(R_MOON, DEC_MOON, RA_MOON, MOON_POS[X], MOON_POS[Y], MOON_POS[Z]);
+  Cart(R_MOON, DEC_MOON, RA_MOON, MOON_POS[X], MOON_POS[Y], MOON_POS[Z]);
 
   (* The sun-moon direction unit vector becomes vector *)
   (* IJK[3,*] of the triade defining the fundamental plane *)
@@ -310,12 +310,12 @@ end; (* Bessel *)
 (* XI,ETA,ZETA             observer's coordinates on the fundamental plane *)
 (* --------------------------------------------------------------------------- *)
 
-procedure Observer(T_UT: Double; LAMBDA, RCOSPHI, RSINPHI: Double; IJK: MAT3X;
+procedure Observer(T_UT: Double; LAMBDA, RCOSPHI, RSINPHI: Double; IJK: Mat3X;
   var XI, ETA, ZETA: Double);
 
 var
   LHA_OBS: Double;
-  ROBS: VECTOR;
+  ROBS: Vector;
 
 begin
 
@@ -361,7 +361,7 @@ var
   XI, ETA, ZETA: Double;
   XSH, YSH: Double;
   F1, L1, F2, L2, LL: Double;
-  IJK: MAT3X;
+  IJK: Mat3X;
 
 begin
 
@@ -460,12 +460,12 @@ const
   DTAB = 0.10; (* Step size [h] *)
   CENT = 876600.0; (* 24*36525 hours per century *)
   EPS = 1.0E-10; (* Accuracy for contact times (approx. 0.3s) *)
-  PI = 3.14159265359;
+
 
 var
   I, N_ROOTS, N_CONTACTS: integer;
-  MOON_POS: VECTOR;
-  IJK: MAT3X;
+  MOON_POS: Vector;
+  IJK: Mat3X;
   T_UT, DT: Double;
   PD_MINUS, PD_0, PD_PLUS, XE, YE: Double;
   ROOT1, ROOT2: Double;
@@ -600,11 +600,11 @@ begin (* CONTACTS *)
         OBSCUR := 0.0;
       PARTIAL:
         begin
-          B := (PI / 180.0) * ACS((LL1 * LL2 + M * M) / (M * (LL1 + LL2)));
-          C := (PI / 180.0) * ACS((LL1 * LL1 + LL2 * LL2 - 2 * M * M) / (LL1 * LL1 - LL2 * LL2));
-          A := PI - (B + C);
+          B := (Pi / 180.0) * ACS((LL1 * LL2 + M * M) / (M * (LL1 + LL2)));
+          C := (Pi / 180.0) * ACS((LL1 * LL1 + LL2 * LL2 - 2 * M * M) / (LL1 * LL1 - LL2 * LL2));
+          A := Pi - (B + C);
           S := (LL1 - LL2) / (LL1 + LL2);
-          OBSCUR := (S * S * A + B - S * Sin(C)) / PI;
+          OBSCUR := (S * S * A + B - S * Sin(C)) / Pi;
         end;
       ANNULAR:
         begin
@@ -662,7 +662,7 @@ var
   XI, ETA, ZETA: Double;
   XS, YS: Double;
   F1, L1, F2, L2, LL: Double;
-  IJK: MAT3X;
+  IJK: Mat3X;
 
 begin
 
@@ -738,7 +738,7 @@ begin
   begin
 
     MJD_UT := T_MAX * 36525.0 + 51544.5;
-    CALDAT(MJD_UT, DAY, MONTH, YEAR, HOUR);
+    CalDat(MJD_UT, DAY, MONTH, YEAR, HOUR);
     DMS(HOUR, HRS, MINS, SECS);
 
     writeln(' Maximum at ', HRS:2, ':', MINS:2, ':', Trunc(SECS + 0.5):2, ' UT.');
@@ -761,7 +761,7 @@ begin
             write(' 4th contact: ');
         end;
         MJD_UT := CONTACT_TIMES[INDX] * 36525.0 + 51544.5;
-        CALDAT(MJD_UT, DAY, MONTH, YEAR, HOUR);
+        CalDat(MJD_UT, DAY, MONTH, YEAR, HOUR);
         DMS(HOUR, HRS, MINS, SECS);
         write(YEAR:4, '/', MONTH:2, '/', DAY:2, ' ');
         write(HRS:3, MINS:3, Trunc(SECS + 0.5):3);
@@ -782,13 +782,13 @@ begin (* EclTimer main program *)
   (* Input data *)
 
   GetInput(TNEWMOON, ETDIFUT, LAMBDA, PHI);
-  SITE(PHI, RCOSPHI, RSINPHI);
+  Site(PHI, RCOSPHI, RSINPHI);
 
   (* Chebyshev approximation of solar and lunar coordinates *)
 
-  T_FIT_MOON(TNEWMOON - TDEVELOP, TNEWMOON + TDEVELOP, MAX_TP_DEG, POLYEPH[RAM], POLYEPH[DEM],
+  T_Fit_Moon(TNEWMOON - TDEVELOP, TNEWMOON + TDEVELOP, MAX_TP_DEG, POLYEPH[RAM], POLYEPH[DEM],
     POLYEPH[RM]);
-  T_FIT_SUN(TNEWMOON - TDEVELOP, TNEWMOON + TDEVELOP, MAX_TP_DEG, POLYEPH[RAS], POLYEPH[DES],
+  T_Fit_Sun(TNEWMOON - TDEVELOP, TNEWMOON + TDEVELOP, MAX_TP_DEG, POLYEPH[RAS], POLYEPH[DES],
     POLYEPH[RS]);
 
   (* Compute contact times and position angles *)

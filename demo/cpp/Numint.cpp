@@ -403,7 +403,7 @@ int main(int argc, char* argv[])
   // Ephemeris header
   cout << endl << endl
        << "    Date    ET    Sun     l      b     r"
-       << "       RA          Dec      Distance " << endl
+       << "       Ra          Dec      Distance " << endl
        << setw(43) << " " << "   h  m  s      o  '  \"    (AU) " << endl;
 
 

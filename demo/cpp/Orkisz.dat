@@ -1,0 +1,6 @@
+Comet Orkisz (Example from Stracke: Bahnbestimmung, p.182)
+ 1925 04 05  2.786  22 26 43.51  16 37 16.00  ! Three observations  
+ 1925 04 08  2.731  22 29 42.90  19 46 25.10  ! Format: Date (ymdh),
+ 1925 04 11  2.614  22 32 55.00  23 04 52.30  !         RA (hms), Dec (dms)
+ 1925.0                                       ! Equinox
+ 1925.0                                       ! Required equinox 

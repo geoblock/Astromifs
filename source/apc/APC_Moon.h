@@ -41,7 +41,7 @@ Vec3D MoonPos (double T);
 //   T         Time in Julian centuries since J2000
 //
 // <return>:   Geocentric equatorial position of the Moon 
-//             (RA and declination in [rad], distance in [km])
+//             (Ra and declination in [rad], distance in [km])
 //
 // Notes: Light-time is already taken into account
 //
@@ -51,7 +51,7 @@ Vec3D MoonEqu (double T);
 
 //------------------------------------------------------------------------------
 //
-// MiniMoon: Computes the Moon's RA and declination using a low precision 
+// MiniMoon: Computes the Moon's Ra and declination using a low precision 
 //           analytical series
 //
 // Input:
@@ -60,11 +60,11 @@ Vec3D MoonEqu (double T);
 //
 // Output:
 //
-//   RA        Right Ascension of the Moon in [rad]
+//   Ra        Right Ascension of the Moon in [rad]
 //   Dec       Declination of the Moon in [rad]
 //
 //------------------------------------------------------------------------------
-void MiniMoon (double T, double& RA, double& Dec);
+void MiniMoon (double T, double& Ra, double& Dec);
 
 
 #endif   // include blocker

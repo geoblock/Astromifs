@@ -44,12 +44,12 @@ int main(int argc, char* argv[])
   char      sign;       // Declination (sign)
   int       deg,min;    // Declination (degrees, minutes)
   double    sec;        // Declination (seconds)
-  double    RA,Dec;     // Right ascesnion, declination
+  double    Ra,Dec;     // Right ascesnion, declination
   float     pmRA,pmDec; // Proper motion 
 
   struct {
     long   PPM;
-    double RA,Dec;
+    double Ra,Dec;
     float  pmRA,pmDec,mag;
   } Data;
 
@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
     inp.ignore(1);           //  48       (empty)
     inp >> sec;              //  49- 53   Declination J2000 (seconds)
     inp.ignore(2);           //  54- 55   (empty)
-    inp >> pmRA;             //  56- 62   Proper motion in RA [s/year]
+    inp >> pmRA;             //  56- 62   Proper motion in Ra [s/year]
     inp.ignore(1);           //  63       (empty)
     inp >> pmDec;            //  64- 69   Proper motion in Dec ["/year]
     
@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 
     // Coordinates epoch J2000  [rad]
     
-    RA  = Rad*15.0*Ddd(h,m,s);
+    Ra  = Rad*15.0*Ddd(h,m,s);
     Dec = Rad*Ddd(deg,min,sec); if (sign=='-') Dec = -Dec;
 
     // Proper motion [rad/cent.]
@@ -134,7 +134,7 @@ int main(int argc, char* argv[])
     // Output (binary format)
 
     Data.PPM   = PPM;
-    Data.RA    = RA;
+    Data.Ra    = Ra;
     Data.Dec   = Dec;
     Data.pmRA  = pmRA;
     Data.pmDec = pmDec;

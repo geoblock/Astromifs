@@ -128,12 +128,12 @@ void Position::Input()
       else {
         
         int     d,m;
-		double  s, RA,Dec,R;
-        cout << "  Coordinates (RA [h m s] Dec [o ' \"] R)  ... ";
-        cin >> d >> m >> s; RA=15.0*Rad*Ddd(d,m,s);
+		double  s, Ra,Dec,R;
+        cout << "  Coordinates (Ra [h m s] Dec [o ' \"] R)  ... ";
+        cin >> d >> m >> s; Ra=15.0*Rad*Ddd(d,m,s);
         cin >> d >> m >> s; Dec=Rad*Ddd(d,m,s);
         cin >> R; cin.ignore(81,'\n');
-		m_R = Vec3D(Polar(RA,Dec,R));
+		m_R = Vec3D(Polar(Ra,Dec,R));
       };
 	  break;
 	};
@@ -258,7 +258,7 @@ void Position::Print()
 
   if ( m_RefSys==Equator ) {
     cout << "         h  m  s               o  '  \"" << endl;
-    cout << "  RA = " << setprecision(2) << setw(11)
+    cout << "  Ra = " << setprecision(2) << setw(11)
          << Angle(Deg*m_R[phi]/15.0,DMMSSs);
     cout << "    Dec = " << setprecision(1) << showpos << setw(11) 
          << Angle(Deg*m_R[theta],DMMSSs) << noshowpos;

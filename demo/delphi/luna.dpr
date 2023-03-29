@@ -8,26 +8,26 @@ program Luna(Input, Output);
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Pnulib,
-  Apc.Sphlib,
+  Apc.Mathem,
+  Apc.PrecNut,
+  Apc.Spheric,
   Apc.Moon,
-  Apc.Timlib;
+  Apc.Time;
 
 const
   T_OVERLAP = 3.42E-6; (* 3h  in Julian centuries *)
   T_DEVELOP = 2.737850787E-4; (* 10d in Julian centuries *)
 
 var
-  RA, DE, R, PAR, MODJD, HOUR: Double;
+  Ra, DE, R, PAR, MODJD, HOUR: Double;
   T, DT, T_START, T_END, TA, TB: Double;
   DAY, MONTH, YEAR, NLINE: integer;
-  RA_POLY, DE_POLY, R_POLY: TPolynom;
+  RA_POLY, DE_POLY, R_POLY: TPolynomCheb;
 
   (* ----------------------------------------------------------------------- *)
-  (* GETEPH: reads the period of time for the ephemeris *)
+  (* GetEph: reads the period of time for the ephemeris *)
   (* ----------------------------------------------------------------------- *)
-procedure GETEPH(var T1, DT, T2: Double);
+procedure GetEph(var T1, DT, T2: Double);
 var
   YEAR, MONTH, DAY: integer;
   HOUR: Double;
@@ -72,10 +72,10 @@ end;
 
 begin (* main program *)
 
-  GETEPH(T_START, DT, T_END); (* read desired dates *)
+  GetEph(T_START, DT, T_END); (* read desired dates *)
 
   writeln;
-  write('    Date      ET       RA           Dec      Distance  ');
+  write('    Date      ET       Ra           Dec      Distance  ');
   writeln(' Parallax ');
   write('              h      h  m  s      o  ''  "  Earth radii');
   writeln('    ''  "   ');
@@ -92,24 +92,24 @@ begin (* main program *)
     begin
       TA := T - T_OVERLAP;
       TB := T + T_DEVELOP + T_OVERLAP;
-      T_FIT_MOON(TA, TB, MAX_TP_DEG, RA_POLY, DE_POLY, R_POLY);
+      T_Fit_Moon(TA, TB, MAX_TP_DEG, RA_POLY, DE_POLY, R_POLY);
     end;
 
     (* date *)
     MODJD := T * 36525.0 + 51544.5;
-    CALDAT(MODJD, DAY, MONTH, YEAR, HOUR);
+    CalDat(MODJD, DAY, MONTH, YEAR, HOUR);
     write(YEAR:5, '/', MONTH:2, '/', DAY:2, HOUR:5:1);
 
     (* coordinates *)
-    RA := T_Eval(RA_POLY, T) / 15.0;
-    if RA < 0.0 then
-      RA := RA + 24.0;
+    Ra := T_Eval(RA_POLY, T) / 15.0;
+    if Ra < 0.0 then
+      Ra := Ra + 24.0;
     DE := T_Eval(DE_POLY, T);
     R := T_Eval(R_POLY, T);
     PAR := ASN(1.0 / R);
 
     (* print coordinates *)
-    WRTLBRP(RA, DE, R, PAR);
+    WRTLBRP(Ra, DE, R, PAR);
     NLINE := NLINE + 1;
     if (NLINE MOD 5) = 0 then
       writeln;

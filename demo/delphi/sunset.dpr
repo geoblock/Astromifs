@@ -1,21 +1,20 @@
-(* ----------------------------------------------------------------------- *)
-(* Sunset *)
-(* solar and lunar rising and setting times *)
-(* ----------------------------------------------------------------------- *)
-
 program Sunset(Input, Output);
+
+(* ----------------------------------------------------------------------- *)
+(* Solar and lunar rising and setting times *)
+(* ----------------------------------------------------------------------- *)
 
 {$APPTYPE CONSOLE}
 
 uses
-  Apc.Matlib,
-  Apc.Sunlib,
+  Apc.Mathem,
+  Apc.Sun,
   Apc.Moon,
-  Apc.Timlib;
+  Apc.Time;
 
 var
   ABOVE, RISE, SETT: Boolean;
-  DAY, MONTH, YEAR, I, IOBJ, NZ: integer;
+  DAY, MONTH, YEAR, I, IOBJ, NZ: Integer;
   LAMBDA, ZONE, PHI, SPHI, CPHI: Double;
   TSTART, DATE, HOUR, HH, UTRISE, UTSET: Double;
   Y_MINUS, Y_0, Y_PLUS, ZERO1, ZERO2, XE, YE: Double;
@@ -27,16 +26,16 @@ var
   (* ----------------------------------------------------------------------- *)
 function SIN_ALT(IOBJ: integer; MJD0, HOUR, LAMBDA, CPHI, SPHI: Double): Double;
 var
-  MJD, T, RA, DEC, TAU: Double;
+  MJD, T, Ra, Dec, TAU: Double;
 begin
   MJD := MJD0 + HOUR / 24.0;
   T := (MJD - 51544.5) / 36525.0;
   if (IOBJ = 1) then
-    MINI_MOON(T, RA, DEC)
+    MiniMoon(T, Ra, Dec)
   else
-    MINI_SUN(T, RA, DEC);
-  TAU := 15.0 * (LMST(MJD, LAMBDA) - RA);
-  SIN_ALT := SPHI * SN(DEC) + CPHI * CS(DEC) * CS(TAU);
+    MiniSun(T, Ra, Dec);
+  TAU := 15.0 * (LMST(MJD, LAMBDA) - Ra);
+  SIN_ALT := SPHI * SN(Dec) + CPHI * CS(Dec) * CS(TAU);
 end;
 
 (* ----------------------------------------------------------------------- *)
@@ -100,7 +99,7 @@ begin (* Sunset *)
   for I := 0 to 9 do (* loop over 10 subsequent days *)
   begin
     DATE := TSTART + I;
-    CALDAT(DATE + ZONE, DAY, MONTH, YEAR, HH);
+    CalDat(DATE + ZONE, DAY, MONTH, YEAR, HH);
     write(YEAR:5, '/', MONTH:2, '/', DAY:2, '  '); (* print current date *)
     for IOBJ := 1 to 3 do
     begin

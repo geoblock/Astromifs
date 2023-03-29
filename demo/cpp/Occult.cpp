@@ -71,8 +71,8 @@ class Star {
 
     double RA_Cat;               // Catalogue right ascension in [rad]
     double Dec_Cat;              // Catalogue declination in [rad]
-    double mu_RA;                // Proper motion RA in [rad/cy]
-    double mu_Dec;               // Proper motion DEC in [rad/cy]
+    double mu_RA;                // Proper motion Ra in [rad/cy]
+    double mu_Dec;               // Proper motion Dec in [rad/cy]
     double mag;                  // Visual brightness in [mag]
     char   name[12];             // Name
 
@@ -123,11 +123,11 @@ void Star::SetEpoch (double T)
 Vec3D Star::Apparent()
 {
   // Proper motion
-  double RA  = RA_Cat  + mu_RA *(T_Epoch-T_CatEpoch);
+  double Ra  = RA_Cat  + mu_RA *(T_Epoch-T_CatEpoch);
   double Dec = Dec_Cat + mu_Dec*(T_Epoch-T_CatEpoch);
 
   // Precession, nutation
-  Vec3D e = PN * Vec3D(Polar(RA, Dec));
+  Vec3D e = PN * Vec3D(Polar(Ra, Dec));
 
   // Aberration
   e = e + v_Earth;
@@ -365,7 +365,7 @@ void GetInput ( double& MjdStart, double& MjdEnd,  double& ET_UT,
 //
 //   T        Time in Julian centuries ET since J2000
 //
-// <return>:  Difference in RA between Moon and star in [rad]
+// <return>:  Difference in Ra between Moon and star in [rad]
 //
 // Globals used:
 //
@@ -409,7 +409,7 @@ void Conjunct ( double T1,  double T2, double RA1, double RA2, Vec3D& e,
   //
   // Constants
   //
-  const double eps = Rad*1.0e-4;      // Required accuracy in RA [rad]
+  const double eps = Rad*1.0e-4;      // Required accuracy in Ra [rad]
 
   //
   // Variables

@@ -293,7 +293,7 @@ Vec3D SunEqu ( double T )
 
 //------------------------------------------------------------------------------
 //
-// MiniSun: Computes the Sun's RA and declination using a low precision 
+// MiniSun: Computes the Sun's Ra and declination using a low precision 
 //          analytical series
 //
 // Input:
@@ -302,11 +302,11 @@ Vec3D SunEqu ( double T )
 //
 // Output:
 //
-//   RA        Right Ascension of the Sun in [rad]
+//   Ra        Right Ascension of the Sun in [rad]
 //   Dec       Declination of the Sun in [rad]
 //
 //------------------------------------------------------------------------------
-void MiniSun (double T, double& RA, double& Dec)
+void MiniSun (double T, double& Ra, double& Dec)
 {
   //
   // Constants
@@ -329,6 +329,6 @@ void MiniSun (double T, double& RA, double& Dec)
   // Equatorial coordinates
   e_Sun = R_x(-eps) * Vec3D(Polar(L,0.0));
   
-  RA  = e_Sun[phi];
+  Ra  = e_Sun[phi];
   Dec = e_Sun[theta];
 }

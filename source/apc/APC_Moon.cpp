@@ -416,7 +416,7 @@ Vec3D MoonEqu (double T)
 
 //------------------------------------------------------------------------------
 //
-// MiniMoon: Computes the Moon's RA and declination using a low precision 
+// MiniMoon: Computes the Moon's Ra and declination using a low precision 
 //           analytical series
 //
 // Input:
@@ -425,11 +425,11 @@ Vec3D MoonEqu (double T)
 //
 // Output:
 //
-//   RA        Right Ascension of the Moon in [rad]
+//   Ra        Right Ascension of the Moon in [rad]
 //   Dec       Declination of the Moon in [rad]
 //
 //------------------------------------------------------------------------------
-void MiniMoon (double T, double& RA, double& Dec)
+void MiniMoon (double T, double& Ra, double& Dec)
 {
   //
   // Constants
@@ -473,6 +473,6 @@ void MiniMoon (double T, double& RA, double& Dec)
   // Equatorial coordinates
   e_Moon = R_x(-eps) * Vec3D(Polar(l_Moon,b_Moon));
   
-  RA  = e_Moon[phi];
+  Ra  = e_Moon[phi];
   Dec = e_Moon[theta];
 }
