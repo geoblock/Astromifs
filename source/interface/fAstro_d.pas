@@ -13,7 +13,6 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
 
-  Apc.Mathem,
   Vcl.Menus,
   Vcl.ComCtrls,
   Vcl.ExtCtrls,

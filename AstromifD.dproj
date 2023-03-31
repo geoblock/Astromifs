@@ -142,19 +142,8 @@
             <Form>frmAbout</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="source\astronomy\astronomy.pas"/>
         <DCCReference Include="source\code\Qod.Randomam.pas"/>
         <DCCReference Include="source\code\Qod.SolarSys.pas"/>
-        <DCCReference Include="source\apc\Apc.DiffEq.pas"/>
-        <DCCReference Include="source\apc\Apc.Mathem.pas"/>
-        <DCCReference Include="source\apc\Apc.Moon.pas"/>
-        <DCCReference Include="source\apc\Apc.Planets.pas"/>
-        <DCCReference Include="source\apc\Apc.Sun.pas"/>
-        <DCCReference Include="source\apc\Apc.Time.pas"/>
-        <DCCReference Include="source\apc\Apc.Physic.pas"/>
-        <DCCReference Include="source\apc\Apc.Kepler.pas"/>
-        <DCCReference Include="source\apc\Apc.Spheric.pas"/>
-        <DCCReference Include="source\apc\Apc.PrecNut.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
