@@ -1,4 +1,4 @@
-unit Qod.Randomam;
+unit uRandom;
 (*
   Some of the code is translated from:
   RANLIB - Library of Fortran Routines for Random Number Generation

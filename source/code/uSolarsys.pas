@@ -1,4 +1,4 @@
-unit Qod.SolarSys;
+unit uSolarsys;
 
 (*
   Solar system planetary elements and positions utility unit.
@@ -11,8 +11,15 @@ interface
 
 uses
   System.SysUtils,
-  System.Math,
-  GLS.VectorGeometry;
+  System.Math;
+
+
+type
+  TVector3d = record
+    case Integer of
+      0 : (V: array[0..2] of Double);
+      1 : (X,Y,Z: Double);
+  end;
 
 
 type
@@ -110,9 +117,9 @@ function ComputeOrbitalElements(const oeData: TOrbitalElementsData;
 
 // Compute the planet position for given julian day (in AU).
 function ComputePlanetPosition(const orbitalElements: TOrbitalElements)
-  : TAffineVector; overload;
+  : TVector3d; overload;
 function ComputePlanetPosition(const orbitalElementsData: TOrbitalElementsData;
-  const d: Double): TAffineVector; overload;
+  const d: Double): TVector3d; overload;
 
 const
   cPI: Single = 3.141592654;
@@ -145,7 +152,7 @@ begin
 end;
 
 function ComputePlanetPosition(const orbitalElements: TOrbitalElements)
-  : TAffineVector;
+  : TVector3d;
 var
   eccentricAnomaly, eA0: Double;
   sm, cm, se, ce, si, ci, cn, sn, cvw, svw: Double;
@@ -188,7 +195,7 @@ begin
 end;
 
 function ComputePlanetPosition(const orbitalElementsData: TOrbitalElementsData;
-  const d: Double): TAffineVector;
+  const d: Double): TVector3d;
 var
   oe: TOrbitalElements;
 begin

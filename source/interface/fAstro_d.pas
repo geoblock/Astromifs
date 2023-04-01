@@ -156,7 +156,7 @@ begin
   Planet.Material.Texture.Disabled := False;
   Planet.Material.Texture.Image.LoadFromFile(PlanetMap);
 
-  SkyColture := PathToData + '\constellation\constellation.name';
+  SkyColture := PathToData + '\constellation\constellations_names.dat';
   tvConstellations.LoadFromFile(SkyColture);
 
 end;
