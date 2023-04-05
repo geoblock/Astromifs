@@ -71,9 +71,11 @@ object frmAstroD: TfrmAstroD
     Height = 559
     Align = alRight
     TabOrder = 3
+    ExplicitLeft = 744
+    ExplicitTop = 116
     object RadioGroup1: TRadioGroup
       Left = 16
-      Top = 26
+      Top = 291
       Width = 113
       Height = 127
       Caption = 'Coordinate grid'
@@ -87,9 +89,9 @@ object frmAstroD: TfrmAstroD
     end
     object grbShow: TGroupBox
       Left = 16
-      Top = 192
+      Top = 432
       Width = 113
-      Height = 169
+      Height = 121
       Caption = 'View'
       TabOrder = 1
       object chbStars: TCheckBox
@@ -116,6 +118,28 @@ object frmAstroD: TfrmAstroD
         Caption = 'Borders'
         TabOrder = 2
       end
+    end
+    object tvCurrent: TTreeView
+      Left = 1
+      Top = 42
+      Width = 152
+      Height = 224
+      Align = alTop
+      Indent = 19
+      TabOrder = 2
+      ExplicitLeft = 6
+    end
+    object PanelTopR: TPanel
+      Left = 1
+      Top = 1
+      Width = 152
+      Height = 41
+      Align = alTop
+      Caption = 'Current'
+      TabOrder = 3
+      ExplicitLeft = 6
+      ExplicitTop = 6
+      ExplicitWidth = 185
     end
   end
   object GLSceneViewer: TGLSceneViewer

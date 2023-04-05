@@ -12,7 +12,7 @@
         <Projects Include="AstromifX.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Astrofon.dproj">
+        <Projects Include="Astromifon.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -50,23 +50,23 @@
     <Target Name="AstromifX:Make">
         <MSBuild Projects="AstromifX.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="Astrofon">
-        <MSBuild Projects="Astrofon.dproj"/>
+    <Target Name="Astromifon">
+        <MSBuild Projects="Astromifon.dproj"/>
     </Target>
-    <Target Name="Astrofon:Clean">
-        <MSBuild Projects="Astrofon.dproj" Targets="Clean"/>
+    <Target Name="Astromifon:Clean">
+        <MSBuild Projects="Astromifon.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Astrofon:Make">
-        <MSBuild Projects="Astrofon.dproj" Targets="Make"/>
+    <Target Name="Astromifon:Make">
+        <MSBuild Projects="Astromifon.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="AstromifD;AstromifC;AstromifX;Astrofon"/>
+        <CallTarget Targets="AstromifD;AstromifC;AstromifX;Astromifon"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="AstromifD:Clean;AstromifC:Clean;AstromifX:Clean;Astrofon:Clean"/>
+        <CallTarget Targets="AstromifD:Clean;AstromifC:Clean;AstromifX:Clean;Astromifon:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="AstromifD:Make;AstromifC:Make;AstromifX:Make;Astrofon:Make"/>
+        <CallTarget Targets="AstromifD:Make;AstromifC:Make;AstromifX:Make;Astromifon:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

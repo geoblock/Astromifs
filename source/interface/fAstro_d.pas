@@ -102,6 +102,8 @@ type
     Planet: TGLSphere;
     GLSimpleNavigation1: TGLSimpleNavigation;
     OpenDialog: TOpenDialog;
+    tvCurrent: TTreeView;
+    PanelTopR: TPanel;
     procedure About2Click(Sender: TObject);
     procedure Open1Click(Sender: TObject);
     procedure Save1Click(Sender: TObject);
@@ -151,13 +153,16 @@ begin
   LoadTexture('Front', 'mw_front.jpg');
   LoadTexture('Back', 'mw_back.jpg');
 
-  PlanetMap := PathToData + '\map\europa.jpg';
+  PlanetMap := PathToData + '\map\mars.jpg';
 
   Planet.Material.Texture.Disabled := False;
   Planet.Material.Texture.Image.LoadFromFile(PlanetMap);
 
-  SkyColture := PathToData + '\constellation\constellations_names.dat';
+  SkyColture := PathToData + '\constellation\ConstellationNames.dat';
   tvConstellations.LoadFromFile(SkyColture);
+
+  SkyColture := PathToData + '\constellation\ConstShortNames.dat';
+  tvCurrent.LoadFromFile(SkyColture);
 
 end;
 
@@ -166,9 +171,9 @@ end;
 procedure TfrmAstroD.Open1Click(Sender: TObject);
 begin
   // Load next skyculture for constellations ...
-  OpenDialog.Filter := 'Constellation (*.name)|*.name';
+  OpenDialog.Filter := 'Constellation (*.dat)|*.dat';
   OpenDialog.InitialDir := PathToData;
-  OpenDialog.DefaultExt := '*.name';
+  OpenDialog.DefaultExt := '*.dat';
   if OpenDialog.Execute then
   begin
     tvConstellations.LoadFromFile(OpenDialog.FileName);

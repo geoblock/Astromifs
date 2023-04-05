@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{1FAD50ED-A845-446F-A912-DA681B91FBC0}</ProjectGuid>
-        <MainSource>Astrofon.dpr</MainSource>
+        <MainSource>Astromifon.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>3</TargetedPlatforms>
@@ -56,7 +56,7 @@
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_K>false</DCC_K>
         <VerInfo_Locale>1049</VerInfo_Locale>
-        <SanitizedProjectName>Astrofon</SanitizedProjectName>
+        <SanitizedProjectName>Astromifon</SanitizedProjectName>
         <DCC_N>false</DCC_N>
         <DCC_E>false</DCC_E>
         <DCC_F>false</DCC_F>
@@ -156,7 +156,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">Astrofon.dpr</Source>
+                    <Source Name="MainSource">Astromifon.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k280.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
@@ -170,9 +170,9 @@
                 <Platform value="Win64">True</Platform>
             </Platforms>
             <Deployment Version="3">
-                <DeployFile LocalName="Astrofon.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Astromifon.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>Astrofon.exe</RemoteName>
+                        <RemoteName>Astromifon.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

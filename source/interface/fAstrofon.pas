@@ -39,7 +39,7 @@ uses
   GLS.ParticleFX,
   GLS.Material,
 
-  fAbouts,
+  fAbout,
   fOptions,
 
   GLS.VectorTypes,

@@ -125,9 +125,6 @@
         <CppCompile Include="AstromifC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="source\astronomy\astronomy.c">
-            <BuildOrder>2</BuildOrder>
-        </CppCompile>
         <None Include="source\astronomy\astronomy.h">
             <BuildOrder>3</BuildOrder>
         </None>

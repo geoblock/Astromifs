@@ -7,7 +7,7 @@ Purpose: creating a Virtual Musical Playground using GLScene components and obje
 Initial idea and development by Pavel Vassiliev, 2022
 *)
 //---------------------------------------------------------------
-program Astrofon;
+program Astromifon;
 
 uses
   Forms,
