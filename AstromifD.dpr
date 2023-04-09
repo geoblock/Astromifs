@@ -2,10 +2,12 @@ program AstromifD;
 
 uses
   Vcl.Forms,
-  fAstro_d in 'source\interface\fAstro_d.pas' {frmAstroD},
-  fAbout_d in 'source\interface\fAbout_d.pas' {frmAbout},
-  uRandom in 'source\code\uRandom.pas',
-  uSolarsys in 'source\code\uSolarsys.pas';
+  fSonofon in 'source\interface\fSonofon.pas' {frmAstrofon},
+  fInitials in 'source\interface\fInitials.pas' {FormInitial},
+  fOptions in 'source\interface\fOptions.pas' {FormOptions},
+  fDialogs in 'source\interface\fDialogs.pas' {FormDialog},
+  fAbout in 'source\interface\fAbout.pas' {frmAbout},
+  fAstromifs in 'source\interface\fAstromifs.pas' {frmAstroD};
 
 {$R *.res}
 
@@ -13,6 +15,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmAstroD, frmAstroD);
-  Application.CreateForm(TfrmAbout, frmAbout);
   Application.Run;
 end.

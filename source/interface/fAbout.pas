@@ -1,6 +1,3 @@
-//
-(* PaintedNotes for colorized keyboards https://github.com/geoblock *)
-//
 unit fAbout;
 
 interface
@@ -25,7 +22,7 @@ uses
   fDialogs;
 
 type
-  TFormAbouts = class(TFormDialog)
+  TfrmAbout = class(TFormDialog)
     LabelCopyright: TLabel;
     PanelYears: TPanel;
     imgOpenGL: TImage;
@@ -33,9 +30,9 @@ type
     imgGeoblock: TImage;
     LabelVersion: TLabel;
     StaticTextVersion: TStaticText;
-    LabelGeoblock: TLabel;
+    LabelTitle: TLabel;
     Label1: TLabel;
-    Label3: TLabel;
+    LabelColors: TLabel;
     procedure imgSourceForgeDblClick(Sender: TObject);
     procedure imgGeoblockDblClick(Sender: TObject);
     procedure imgOpenGLDblClick(Sender: TObject);
@@ -47,13 +44,13 @@ type
   end;
 
 var
-  FormAbouts: TFormAbouts;
+  frmAbout: TfrmAbout;
 
 implementation
 
 {$R *.dfm}
 
-procedure TFormAbouts.FormCreate(Sender: TObject);
+procedure TfrmAbout.FormCreate(Sender: TObject);
 begin
   inherited;
  // Memo.Align := alClient;
@@ -69,13 +66,13 @@ begin
 end;
 
 
-procedure TFormAbouts.BuiltWithDelphiDblClick(Sender: TObject);
+procedure TfrmAbout.BuiltWithDelphiDblClick(Sender: TObject);
 begin
   inherited;
   GotoURL(Handle, 'http://www.embarcadero.com');
 end;
 
-function TFormAbouts.GetFileInfo(const FileName: TFileName): TVSFixedFileInfo;
+function TfrmAbout.GetFileInfo(const FileName: TFileName): TVSFixedFileInfo;
 var
   Handle, VersionSize: DWord;
   SubBlock: string;
@@ -97,22 +94,22 @@ begin
   end;
 end;
 
-procedure TFormAbouts.imgGeoblockDblClick(Sender: TObject);
+procedure TfrmAbout.imgGeoblockDblClick(Sender: TObject);
 begin
   GotoURL(Handle, 'https://github.com/geoblock');
 end;
 
-procedure TFormAbouts.imgOpenGLDblClick(Sender: TObject);
+procedure TfrmAbout.imgOpenGLDblClick(Sender: TObject);
 begin
   GotoURL(Handle, 'http://www.opengl.org/');
 end;
 
-procedure TFormAbouts.imgSourceForgeDblClick(Sender: TObject);
+procedure TfrmAbout.imgSourceForgeDblClick(Sender: TObject);
 begin
   GotoURL(Handle, 'http://www.sourceforge.net/projects/glscene/');
 end;
 
-function TFormAbouts.ReadVersionInfo(FileName: TFileName): TFileName;
+function TfrmAbout.ReadVersionInfo(FileName: TFileName): TFileName;
 type
   TGetWords = record
     case boolean of

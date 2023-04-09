@@ -1,6 +1,3 @@
-//
-(* PaintedNotes for colorized keyboards https://github.com/geoblock *)
-//
 unit fInitials;
 
 (*

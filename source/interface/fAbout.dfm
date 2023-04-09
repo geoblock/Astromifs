@@ -1,4 +1,4 @@
-inherited FormAbouts: TFormAbouts
+inherited frmAbout: TfrmAbout
   Caption = 'About'
   ClientHeight = 323
   ClientWidth = 446
@@ -139,7 +139,7 @@ inherited FormAbouts: TFormAbouts
       Font.Style = []
       ParentFont = False
     end
-    object LabelGeoblock: TLabel
+    object LabelTitle: TLabel
       Left = 159
       Top = 6
       Width = 124
@@ -733,12 +733,12 @@ inherited FormAbouts: TFormAbouts
       Height = 16
       Caption = 'Geoblock of Globe'
     end
-    object Label3: TLabel
+    object LabelColors: TLabel
       Left = 175
       Top = 20
-      Width = 113
+      Width = 94
       Height = 16
-      Caption = 'Celestial Orchestra'
+      Caption = 'Celestial Colors'
     end
     object PanelYears: TPanel
       Left = 187

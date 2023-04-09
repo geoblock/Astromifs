@@ -1,7 +1,7 @@
-object FormScene: TFormScene
+object frmAstrofon: TfrmAstrofon
   Left = 0
   Top = 0
-  Caption = 'Painted Notes'
+  Caption = 'Astrofon'
   ClientHeight = 546
   ClientWidth = 970
   Color = clBtnFace
@@ -17,78 +17,19 @@ object FormScene: TFormScene
   TextHeight = 15
   object GLSceneViewer1: TGLSceneViewer
     Left = 145
-    Top = 33
+    Top = 0
     Width = 650
-    Height = 453
+    Height = 527
     Camera = Camera
     Buffer.BackgroundColor = clBlack
     Buffer.AntiAliasing = csa8xHQ
-    FieldOfView = 155.103134155273400000
+    FieldOfView = 158.511352539062500000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     OnMouseUp = GLSceneViewer1MouseUp
     TabOrder = 0
-  end
-  object ControlBar1: TControlBar
-    Left = 0
-    Top = 0
-    Width = 970
-    Height = 33
-    Align = alTop
-    TabOrder = 1
-    object ToolBarFile: TToolBar
-      Left = 19
-      Top = 2
-      Width = 494
-      Height = 22
-      ButtonHeight = 38
-      ButtonWidth = 71
-      Caption = 'ToolBarFile'
-      Images = ImageListInterface
-      ShowCaptions = True
-      TabOrder = 0
-      object ToolButton1: TToolButton
-        Left = 0
-        Top = 0
-        Caption = 'ToolButton1'
-        ImageIndex = 0
-      end
-      object ToolButton2: TToolButton
-        Left = 71
-        Top = 0
-        Caption = 'ToolButton2'
-        ImageIndex = 1
-      end
-      object ToolButton3: TToolButton
-        Left = 142
-        Top = 0
-        Caption = 'ToolButton3'
-        ImageIndex = 2
-      end
-      object ToolButton4: TToolButton
-        Left = 213
-        Top = 0
-        Caption = 'ToolButton4'
-        ImageIndex = 3
-      end
-      object ToolButton5: TToolButton
-        Left = 284
-        Top = 0
-        Caption = 'ToolButton5'
-        ImageIndex = 4
-      end
-    end
-  end
-  object PanelBottom: TPanel
-    Left = 0
-    Top = 486
-    Width = 970
-    Height = 41
-    Align = alBottom
-    Caption = 'Right click on the piano key to know her number'
-    TabOrder = 2
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -115,18 +56,18 @@ object FormScene: TFormScene
   end
   object PanelLeft: TPanel
     Left = 0
-    Top = 33
+    Top = 0
     Width = 145
-    Height = 453
+    Height = 527
     Align = alLeft
     Caption = ' '
-    TabOrder = 4
+    TabOrder = 2
     Visible = False
     object TreeView1: TTreeView
       Left = 1
       Top = 1
       Width = 143
-      Height = 451
+      Height = 525
       Align = alClient
       Images = ImageListInterface
       Indent = 19
@@ -146,12 +87,12 @@ object FormScene: TFormScene
   end
   object PanelRight: TPanel
     Left = 795
-    Top = 33
+    Top = 0
     Width = 175
-    Height = 453
+    Height = 527
     Align = alRight
     Caption = ' '
-    TabOrder = 5
+    TabOrder = 3
     object TreeView2: TTreeView
       Left = 1
       Top = 1

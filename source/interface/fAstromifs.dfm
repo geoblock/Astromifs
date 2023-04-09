@@ -71,8 +71,6 @@ object frmAstroD: TfrmAstroD
     Height = 559
     Align = alRight
     TabOrder = 3
-    ExplicitLeft = 744
-    ExplicitTop = 116
     object RadioGroup1: TRadioGroup
       Left = 16
       Top = 291
@@ -127,7 +125,6 @@ object frmAstroD: TfrmAstroD
       Align = alTop
       Indent = 19
       TabOrder = 2
-      ExplicitLeft = 6
     end
     object PanelTopR: TPanel
       Left = 1
@@ -137,9 +134,6 @@ object frmAstroD: TfrmAstroD
       Align = alTop
       Caption = 'Current'
       TabOrder = 3
-      ExplicitLeft = 6
-      ExplicitTop = 6
-      ExplicitWidth = 185
     end
   end
   object GLSceneViewer: TGLSceneViewer
@@ -239,6 +233,22 @@ object frmAstroD: TfrmAstroD
         Caption = '&Object'
       end
     end
+    object Window2: TMenuItem
+      Caption = '&View'
+      object miAstrofon: TMenuItem
+        Caption = 'Astrofon...'
+        OnClick = miAstrofonClick
+      end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object Hide2: TMenuItem
+        Caption = '&Hide'
+      end
+      object Show2: TMenuItem
+        Caption = '&Show...'
+      end
+    end
     object Window1: TMenuItem
       Caption = '&Window'
       object NewWindow1: TMenuItem
@@ -268,27 +278,12 @@ object frmAstroD: TfrmAstroD
       object Contents2: TMenuItem
         Caption = '&Contents'
       end
-      object Index1: TMenuItem
-        Caption = '&Index'
-      end
-      object Commands1: TMenuItem
-        Caption = 'Co&mmands'
-      end
-      object Procedures1: TMenuItem
-        Caption = '&Procedures'
-      end
-      object Keyboard1: TMenuItem
-        Caption = '&Keyboard'
-      end
       object Tutorial1: TMenuItem
         Caption = '&Tutorial'
       end
-      object HowtoUseHelp2: TMenuItem
-        Caption = '&How to Use Help'
-      end
-      object About2: TMenuItem
+      object miAbout: TMenuItem
         Caption = '&About...'
-        OnClick = About2Click
+        OnClick = miAboutClick
       end
     end
   end

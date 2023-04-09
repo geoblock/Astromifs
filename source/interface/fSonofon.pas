@@ -1,7 +1,7 @@
 //
-(* PaintedNotes for colorized keyboards https://github.com/geoblock *)
+(* Astromifs from https://github.com/geoblock/astromif *)
 //
-unit fAstrofon;
+unit fSonofon;
 
 interface
 
@@ -39,9 +39,6 @@ uses
   GLS.ParticleFX,
   GLS.Material,
 
-  fAbout,
-  fOptions,
-
   GLS.VectorTypes,
   GLS.VectorGeometry,
   GLS.Scene,
@@ -61,14 +58,18 @@ uses
   GLS.WindowsFont,
   GLS.SimpleNavigation,
   GLS.Color,
-  GLS.Utils;
+  GLS.Utils,
+  GLS.RandomLib,
+
+  fAbout,
+  fOptions;
 
 type
   TPianoKeySet = set of 0 .. 87;
   TGuitarKeySet = set of 0 .. 149;
 
 type
-  TFormScene = class(TForm)
+  TfrmAstrofon = class(TForm)
     MainMenu: TMainMenu;
     File1: TMenuItem;
     miNew: TMenuItem;
@@ -114,9 +115,6 @@ type
     cbPianoStand: TGLCube;
     dcCamera: TGLDummyCube;
     GLCadencer: TGLCadencer;
-    ControlBar1: TControlBar;
-    ToolBarFile: TToolBar;
-    PanelBottom: TPanel;
     StatusBar1: TStatusBar;
     PanelLeft: TPanel;
     PanelRight: TPanel;
@@ -129,11 +127,6 @@ type
     LightSource2: TGLLightSource;
     TreeView1: TTreeView;
     TreeView2: TTreeView;
-    ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
-    ToolButton3: TToolButton;
-    ToolButton4: TToolButton;
-    ToolButton5: TToolButton;
     dcGuitarKeys: TGLDummyCube;
     cbGuitarStand: TGLCube;
     grdGuitarKeys: TGLXYZGrid;
@@ -184,7 +177,7 @@ type
     property Action;
   private
     CameraHeight: Single;
-    PathToAsset: TFileName;
+    PathToData: TFileName;
 
     // piano keyboard
     // 88 keys for 9 octavas or 88 constellations
@@ -209,7 +202,7 @@ type
   end;
 
 var
-  FormScene: TFormScene;
+  frmAstrofon: TfrmAstrofon;
   BlackKeySet: TPianoKeySet;
   NutKeySet: TGuitarKeySet;
   PickDown: TGLCustomSceneObject;
@@ -226,7 +219,7 @@ implementation
 // ----------------------------------------
 // Define key sizes ans set for black keys
 // ----------------------------------------
-procedure TFormScene.SetPianoKeySizes;
+procedure TfrmAstrofon.SetPianoKeySizes;
 begin
   NPianoKeys := 88;
 
@@ -252,7 +245,7 @@ end;
 // ----------------------------------------------------------------------------------
 // Make 88 keys for 3 notes in 0 octave + 84 notes in 7 octavas + 1 note for octava 8
 // ----------------------------------------------------------------------------------
-procedure TFormScene.MakePianoKeys(Sender: TObject);
+procedure TfrmAstrofon.MakePianoKeys(Sender: TObject);
 var
   i: Integer;
   CurrentX: Single;
@@ -302,7 +295,7 @@ end;
 // --------------------------------------
 // Define guitar key sizes
 // --------------------------------------
-procedure TFormScene.SetGuitarKeySizes;
+procedure TfrmAstrofon.SetGuitarKeySizes;
 begin
   NGuitarKeys := 150;
 
@@ -332,7 +325,7 @@ end;
 // ---------------------------------------------------
 //          Make 150 guitar keys
 // ---------------------------------------------------
-procedure TFormScene.MakeGuitarKeys(Sender: TObject);
+procedure TfrmAstrofon.MakeGuitarKeys(Sender: TObject);
 var
   i, j, k, NumString: Integer; // current string number
 
@@ -366,23 +359,25 @@ end;
 
 // --------------------------------------------------------------------
 
-procedure TFormScene.FormCreate(Sender: TObject);
+procedure TfrmAstrofon.FormCreate(Sender: TObject);
 begin
-  PathToAsset := GetCurrentDir();
+  PathToData := GetCurrentDir();
+  SetCurrentDir(PathToData);
+
   // Loading maps for planets
-  SetCurrentDir(PathToAsset + '\asset\map');
+  SetCurrentDir(PathToData + '\map');
   spEarth.Material.Texture.Disabled := False;
   spEarth.Material.Texture.Image.LoadFromFile('earth.jpg');
   spMoon.Material.Texture.Disabled := False;
   spMoon.Material.Texture.Image.LoadFromFile('moon.jpg');
 
-  SetCurrentDir(PathToAsset + '\asset\texture');
+  SetCurrentDir(PathToData + '\texture');
   cbPianoStand.Material.Texture.Disabled := False;
   cbPianoStand.Material.Texture.Image.LoadFromFile('ashwood.jpg');
   cbGuitarStand.Material.Texture.Disabled := False;
   cbGuitarStand.Material.Texture.Image.LoadFromFile('ashwood.jpg');
 
-  SetCurrentDir(PathToAsset  + '\asset\font');
+  SetCurrentDir(PathToData  + '\font');
   GLBitmapFont.Glyphs.LoadFromFile('darkgold_font.bmp');
 
   //GLWindowsBitmapFont.Glyphs.LoadFromFile('toonfont.bmp');
@@ -393,14 +388,14 @@ begin
 end;
 
 // -----------------------------------------------------------------------------------------
-procedure TFormScene.FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
+procedure TfrmAstrofon.FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 begin
   Camera.AdjustDistanceToTarget(Power(1.1, WheelDelta / 120));
 end;
 
 // ----------------------------------------------------------------------------------------
-procedure TFormScene.GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
+procedure TfrmAstrofon.GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
 var
   speed: Single;
   MyString: String;
@@ -442,7 +437,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmAstrofon.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   PickedObject: TGLCustomSceneObject;
@@ -476,7 +471,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.GLSceneViewer1MouseUp(Sender: TObject; Button: TMouseButton;
+procedure TfrmAstrofon.GLSceneViewer1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if Button = TMouseButton.mbRight then // check if the mouse button is still pressed
@@ -485,7 +480,7 @@ begin
     if Assigned(PickUp) then
       if (PickUp = PickDown) and (PickUp is TGLCube) then
       begin
-        SetCurrentDir(PathToAsset + '\assets\audio\piano');
+        SetCurrentDir(PathToData + '\audio\piano');
 
         PickUp.Material.FrontProperties.Emission.Color := old_color;
         if PickUp.Name = 'cbPianoStand' then
@@ -500,7 +495,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+procedure TfrmAstrofon.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if (ssLeft in Shift) then
     Camera.MoveAroundTarget(my - Y, mx - X);
@@ -510,14 +505,14 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.miExitClick(Sender: TObject);
+procedure TfrmAstrofon.miExitClick(Sender: TObject);
 begin
-  FormScene.Close;
+  frmAstrofon.Close;
 end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.miOptionsClick(Sender: TObject);
+procedure TfrmAstrofon.miOptionsClick(Sender: TObject);
 begin
   inherited;
   with TFormOptions.Create(nil) do
@@ -530,10 +525,11 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.miAboutClick(Sender: TObject);
+procedure TfrmAstrofon.miAboutClick(Sender: TObject);
 begin
-  with TFormAbouts.Create(nil) do
+  with TfrmAbout.Create(nil) do
     try
+      LabelTitle.Caption := 'Sonofon';
       ShowModal;
     finally
       Free;
@@ -542,7 +538,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.rgKeyboardColorsClick(Sender: TObject);
+procedure TfrmAstrofon.rgKeyboardColorsClick(Sender: TObject);
 begin
   if rgKeyboardColors.ItemIndex <> 2 then
   begin
@@ -562,7 +558,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TFormScene.TimerTimer(Sender: TObject);
+procedure TfrmAstrofon.TimerTimer(Sender: TObject);
 begin
   StatusBar1.Panels[0].Text := Format('FPS:  %.1f ', [GLSceneViewer1.FramesPerSecond]);
   // Format('%d particles, %.1f FPS', [GLParticles1.Count, GLSceneViewer1.FramesPerSecond]);

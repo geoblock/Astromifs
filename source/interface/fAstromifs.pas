@@ -1,4 +1,4 @@
-unit fAstro_d;
+unit fAstromifs;
 
 interface
 
@@ -29,7 +29,11 @@ uses
   GLS.SkyDome,
   GLS.Navigator,
   GLS.LensFlare,
-  GLS.Objects, GLS.SimpleNavigation;
+  GLS.Objects,
+  GLS.SimpleNavigation,
+
+  fAbout,
+  fSonofon;
 
 type
   TfrmAstroD = class(TForm)
@@ -69,13 +73,8 @@ type
     N6: TMenuItem;
     Help2: TMenuItem;
     Contents2: TMenuItem;
-    Index1: TMenuItem;
-    Commands1: TMenuItem;
-    Procedures1: TMenuItem;
-    Keyboard1: TMenuItem;
     Tutorial1: TMenuItem;
-    HowtoUseHelp2: TMenuItem;
-    About2: TMenuItem;
+    miAbout: TMenuItem;
     PanelLeft: TPanel;
     tvConstellations: TTreeView;
     ControlBar1: TControlBar;
@@ -104,13 +103,19 @@ type
     OpenDialog: TOpenDialog;
     tvCurrent: TTreeView;
     PanelTopR: TPanel;
-    procedure About2Click(Sender: TObject);
+    Window2: TMenuItem;
+    miAstrofon: TMenuItem;
+    Hide2: TMenuItem;
+    Show2: TMenuItem;
+    N7: TMenuItem;
+    procedure miAboutClick(Sender: TObject);
     procedure Open1Click(Sender: TObject);
     procedure Save1Click(Sender: TObject);
     procedure SaveAs1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
     procedure tvConstellationsClick(Sender: TObject);
+    procedure miAstrofonClick(Sender: TObject);
   private
     CurrentPath: TFileName;
     PathToData: TFileName;
@@ -204,6 +209,8 @@ begin
   // Save TreeView As...
 end;
 
+//-----------------------------------------------------------------------
+
 
 //-----------------------------------------------------------------------
 
@@ -234,11 +241,30 @@ begin
     Close;
 end;
 
+
+//----------------------------------------------------------------
+
+procedure TfrmAstroD.miAstrofonClick(Sender: TObject);
+begin
+  with TfrmAstrofon.Create(Self) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
+end;
+
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.About2Click(Sender: TObject);
+procedure TfrmAstroD.miAboutClick(Sender: TObject);
 begin
   // Revived constellations from myths
+  with TfrmAbout.Create(nil) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
 end;
 
 end.

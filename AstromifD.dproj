@@ -134,16 +134,30 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="source\interface\fAstro_d.pas">
-            <Form>frmAstroD</Form>
+        <DCCReference Include="source\interface\fSonofon.pas">
+            <Form>frmAstrofon</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="source\interface\fAbout_d.pas">
+        <DCCReference Include="source\interface\fInitials.pas">
+            <Form>FormInitial</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="source\interface\fOptions.pas">
+            <Form>FormOptions</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="source\interface\fDialogs.pas">
+            <Form>FormDialog</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="source\interface\fAbout.pas">
             <Form>frmAbout</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="source\code\uRandom.pas"/>
-        <DCCReference Include="source\code\uSolarsys.pas"/>
+        <DCCReference Include="source\interface\fAstromifs.pas">
+            <Form>frmAstroD</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="source\code\constel.c"/>
         <None Include="source\code\constbnd.c"/>
         <BuildConfiguration Include="Base">

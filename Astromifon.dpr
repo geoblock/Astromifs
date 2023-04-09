@@ -1,12 +1,6 @@
 //
 (* PaintedNotes for colorized keyboards https://github.com/geoblock *)
 //
-//---------------------------------------------------------------
-(*
-Purpose: creating a Virtual Musical Playground using GLScene components and objects.
-Initial idea and development by Pavel Vassiliev, 2022
-*)
-//---------------------------------------------------------------
 program Astromifon;
 
 uses
