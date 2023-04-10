@@ -1,7 +1,7 @@
-object frmAstrofon: TfrmAstrofon
+object frmSonofon: TfrmSonofon
   Left = 0
   Top = 0
-  Caption = 'Astrofon'
+  Caption = 'Sonofon'
   ClientHeight = 546
   ClientWidth = 970
   Color = clBtnFace

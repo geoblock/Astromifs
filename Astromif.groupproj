@@ -12,9 +12,6 @@
         <Projects Include="AstromifX.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Astromifon.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -50,23 +47,14 @@
     <Target Name="AstromifX:Make">
         <MSBuild Projects="AstromifX.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="Astromifon">
-        <MSBuild Projects="Astromifon.dproj"/>
-    </Target>
-    <Target Name="Astromifon:Clean">
-        <MSBuild Projects="Astromifon.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Astromifon:Make">
-        <MSBuild Projects="Astromifon.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="AstromifD;AstromifC;AstromifX;Astromifon"/>
+        <CallTarget Targets="AstromifD;AstromifC;AstromifX"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="AstromifD:Clean;AstromifC:Clean;AstromifX:Clean;Astromifon:Clean"/>
+        <CallTarget Targets="AstromifD:Clean;AstromifC:Clean;AstromifX:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="AstromifD:Make;AstromifC:Make;AstromifX:Make;Astromifon:Make"/>
+        <CallTarget Targets="AstromifD:Make;AstromifC:Make;AstromifX:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -142,9 +142,9 @@ inherited frmAbout: TfrmAbout
     object LabelTitle: TLabel
       Left = 159
       Top = 6
-      Width = 124
+      Width = 138
       Height = 37
-      Caption = 'Astrofon'
+      Caption = 'Astromifs'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -33
@@ -729,16 +729,16 @@ inherited frmAbout: TfrmAbout
     object Label1: TLabel
       Left = 288
       Top = 159
-      Width = 113
+      Width = 82
       Height = 16
-      Caption = 'Geoblock of Globe'
+      Caption = 'Geoblock GH'
     end
     object LabelColors: TLabel
       Left = 175
       Top = 20
-      Width = 94
+      Width = 108
       Height = 16
-      Caption = 'Celestial Colors'
+      Caption = 'Celestial Legends'
     end
     object PanelYears: TPanel
       Left = 187
@@ -757,5 +757,17 @@ inherited frmAbout: TfrmAbout
     ExplicitTop = 278
     ExplicitWidth = 446
     ExplicitHeight = 45
+    inherited ButtonOK: TButton
+      Left = 65
+      ExplicitLeft = 65
+    end
+    inherited ButtonCancel: TButton
+      Left = 189
+      ExplicitLeft = 189
+    end
+    inherited ButtonHelp: TButton
+      Left = 328
+      ExplicitLeft = 328
+    end
   end
 end

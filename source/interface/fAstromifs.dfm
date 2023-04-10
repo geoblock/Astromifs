@@ -1,7 +1,7 @@
-object frmAstroD: TfrmAstroD
+object FormAstromifs: TFormAstromifs
   Left = 0
   Top = 0
-  Caption = 'Astromyths & Legends D'
+  Caption = 'Astromyths & Legends'
   ClientHeight = 622
   ClientWidth = 906
   Color = clBtnFace
@@ -73,7 +73,7 @@ object frmAstroD: TfrmAstroD
     TabOrder = 3
     object RadioGroup1: TRadioGroup
       Left = 16
-      Top = 291
+      Top = 272
       Width = 113
       Height = 127
       Caption = 'Coordinate grid'
@@ -87,13 +87,13 @@ object frmAstroD: TfrmAstroD
     end
     object grbShow: TGroupBox
       Left = 16
-      Top = 432
+      Top = 405
       Width = 113
       Height = 121
       Caption = 'View'
       TabOrder = 1
       object chbStars: TCheckBox
-        Left = 16
+        Left = 13
         Top = 24
         Width = 97
         Height = 17
@@ -101,7 +101,7 @@ object frmAstroD: TfrmAstroD
         TabOrder = 0
       end
       object CheckBox1: TCheckBox
-        Left = 16
+        Left = 13
         Top = 56
         Width = 97
         Height = 17
@@ -109,7 +109,7 @@ object frmAstroD: TfrmAstroD
         TabOrder = 1
       end
       object CheckBox2: TCheckBox
-        Left = 16
+        Left = 13
         Top = 88
         Width = 97
         Height = 17
@@ -235,9 +235,9 @@ object frmAstroD: TfrmAstroD
     end
     object Window2: TMenuItem
       Caption = '&View'
-      object miAstrofon: TMenuItem
-        Caption = 'Astrofon...'
-        OnClick = miAstrofonClick
+      object miSonofon: TMenuItem
+        Caption = 'Sonofon...'
+        OnClick = miSonofonClick
       end
       object N7: TMenuItem
         Caption = '-'
@@ -349,7 +349,7 @@ object frmAstroD: TfrmAstroD
   object GLSimpleNavigation1: TGLSimpleNavigation
     Form = Owner
     GLSceneViewer = GLSceneViewer
-    FormCaption = 'Astromyths & Legends D - %FPS'
+    FormCaption = 'Astromyths & Legends - %FPS'
     KeyCombinations = <
       item
         ShiftState = [ssLeft, ssRight]
@@ -363,8 +363,8 @@ object frmAstroD: TfrmAstroD
         ShiftState = [ssRight]
         Action = snaMoveAroundTarget
       end>
-    Left = 264
-    Top = 328
+    Left = 330
+    Top = 426
   end
   object OpenDialog: TOpenDialog
     Left = 195

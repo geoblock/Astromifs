@@ -62,14 +62,15 @@ uses
   GLS.RandomLib,
 
   fAbout,
-  fOptions;
+  fOptions,
+  uGlobals;
 
 type
   TPianoKeySet = set of 0 .. 87;
   TGuitarKeySet = set of 0 .. 149;
 
 type
-  TfrmAstrofon = class(TForm)
+  TfrmSonofon = class(TForm)
     MainMenu: TMainMenu;
     File1: TMenuItem;
     miNew: TMenuItem;
@@ -177,7 +178,6 @@ type
     property Action;
   private
     CameraHeight: Single;
-    PathToData: TFileName;
 
     // piano keyboard
     // 88 keys for 9 octavas or 88 constellations
@@ -202,7 +202,7 @@ type
   end;
 
 var
-  frmAstrofon: TfrmAstrofon;
+  frmSonofon: TfrmSonofon;
   BlackKeySet: TPianoKeySet;
   NutKeySet: TGuitarKeySet;
   PickDown: TGLCustomSceneObject;
@@ -219,7 +219,7 @@ implementation
 // ----------------------------------------
 // Define key sizes ans set for black keys
 // ----------------------------------------
-procedure TfrmAstrofon.SetPianoKeySizes;
+procedure TfrmSonofon.SetPianoKeySizes;
 begin
   NPianoKeys := 88;
 
@@ -245,7 +245,7 @@ end;
 // ----------------------------------------------------------------------------------
 // Make 88 keys for 3 notes in 0 octave + 84 notes in 7 octavas + 1 note for octava 8
 // ----------------------------------------------------------------------------------
-procedure TfrmAstrofon.MakePianoKeys(Sender: TObject);
+procedure TfrmSonofon.MakePianoKeys(Sender: TObject);
 var
   i: Integer;
   CurrentX: Single;
@@ -295,7 +295,7 @@ end;
 // --------------------------------------
 // Define guitar key sizes
 // --------------------------------------
-procedure TfrmAstrofon.SetGuitarKeySizes;
+procedure TfrmSonofon.SetGuitarKeySizes;
 begin
   NGuitarKeys := 150;
 
@@ -325,7 +325,7 @@ end;
 // ---------------------------------------------------
 //          Make 150 guitar keys
 // ---------------------------------------------------
-procedure TfrmAstrofon.MakeGuitarKeys(Sender: TObject);
+procedure TfrmSonofon.MakeGuitarKeys(Sender: TObject);
 var
   i, j, k, NumString: Integer; // current string number
 
@@ -359,9 +359,8 @@ end;
 
 // --------------------------------------------------------------------
 
-procedure TfrmAstrofon.FormCreate(Sender: TObject);
+procedure TfrmSonofon.FormCreate(Sender: TObject);
 begin
-  PathToData := GetCurrentDir();
   SetCurrentDir(PathToData);
 
   // Loading maps for planets
@@ -388,14 +387,14 @@ begin
 end;
 
 // -----------------------------------------------------------------------------------------
-procedure TfrmAstrofon.FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
+procedure TfrmSonofon.FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 begin
   Camera.AdjustDistanceToTarget(Power(1.1, WheelDelta / 120));
 end;
 
 // ----------------------------------------------------------------------------------------
-procedure TfrmAstrofon.GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
+procedure TfrmSonofon.GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
 var
   speed: Single;
   MyString: String;
@@ -437,7 +436,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmSonofon.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   PickedObject: TGLCustomSceneObject;
@@ -471,7 +470,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.GLSceneViewer1MouseUp(Sender: TObject; Button: TMouseButton;
+procedure TfrmSonofon.GLSceneViewer1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if Button = TMouseButton.mbRight then // check if the mouse button is still pressed
@@ -495,7 +494,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+procedure TfrmSonofon.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if (ssLeft in Shift) then
     Camera.MoveAroundTarget(my - Y, mx - X);
@@ -505,14 +504,14 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.miExitClick(Sender: TObject);
+procedure TfrmSonofon.miExitClick(Sender: TObject);
 begin
-  frmAstrofon.Close;
+  frmSonofon.Close;
 end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.miOptionsClick(Sender: TObject);
+procedure TfrmSonofon.miOptionsClick(Sender: TObject);
 begin
   inherited;
   with TFormOptions.Create(nil) do
@@ -525,7 +524,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.miAboutClick(Sender: TObject);
+procedure TfrmSonofon.miAboutClick(Sender: TObject);
 begin
   with TfrmAbout.Create(nil) do
     try
@@ -538,7 +537,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.rgKeyboardColorsClick(Sender: TObject);
+procedure TfrmSonofon.rgKeyboardColorsClick(Sender: TObject);
 begin
   if rgKeyboardColors.ItemIndex <> 2 then
   begin
@@ -558,7 +557,7 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TfrmAstrofon.TimerTimer(Sender: TObject);
+procedure TfrmSonofon.TimerTimer(Sender: TObject);
 begin
   StatusBar1.Panels[0].Text := Format('FPS:  %.1f ', [GLSceneViewer1.FramesPerSecond]);
   // Format('%d particles, %.1f FPS', [GLParticles1.Count, GLSceneViewer1.FramesPerSecond]);

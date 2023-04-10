@@ -11,12 +11,13 @@ uses
 
 
 const
-  //cRegistryKey = 'Software\SoundCube';
-  RegSoundCube = PathDelim + 'SOFTWARE' + PathDelim + 'Gramofon' + PathDelim;
+  //cRegistryKey = 'Software\Astromifs';
+  RegSoundCube = PathDelim + 'SOFTWARE' + PathDelim + 'Astromifs' + PathDelim;
 
-  SoundCubeSize = 100;
+  CubeSize = 1000;
 
 var
+  PathToData : TFileName;
   ExePath: TFileName;
   ModelPath:   TFileName;
   TexturePath: TFileName;
@@ -33,7 +34,7 @@ const
   ftTXT = 'txt';  // text
   ftCSV = 'csv';  // csv
   ftDAT = 'dat';  // dat
-  ftSQL = 'sql';  // sql
+  ftSQL = 'sqlite';  // sqlite
   ftTVN = 'tvn';  // treeview nodes
 
 //==========================================================================

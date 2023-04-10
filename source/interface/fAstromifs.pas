@@ -33,10 +33,11 @@ uses
   GLS.SimpleNavigation,
 
   fAbout,
-  fSonofon;
+  fSonofon,
+  uGlobals;
 
 type
-  TfrmAstroD = class(TForm)
+  TFormAstromifs = class(TForm)
     MainMenu1: TMainMenu;
     File1: TMenuItem;
     New1: TMenuItem;
@@ -104,7 +105,7 @@ type
     tvCurrent: TTreeView;
     PanelTopR: TPanel;
     Window2: TMenuItem;
-    miAstrofon: TMenuItem;
+    miSonofon: TMenuItem;
     Hide2: TMenuItem;
     Show2: TMenuItem;
     N7: TMenuItem;
@@ -115,17 +116,16 @@ type
     procedure FormCreate(Sender: TObject);
     procedure GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
     procedure tvConstellationsClick(Sender: TObject);
-    procedure miAstrofonClick(Sender: TObject);
+    procedure miSonofonClick(Sender: TObject);
   private
     CurrentPath: TFileName;
-    PathToData: TFileName;
     function LoadTexture(Matname, Filename: string): TGLLibMaterial;
   public
     procedure HandleKeys(d: Double);
   end;
 
 var
-  frmAstroD: TfrmAstroD;
+  FormAstromifs: TFormAstromifs;
 
 implementation
 
@@ -133,7 +133,7 @@ implementation
 
 //-----------------------------------------------------------------------
 
-function TfrmAstroD.LoadTexture(Matname, Filename: string): TGLLibMaterial;
+function TFormAstromifs.LoadTexture(Matname, Filename: string): TGLLibMaterial;
 begin
   Result := GLMatLib.AddTextureMaterial(Matname, Filename);
   Result.Material.Texture.Disabled := False;
@@ -142,15 +142,16 @@ end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.FormCreate(Sender: TObject);
+procedure TFormAstromifs.FormCreate(Sender: TObject);
 var
-  SkyColture, PlanetMap: TFileName;
+  SkyCulture, PlanetMap: TFileName;
 begin
   PathToData := GetCurrentDir() + '\data';
-  SetCurrentDir(PathToData);
+  CurrentPath := PathToData;
+  SetCurrentDir(CurrentPath + '\cubemap');
 
   // Skybox cubemaps
-  GLMatLib.TexturePaths := GetCurrentDir() + '\cubemap';
+//  GLMatLib.TexturePaths := CurrentPath + '\cubemap';
   LoadTexture('Left', 'mw_left.jpg');
   LoadTexture('Right', 'mw_right.jpg');
   LoadTexture('Top', 'mw_top.jpg');
@@ -158,22 +159,22 @@ begin
   LoadTexture('Front', 'mw_front.jpg');
   LoadTexture('Back', 'mw_back.jpg');
 
-  PlanetMap := PathToData + '\map\mars.jpg';
+  PlanetMap := CurrentPath + '\map\mars.jpg';
 
   Planet.Material.Texture.Disabled := False;
   Planet.Material.Texture.Image.LoadFromFile(PlanetMap);
 
-  SkyColture := PathToData + '\constellation\ConstellationNames.dat';
-  tvConstellations.LoadFromFile(SkyColture);
+  SkyCulture := CurrentPath + '\constellation\ConstellationNames.dat';
+  tvConstellations.LoadFromFile(SkyCulture);
 
-  SkyColture := PathToData + '\constellation\ConstShortNames.dat';
-  tvCurrent.LoadFromFile(SkyColture);
+  SkyCulture := CurrentPath + '\constellation\ConstShortNames.dat';
+  tvCurrent.LoadFromFile(SkyCulture);
 
 end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.Open1Click(Sender: TObject);
+procedure TFormAstromifs.Open1Click(Sender: TObject);
 begin
   // Load next skyculture for constellations ...
   OpenDialog.Filter := 'Constellation (*.dat)|*.dat';
@@ -190,21 +191,21 @@ end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.tvConstellationsClick(Sender: TObject);
+procedure TFormAstromifs.tvConstellationsClick(Sender: TObject);
 begin
   //
 end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.Save1Click(Sender: TObject);
+procedure TFormAstromifs.Save1Click(Sender: TObject);
 begin
   // Save TreeView
 end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.SaveAs1Click(Sender: TObject);
+procedure TFormAstromifs.SaveAs1Click(Sender: TObject);
 begin
   // Save TreeView As...
 end;
@@ -214,7 +215,7 @@ end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
+procedure TFormAstromifs.GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
 begin
  //
   HandleKeys(deltaTime);
@@ -226,7 +227,7 @@ end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.HandleKeys(d: Double);
+procedure TFormAstromifs.HandleKeys(d: Double);
 begin
   if IsKeyDown('W') or IsKeyDown('Z') then
     Camera.Move(d);
@@ -244,9 +245,9 @@ end;
 
 //----------------------------------------------------------------
 
-procedure TfrmAstroD.miAstrofonClick(Sender: TObject);
+procedure TFormAstromifs.miSonofonClick(Sender: TObject);
 begin
-  with TfrmAstrofon.Create(Self) do
+  with TfrmSonofon.Create(Self) do
     try
       ShowModal;
     finally
@@ -256,11 +257,12 @@ end;
 
 //-----------------------------------------------------------------------
 
-procedure TfrmAstroD.miAboutClick(Sender: TObject);
+procedure TFormAstromifs.miAboutClick(Sender: TObject);
 begin
   // Revived constellations from myths
   with TfrmAbout.Create(nil) do
     try
+      LabelTitle.Caption := 'Astromifs';
       ShowModal;
     finally
       Free;

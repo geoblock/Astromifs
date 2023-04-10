@@ -135,7 +135,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="source\interface\fSonofon.pas">
-            <Form>frmAstrofon</Form>
+            <Form>frmSonofon</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="source\interface\fInitials.pas">
@@ -155,9 +155,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="source\interface\fAstromifs.pas">
-            <Form>frmAstroD</Form>
+            <Form>FormAstromifs</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="source\code\uGlobals.pas"/>
         <None Include="source\code\constel.c"/>
         <None Include="source\code\constbnd.c"/>
         <BuildConfiguration Include="Base">
