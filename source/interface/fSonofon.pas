@@ -106,7 +106,7 @@ type
     GLSceneViewer1: TGLSceneViewer;
     GLScene: TGLScene;
     LightSource1: TGLLightSource;
-    Camera: TGLCamera;
+    Camera1: TGLCamera;
     dcScene: TGLDummyCube;
     spEarth: TGLSphere;
     dcMoon: TGLDummyCube;
@@ -147,7 +147,6 @@ type
     EdgeXb: TGLArrowLine;
     EdgeXe: TGLArrowLine;
     GLBitmapFont: TGLBitmapFont;
-    GLSkyDome1: TGLSkyDome;
     HUDTextGuitar: TGLHUDText;
     HUDTextPiano: TGLHUDText;
     GLFlatText1: TGLFlatText;
@@ -155,6 +154,11 @@ type
     GLMatLibBW: TGLMaterialLibrary;
     grdPianoKeysV: TGLXYZGrid;
     hfBottom: TGLHeightField;
+    SkyDome: TGLSkyDome;
+    ConstellationLines: TGLLines;
+    ConstellationBorders: TGLLines;
+    Cameracontroller: TGLCamera;
+    Camera: TGLCamera;
     procedure miAboutClick(Sender: TObject);
     procedure miOptionsClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -390,7 +394,7 @@ end;
 procedure TfrmSonofon.FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  Camera.AdjustDistanceToTarget(Power(1.1, WheelDelta / 120));
+  Camera1.AdjustDistanceToTarget(Power(1.1, WheelDelta / 120));
 end;
 
 // ----------------------------------------------------------------------------------------
@@ -406,7 +410,7 @@ begin
     speed := 5 * DeltaTime
   else
     speed := DeltaTime;
-  with Camera.Position do
+  with Camera1.Position do
   begin // WASD
     if IsKeyDown(68) then
       dcCamera.Translate(Z * speed, 0, -X * speed);
@@ -429,9 +433,9 @@ begin
     if IsKeyDown(VK_ESCAPE) then
       Close;
   end;
-  StatusBar1.Panels[1].Text := 'X: ' + FloatToStrF(Camera.Position.X, ffFixed, 7, 2);
-  StatusBar1.Panels[2].Text := 'Y: ' + FloatToStrF(Camera.Position.Y, ffFixed, 7, 2);
-  StatusBar1.Panels[3].Text := 'Z: ' + FloatToStrF(Camera.Position.Z, ffFixed, 7, 2);
+  StatusBar1.Panels[1].Text := 'X: ' + FloatToStrF(Camera1.Position.X, ffFixed, 7, 2);
+  StatusBar1.Panels[2].Text := 'Y: ' + FloatToStrF(Camera1.Position.Y, ffFixed, 7, 2);
+  StatusBar1.Panels[3].Text := 'Z: ' + FloatToStrF(Camera1.Position.Z, ffFixed, 7, 2);
 end;
 
 // ------------------------------------------------------------------------------
@@ -497,7 +501,7 @@ end;
 procedure TfrmSonofon.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if (ssLeft in Shift) then
-    Camera.MoveAroundTarget(my - Y, mx - X);
+    Camera1.MoveAroundTarget(my - Y, mx - X);
   mx := X;
   my := Y;
 end;

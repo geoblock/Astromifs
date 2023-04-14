@@ -20,10 +20,10 @@ object frmSonofon: TfrmSonofon
     Top = 0
     Width = 650
     Height = 527
-    Camera = Camera
+    Camera = Camera1
     Buffer.BackgroundColor = clBlack
     Buffer.AntiAliasing = csa8xHQ
-    FieldOfView = 158.511352539062500000
+    FieldOfView = 146.222869873046900000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = GLSceneViewer1MouseDown
@@ -252,8 +252,9 @@ object frmSonofon: TfrmSonofon
   object GLScene: TGLScene
     Left = 348
     Top = 66
-    object GLSkyDome1: TGLSkyDome
-      Visible = False
+    object SkyDome: TGLSkyDome
+      Direction.Coordinates = {000000000000803F0000000000000000}
+      Up.Coordinates = {0000000000000000FFFF7FBF00000000}
       Bands = <
         item
           StartColor.Color = {0000803F0000803F0000803F0000803F}
@@ -263,9 +264,30 @@ object frmSonofon: TfrmSonofon
           StartAngle = 15.000000000000000000
           StopAngle = 90.000000000000000000
           StopColor.Color = {938C0C3E938C0C3E938E0E3F0000803F}
-          Stacks = 4
+          Slices = 32
+          Stacks = 10
         end>
-      Stars = <>
+      Stars = <
+        item
+          Color = clBlack
+        end>
+      object ConstellationLines: TGLLines
+        Direction.Coordinates = {0000803F000000000000008000000000}
+        Scale.Coordinates = {00A00C4600A00C4600A00C4600000000}
+        Up.Coordinates = {00000000000000000000803F00000000}
+        Visible = False
+        AntiAliased = True
+        LineColor.Color = {E3A51B3FE3A51B3F0000803F00000000}
+        LineWidth = 2.000000000000000000
+        Nodes = <>
+        NodesAspect = lnaInvisible
+        SplineMode = lsmSegments
+        Options = []
+      end
+      object ConstellationBorders: TGLLines
+        Nodes = <>
+        Options = []
+      end
     end
     object HUDTextGuitar: TGLHUDText
       Position.Coordinates = {0000C84200009643000048420000803F}
@@ -288,11 +310,30 @@ object frmSonofon: TfrmSonofon
     end
     object dcCamera: TGLDummyCube
       CubeSize = 1.000000000000000000
-      object Camera: TGLCamera
-        DepthOfView = 1.000000020040877E20
+      object Cameracontroller: TGLCamera
+        DepthOfView = 100.000000000000000000
         FocalLength = 50.000000000000000000
-        TargetObject = dcCamera
+        TargetObject = dcScene
+        Position.Coordinates = {000000400000003F0000803F0000803F}
+        Direction.Coordinates = {0000803F000000000000008000000000}
+        Up.Coordinates = {00000000000000000000803F00000000}
+      end
+      object Camera: TGLCamera
+        DepthOfView = 16000.000000000000000000
+        FocalLength = 80.000000000000000000
+        NearPlaneBias = 0.100000001490116100
+        TargetObject = dcScene
+        CameraStyle = csInfinitePerspective
+        Position.Coordinates = {000000400000003F0000803F0000803F}
+        Direction.Coordinates = {0000803F000000000000008000000000}
+        Up.Coordinates = {00000000000000000000803F00000000}
+      end
+      object Camera1: TGLCamera
+        DepthOfView = 20000.000000000000000000
+        FocalLength = 80.000000000000000000
+        TargetObject = dcScene
         Position.Coordinates = {000000000000204100008CC20000803F}
+        Direction.Coordinates = {00000000000000000000803F00000000}
         object LightSource1: TGLLightSource
           ConstAttenuation = 1.000000000000000000
           SpotCutOff = 180.000000000000000000

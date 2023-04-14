@@ -34,7 +34,7 @@ uses
 
   fAbout,
   fSonofon,
-  uGlobals;
+  uGlobals, GLS.VectorFileObjects;
 
 type
   TFormAstromifs = class(TForm)
@@ -92,7 +92,7 @@ type
     chbStars: TCheckBox;
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
-    sbMilkiWay: TGLSkyBox;
+    SkyBoxMilkyWay: TGLSkyBox;
     GLNavigator: TGLNavigator;
     GLUserInterface1: TGLUserInterface;
     Camera: TGLCamera;
@@ -109,6 +109,8 @@ type
     Hide2: TMenuItem;
     Show2: TMenuItem;
     N7: TMenuItem;
+    SkyDome: TGLSkyDome;
+    ffPlanet: TGLFreeForm;
     procedure miAboutClick(Sender: TObject);
     procedure Open1Click(Sender: TObject);
     procedure Save1Click(Sender: TObject);
@@ -117,8 +119,9 @@ type
     procedure GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
     procedure tvConstellationsClick(Sender: TObject);
     procedure miSonofonClick(Sender: TObject);
+    procedure Exit1Click(Sender: TObject);
   private
-    CurrentPath: TFileName;
+    CurrentPath, Catalog: TFileName;
     function LoadTexture(Matname, Filename: string): TGLLibMaterial;
   public
     procedure HandleKeys(d: Double);
@@ -142,6 +145,11 @@ end;
 
 //-----------------------------------------------------------------------
 
+procedure TFormAstromifs.Exit1Click(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TFormAstromifs.FormCreate(Sender: TObject);
 var
   SkyCulture, PlanetMap: TFileName;
@@ -150,7 +158,11 @@ begin
   CurrentPath := PathToData;
   SetCurrentDir(CurrentPath + '\cubemap');
 
+  SkyDome.Visible := True;
+  SkyDome.Bands.Clear;
+
   // Skybox cubemaps
+  SkyBoxMilkyWay.Visible := not SkyBoxMilkyWay.Visible;
 //  GLMatLib.TexturePaths := CurrentPath + '\cubemap';
   LoadTexture('Left', 'mw_left.jpg');
   LoadTexture('Right', 'mw_right.jpg');
@@ -164,11 +176,24 @@ begin
   Planet.Material.Texture.Disabled := False;
   Planet.Material.Texture.Image.LoadFromFile(PlanetMap);
 
+  //if FileExists(FileName) then
+//    SkyDome.Stars.LoadStarsFile(FileName);
+  Catalog := PathToData + '\catalog\hipparcos.stars';
+  if FileExists(Catalog) then
+  begin
+    SkyDome.Bands.Clear;
+    SkyDome.Stars.Clear;
+    SkyDome.Stars.LoadStarsFile(Catalog);
+    SkyDome.StructureChanged;
+  end;
+
+
   SkyCulture := CurrentPath + '\constellation\ConstellationNames.dat';
   tvConstellations.LoadFromFile(SkyCulture);
-
   SkyCulture := CurrentPath + '\constellation\ConstShortNames.dat';
   tvCurrent.LoadFromFile(SkyCulture);
+
+  ffPlanet.Assign(Planet);
 
 end;
 

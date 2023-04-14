@@ -182,6 +182,7 @@ object FormAstromifs: TFormAstromifs
       end
       object Exit1: TMenuItem
         Caption = 'E&xit'
+        OnClick = Exit1Click
       end
     end
     object Edit1: TMenuItem
@@ -288,9 +289,24 @@ object FormAstromifs: TFormAstromifs
     end
   end
   object GLScene: TGLScene
-    Left = 296
-    Top = 128
-    object sbMilkiWay: TGLSkyBox
+    Left = 178
+    Top = 64
+    object SkyDome: TGLSkyDome
+      Visible = False
+      Bands = <
+        item
+          StartColor.Color = {0000803F0000803F0000803F0000803F}
+          StopAngle = 15.000000000000000000
+        end
+        item
+          StartAngle = 15.000000000000000000
+          StopAngle = 90.000000000000000000
+          StopColor.Color = {938C0C3E938C0C3E938E0E3F0000803F}
+          Stacks = 4
+        end>
+      Stars = <>
+    end
+    object SkyBoxMilkyWay: TGLSkyBox
       MaterialLibrary = GLMatLib
       MatNameTop = 'Top'
       MatNameBottom = 'Bottom'
@@ -324,6 +340,9 @@ object FormAstromifs: TFormAstromifs
         Radius = 0.500000000000000000
         Slices = 64
         Stacks = 64
+      end
+      object ffPlanet: TGLFreeForm
+        Visible = False
       end
     end
   end
