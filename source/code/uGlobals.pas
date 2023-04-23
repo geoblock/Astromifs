@@ -17,8 +17,9 @@ const
   CubeSize = 1000;
 
 var
+ // ExePath: TFileName;
   PathToData : TFileName;
-  ExePath: TFileName;
+  CurrentPath, Catalog: TFileName;
   ModelPath:   TFileName;
   TexturePath: TFileName;
   IniFile: TIniFile;

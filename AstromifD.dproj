@@ -134,33 +134,16 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="source\interface\fSonofon.pas">
-            <Form>frmSonofon</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="source\interface\fInitials.pas">
-            <Form>FormInitial</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="source\interface\fOptions.pas">
-            <Form>FormOptions</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="source\interface\fDialogs.pas">
-            <Form>FormDialog</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="source\interface\fAbout.pas">
-            <Form>frmAbout</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="source\interface\fAstromifs.pas">
             <Form>FormAstromifs</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="source\code\uGlobals.pas"/>
-        <None Include="source\code\constel.c"/>
-        <None Include="source\code\constbnd.c"/>
+        <DCCReference Include="source\code\uConstellations.pas"/>
+        <DCCReference Include="source\interface\fAbout.pas">
+            <Form>frmAbout</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

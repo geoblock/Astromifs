@@ -33,8 +33,8 @@ uses
   GLS.SimpleNavigation,
 
   fAbout,
-  fSonofon,
-  uGlobals, GLS.VectorFileObjects;
+  uGlobals,
+  GLS.VectorFileObjects;
 
 type
   TFormAstromifs = class(TForm)
@@ -84,7 +84,6 @@ type
     GLSceneViewer: TGLSceneViewer;
     GLScene: TGLScene;
     GLCadencer: TGLCadencer;
-    GLMatLib: TGLMaterialLibrary;
     PanelTop: TPanel;
     PanelBottom: TPanel;
     RadioGroup1: TRadioGroup;
@@ -92,7 +91,6 @@ type
     chbStars: TCheckBox;
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
-    SkyBoxMilkyWay: TGLSkyBox;
     GLNavigator: TGLNavigator;
     GLUserInterface1: TGLUserInterface;
     Camera: TGLCamera;
@@ -105,12 +103,13 @@ type
     tvCurrent: TTreeView;
     PanelTopR: TPanel;
     Window2: TMenuItem;
-    miSonofon: TMenuItem;
     Hide2: TMenuItem;
     Show2: TMenuItem;
     N7: TMenuItem;
     SkyDome: TGLSkyDome;
     ffPlanet: TGLFreeForm;
+    ConstellationLines: TGLLines;
+    ConstellationBorders: TGLLines;
     procedure miAboutClick(Sender: TObject);
     procedure Open1Click(Sender: TObject);
     procedure Save1Click(Sender: TObject);
@@ -118,11 +117,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure GLCadencerProgress(Sender: TObject; const DeltaTime, NewTime: Double);
     procedure tvConstellationsClick(Sender: TObject);
-    procedure miSonofonClick(Sender: TObject);
     procedure Exit1Click(Sender: TObject);
   private
-    CurrentPath, Catalog: TFileName;
-    function LoadTexture(Matname, Filename: string): TGLLibMaterial;
   public
     procedure HandleKeys(d: Double);
   end;
@@ -136,15 +132,6 @@ implementation
 
 //-----------------------------------------------------------------------
 
-function TFormAstromifs.LoadTexture(Matname, Filename: string): TGLLibMaterial;
-begin
-  Result := GLMatLib.AddTextureMaterial(Matname, Filename);
-  Result.Material.Texture.Disabled := False;
-  Result.Material.Texture.TextureMode := tmDecal;
-end;
-
-//-----------------------------------------------------------------------
-
 procedure TFormAstromifs.Exit1Click(Sender: TObject);
 begin
   Close;
@@ -152,26 +139,17 @@ end;
 
 procedure TFormAstromifs.FormCreate(Sender: TObject);
 var
-  SkyCulture, PlanetMap: TFileName;
+  ConstNames, PlanetMap: TFileName;
 begin
   PathToData := GetCurrentDir() + '\data';
   CurrentPath := PathToData;
   SetCurrentDir(CurrentPath + '\cubemap');
 
+  // Skybox stars
   SkyDome.Visible := True;
   SkyDome.Bands.Clear;
 
-  // Skybox cubemaps
-  SkyBoxMilkyWay.Visible := not SkyBoxMilkyWay.Visible;
-//  GLMatLib.TexturePaths := CurrentPath + '\cubemap';
-  LoadTexture('Left', 'mw_left.jpg');
-  LoadTexture('Right', 'mw_right.jpg');
-  LoadTexture('Top', 'mw_top.jpg');
-  LoadTexture('Bottom', 'mw_bot.jpg');
-  LoadTexture('Front', 'mw_front.jpg');
-  LoadTexture('Back', 'mw_back.jpg');
-
-  PlanetMap := CurrentPath + '\map\mars.jpg';
+  PlanetMap := CurrentPath + '\map\earth.jpg';
 
   Planet.Material.Texture.Disabled := False;
   Planet.Material.Texture.Image.LoadFromFile(PlanetMap);
@@ -188,10 +166,10 @@ begin
   end;
 
 
-  SkyCulture := CurrentPath + '\constellation\ConstellationNames.dat';
-  tvConstellations.LoadFromFile(SkyCulture);
-  SkyCulture := CurrentPath + '\constellation\ConstShortNames.dat';
-  tvCurrent.LoadFromFile(SkyCulture);
+  ConstNames := CurrentPath + '\constellation\ConstNames.dat';
+    tvConstellations.LoadFromFile(ConstNames);
+  ConstNames := CurrentPath + '\constellation\ConstShortNames.dat';
+    tvCurrent.LoadFromFile(ConstNames);
 
   ffPlanet.Assign(Planet);
 
@@ -254,31 +232,19 @@ end;
 
 procedure TFormAstromifs.HandleKeys(d: Double);
 begin
-  if IsKeyDown('W') or IsKeyDown('Z') then
+  if (IsKeyDown('W') or IsKeyDown('Z')) then
     Camera.Move(d);
-  if IsKeyDown('S') then
+  if (IsKeyDown('S')) then
     Camera.Move(-d);
-  if IsKeyDown('A') or IsKeyDown('A') then
+  if (IsKeyDown('A') or IsKeyDown('A')) then
     Camera.Slide(-d);
-  if IsKeyDown('D') then
+  if (IsKeyDown('D')) then
     Camera.Slide(d);
 
   if IsKeyDown(VK_ESCAPE) then
     Close;
 end;
 
-
-//----------------------------------------------------------------
-
-procedure TFormAstromifs.miSonofonClick(Sender: TObject);
-begin
-  with TfrmSonofon.Create(Self) do
-    try
-      ShowModal;
-    finally
-      Free;
-    end;
-end;
 
 //-----------------------------------------------------------------------
 
@@ -287,7 +253,7 @@ begin
   // Revived constellations from myths
   with TfrmAbout.Create(nil) do
     try
-      LabelTitle.Caption := 'Astromifs';
+      ///LabelTitle.Caption := 'Astromifs';
       ShowModal;
     finally
       Free;

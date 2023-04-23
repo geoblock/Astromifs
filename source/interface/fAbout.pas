@@ -18,24 +18,12 @@ uses
   Vcl.Imaging.jpeg,
   Vcl.Imaging.pngimage,
   //
-  GLS.Cadencer,
-  fDialogs;
+  GLS.Cadencer;
 
 type
-  TfrmAbout = class(TFormDialog)
-    LabelCopyright: TLabel;
-    PanelYears: TPanel;
-    imgOpenGL: TImage;
-    imgSourceForge: TImage;
-    imgGeoblock: TImage;
-    LabelVersion: TLabel;
-    StaticTextVersion: TStaticText;
-    LabelTitle: TLabel;
-    Label1: TLabel;
-    LabelColors: TLabel;
-    procedure imgSourceForgeDblClick(Sender: TObject);
+  TfrmAbout = class(TForm)
+    Panel1: TPanel;
     procedure imgGeoblockDblClick(Sender: TObject);
-    procedure imgOpenGLDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BuiltWithDelphiDblClick(Sender: TObject);
   private
@@ -54,7 +42,7 @@ procedure TfrmAbout.FormCreate(Sender: TObject);
 begin
   inherited;
  // Memo.Align := alClient;
-  StaticTextVersion.Caption := ReadVersionInfo(ParamStr(0));
+  //StaticTextVersion.Caption := ReadVersionInfo(ParamStr(0));
 end;
 
 
@@ -69,7 +57,7 @@ end;
 procedure TfrmAbout.BuiltWithDelphiDblClick(Sender: TObject);
 begin
   inherited;
-  GotoURL(Handle, 'http://www.embarcadero.com');
+  GotoURL(Handle, 'https://github.com/embarcadero');
 end;
 
 function TfrmAbout.GetFileInfo(const FileName: TFileName): TVSFixedFileInfo;
@@ -97,16 +85,6 @@ end;
 procedure TfrmAbout.imgGeoblockDblClick(Sender: TObject);
 begin
   GotoURL(Handle, 'https://github.com/geoblock');
-end;
-
-procedure TfrmAbout.imgOpenGLDblClick(Sender: TObject);
-begin
-  GotoURL(Handle, 'http://www.opengl.org/');
-end;
-
-procedure TfrmAbout.imgSourceForgeDblClick(Sender: TObject);
-begin
-  GotoURL(Handle, 'http://www.sourceforge.net/projects/glscene/');
 end;
 
 function TfrmAbout.ReadVersionInfo(FileName: TFileName): TFileName;

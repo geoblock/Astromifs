@@ -236,10 +236,6 @@ object FormAstromifs: TFormAstromifs
     end
     object Window2: TMenuItem
       Caption = '&View'
-      object miSonofon: TMenuItem
-        Caption = 'Sonofon...'
-        OnClick = miSonofonClick
-      end
       object N7: TMenuItem
         Caption = '-'
       end
@@ -305,18 +301,23 @@ object FormAstromifs: TFormAstromifs
           Stacks = 4
         end>
       Stars = <>
-    end
-    object SkyBoxMilkyWay: TGLSkyBox
-      MaterialLibrary = GLMatLib
-      MatNameTop = 'Top'
-      MatNameBottom = 'Bottom'
-      MatNameLeft = 'Left'
-      MatNameRight = 'Right'
-      MatNameFront = 'Front'
-      MatNameBack = 'Back'
-      MatNameClouds = 'Clouds'
-      CloudsPlaneOffset = 0.200000002980232200
-      CloudsPlaneSize = 32.000000000000000000
+      object ConstellationLines: TGLLines
+        Direction.Coordinates = {0000803F000000000000008000000000}
+        Scale.Coordinates = {00A00C4600A00C4600A00C4600000000}
+        Up.Coordinates = {00000000000000000000803F00000000}
+        Visible = False
+        AntiAliased = True
+        LineColor.Color = {E3A51B3FE3A51B3F0000803F00000000}
+        LineWidth = 2.000000000000000000
+        Nodes = <>
+        NodesAspect = lnaInvisible
+        SplineMode = lsmSegments
+        Options = []
+      end
+      object ConstellationBorders: TGLLines
+        Nodes = <>
+        Options = []
+      end
     end
     object Camera: TGLCamera
       DepthOfView = 100000.000000000000000000
@@ -351,10 +352,6 @@ object FormAstromifs: TFormAstromifs
     OnProgress = GLCadencerProgress
     Left = 296
     Top = 200
-  end
-  object GLMatLib: TGLMaterialLibrary
-    Left = 352
-    Top = 340
   end
   object GLNavigator: TGLNavigator
     Left = 448
